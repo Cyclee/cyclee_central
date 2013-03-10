@@ -25,7 +25,6 @@ local_settings.py
 .pydevproject
 createdb.py
 cycleecarto/*
-!cycleecarto/cyclee_client/
 hellodjango
 dotcloud.yml
 mkadmin.py
