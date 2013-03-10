@@ -1,0 +1,34 @@
+# OS generated files #
+######################
+
+# OSX
+.DS_Store
+
+# Thumbnails
+._*
+
+
+# Django & Dotcloud #
+######################
+
+.dotcloud
+.project
+.pydevproject
+createdb.py
+cycleecarto/*
+!cycleecarto/cyclee_client/
+hellodjango
+dotcloud.yml
+mkadmin.py
+nginx.conf
+postinstall
+README.rst
+requirements.txt
+wsgi.py
+
+
+# Misc #
+######################
+
+# textmate project
+*.tmproj

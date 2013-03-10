@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        
+        <meta http-equiv="cleartype" content="on">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/touch/apple-touch-icon-57x57-precomposed.png">
+        <link rel="shortcut icon" href="img/touch/apple-touch-icon.png">
+
+        <!-- For iOS web apps. Delete if not needed. https://github.com/h5bp/mobile-boilerplate/issues/94 -->
+        <!--
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        -->
+
+        <!-- This script prevents links from opening in Mobile Safari. https://gist.github.com/1042026 -->
+        <!--
+        <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
+        -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main-v105.css">
+        <script src="js/vendor/modernizr-2.6.1.min.js"></script>
+    </head>
+    <body>
+
+        <nav id="primary" class="clearfix" >
+            <a id="nav-logo" class="ir" href="#">Cyclee</a>
+            <a id="nav-settings" class="nav-page entypo btn" href="#" >&#9881;</a>
+            <a id="nav-ride" class="nav-page" href="#">Ride</a>
+            <span class="nav-toggle nav-back">&#59229;</span>
+        </nav>
+
+        <nav id="secondary">
+            <a id="nav-filters" class="nav-page hidden" href="#" >Filters</a>
+            <a id="nav-lastride" class="nav-page hidden" href="#" >Last Ride</a>
+            <a id="nav-stats" class="stats hidden" href="#" >Stats</a>
+        </nav>
+
+        <section id="splash" >
+            <img alt="Cyclee" src="img/cyclee-logo@3x.png" />
+        </section>
+
+        <section id="notes" class="page" >
+            <nav class="clearfix" >
+                <a id="nav-addnote" class="nav-page entypo btn firsttime" href="#">&#59160;</a>
+                <a id="nav-people" class="nav-page entypo btn" href="#">&#128101;</a>
+                <a id="nav-notesmap" class="nav-page entypo btn" href="#">&#127758;</a>
+                <a id="nav-notesfilter" class="entypo btn" href="#">&#57349;</a>
+                    <div class="notesfilter">
+                        <p>View Notes <a class="close entypo" href="#" onclick="$('#nav-notesfilter').click();" >&#10006;</a></p>
+                        <ul>
+                            <li class="active">Commute Notes</li>
+                            <li>Near Here</li>
+                            <li>All Notes</li>
+                        </ul>
+                    </div>                
+            </nav>
+
+            <article class="template">
+                <a title="username" href="#" ><img src="http://www.gravatar.com/avatar/?d=mm&s=50" /></a>
+                <p><strong>Welcome to Cyclee!</strong> A network connection is required to view the latest notes. <a href="#" onclick="switchpage('settings');">Set your commute</a> to view info most relevant to your rides. Add notes of your own and view them here using the filter above. @mentions can be viewed here as well.</p>
+                <div class="meta" ><time pubdate="" >Today</time></div>
+            </article>
+
+        </section>
+
+        <section id="addnote" class="page" >
+            
+            <p class="notify">Add a Note</p>
+            
+            <form id="addnote_carto">
+                <section class="addnote-location">
+
+                    <fieldset id="location-start" class="set-location" >
+                        <label for="inputStart" >Set Note Location</label>
+                        <a href="#" class="entypo btn link_getlocation" >&#127919;<small>Here</small></a>
+                        <a href="#" class="entypo btn link_findlocation" >&#128269;<small>Find</small></a>
+                        <a href="#" class="entypo btn link_flaglist" >&#9873;<small>Flag</small></a>
+                        <em class="location-prompt first-visit">Set Location</em>
+                        <input type="hidden" name="inputStart" class="location" placeholder="Address &#187;" disabled />
+                    </fieldset>
+
+                    <fieldset id="location-end" class="set-location" >
+                        <label for="inputEnd" ><strong>&#59239;</strong> Start Location // End Location <strong>&#59236;</strong></label>
+                        <a href="#" class="entypo btn link_getlocation" >&#127919;<small>Here</small></a>
+                        <a href="#" class="entypo btn link_findlocation" >&#128269;<small>Find</small></a>
+                        <a href="#" class="entypo btn link_flaglist" >&#9873;<small>Flag</small></a>
+                        <input disabled type="hidden" id="inputEnd" class="location" name="inputEnd" placeholder="set location &#187;" />
+                        <p>Coming soon? Add notes for a path segment (rather than single location). Help us develop the feature: <a href="http://github.com/cyclee" >github.com/cyclee</a>.</p>
+                    </fieldset>
+
+                    <nav class="clearfix hidden">
+                        <a id="link-path" class="ir" href="#" >..!</a>
+                        <a id="link-location" href="#" class="entypo active" >&#59172;</a>
+                    </nav>
+                </section>
+
+                <section class="addnote-info">
+                    <nav class="clearfix hidden">
+                        <a id="link-addphoto" href="#" class="entypo" >&#128247;</a>
+                        <a id="link-keyboard" href="#" class="entypo active" >&#9000;</a>
+                    </nav>
+                    <label for="noteContent" >Note</label>
+                    <button class="disabled" disabled>Go</button>    
+                    <textarea id="noteContent" name="noteContent" class="input-info" rows="4" ></textarea>
+                    <div id="tags-container" ></div>    
+
+                        <input id="search-hashtags" class="search" placeholder="search #tags" />
+                        <a href="#" class="clearinput entypo" title="press escape">&#10006;</a>
+                        <br style="clear:both"/>
+                </section>
+
+            </form>
+        </section>
+
+        <section id="ride" class="page" >
+            <a id="ridehelp" class="help-link hidden" href="#" >&#59141;</a>
+            <section id="triggers">
+                <a id="startstop" class="entypo" href="" >&#9654;</a>
+                <a id="flag-link" class="entypo" href="#">&#9873;</a>
+            </section>
+            <p style="border-bottom:1px solid #eee;">Drop a <a class="entypo" href="#">&#9873;</a> flag here to <a class="entypo" href="#" onclick="switchpage('addnote');">&#59160;</a>&nbsp;add a note later.</p>
+            <p>Features for tracing your rides will be added soon. Help decide what comes first: <a class="feedback-addy" href="#" target="_blank">Cyclee</a>. Lend your coding skills: <a href="https://github.com/cyclee">github.com/cyclee</a></p>
+        </section>
+
+
+        <section id="people" class="page">
+            <p class="notify">Cyclist who have crossed your path.</p>
+            <section>
+                <article class="template">
+                    <a title="username" href="#" ><img src="http://www.gravatar.com/avatar/?d=mm&s=50" /></a>
+                    <p><em class="username">Loading...</em></p>
+                </article>
+            </section>
+        </section>
+
+        <section id="notesmap" class="page">
+            <div id="map"></div>
+            <form id="notesmap-filter">
+                <select>
+                    <option value="bikeshops" >Bike Shops</option>
+                    <option value="corides" >Co-Rides</option>
+                    <option value="allnotes" >All Notes</option>
+                    <!-- 
+                        <option value="commutenotes" >Commute Notes</option>
+                        <option>Commute Routes</option>
+                        <option>All Routes</option>
+                    -->
+                </select>
+            </form>
+        </section>
+
+        <section id="settings" class="page">
+            <p class="settings-notice notify">Choose a public username.</p>
+            <form><label for="username">Username</label><input class="username" placeholder="username" /><button class="username-save">Save</button></form>
+
+            <p id="commutes-notice" class="notify" >Connect based on your most frequent rides.</p> 
+
+            <div class="commute-form"></div>
+
+            <p class="notify" >Feedback & Help</p>
+            <p>Send feedback &amp; bugs to <a class="feedback-addy" href="#" target="_blank">Cyclee</a>.</p>
+            <p><a href="#" id="nav-help" class="btn nav-page" >Helpful Info &#187;</a></p>
+            <p><a href="#" id="nav-intro" class="btn nav-page" >Repeat Intro &#187;</a></p>
+
+        </section>
+
+        <section id="signup" class="page">
+            <p class="notify">Join Cyclee</p>
+            <p>This page is for testing purposes only.</p>
+
+            <p class="notify">Session Check</p>
+            <p><a id="session-check" href="#" >session check</a></p>
+
+            <p class="notify">Register</p>
+            <form method="post" action="">
+                <!-- <input type='hidden' name='csrfmiddlewaretoken' value='' /> -->
+
+                <label for="id_username">Username<em class="required">*</em></label> <input id="id_username" type="text" class="required" name="username" maxlength="30" />
+                <label for="id_email">E-mail<em class="required">*</em></label> <input id="id_email" type="text" class="required" name="email" maxlength="75" />
+                <label for="id_password1">Password<em class="required">*</em></label> <input id="id_password1" type="password" class="required" name="password1" />
+                <label for="id_password2">Password (again)<em class="required">*</em></label> <input id="id_password2" type="password" class="required" name="password2" />
+                <label for="id_first_name">First name</label> <input type="text" name="first_name" id="id_first_name" />
+                <label for="id_last_name">Last name</label> <input type="text" name="last_name" id="id_last_name" />
+                <label for="id_city">City</label> <input id="id_city" type="text" name="city" maxlength="250" />
+                <label for="id_zip">Zip</label> <input id="id_zip" type="text" name="zip" maxlength="10" />
+                <br /><button type="submit" >Send</button>
+            </form>
+            
+            <p class="notify">Login</p>
+            <form class="login" method="post" action="">
+                <label for="id_username">Username<em class="required">*</em></label> <input id="id_username" type="text" class="required" name="username" maxlength="30" />
+                <label for="id_password">Password<em class="required">*</em></label> <input id="id_password" type="password" class="required" name="password" />
+                <br /><button type="submit" >Send</button>
+            </form>
+        </section>
+
+        <section id="intro" class="page intro">
+            <p class="notify">Welcome to Cyclee</p>
+            <p style="margin-top:.25em">In a city of millions, Cyclee helps you connect with your two-wheeled&nbsp;neighbors.</p>
+            <p class="settings-notice notify">Choose a Public Username</p>
+            <form><label for="username">Username</label><input class="username" placeholder="username" /><button class="username-save">Save</button></form>            
+        </section>
+
+        <section id="intro2" class="page intro">
+            <p class="notify">Set Your Path</p>
+            <p style="margin-top:.25em">See the people and notes that cross your usual&nbsp;routes. <span class="entypo hidden" style="color:rgba(0,0,0,0.1);">&#59160; &#59168; &#59160; &#59160; &#128101; <strong class="firsttime">&#59168;</strong> &#59160;</span></p>
+            <div class="commute-form"></div>
+        </section>
+
+        <section id="intro3" class="page intro">
+            <p class="notify">Connect</p>
+            <p style="margin-top:.25em">Share your notes with the people you're most likely to see on the street tomorrow.</p>
+            <div id="intro3-content"></div>
+            <p><a href="#" id="nav-intro4" class="btn nav-page">Last Step &#187;</a></p>
+        </section>
+
+        <section id="intro4" class="page intro">
+            <div id="intro4-content"></div>
+            <p><a href="#" class="btn" onclick="switchpage('notes');">Start Now &#187;</a></p>
+        </section>
+
+        <section id="help" class="page">
+            <section class="help-addnote">
+                <p class="notify">Add a Note</p>
+                <p style="margin-top:.25em"><a class="entypo firsttime" href="#" onclick="switchpage('addnote');">&#59160;</a>&nbsp;Add a note. 
+                    Place it on your <a class="entypo" >&#127919;</a>&nbsp;current location, 
+                    or <a class="entypo" >&#128269;</a>&nbsp;find somewhere else in the city. 
+                    Drop a <a class="entypo" href="#" onclick="switchpage('ride');">&#9873;</a>&nbsp;flag during your ride to mark a spot to add a note later. 
+                </p>
+            </section>
+            <section class="help-explore">
+                <p class="notify">Explore</p>
+                <p style="margin-top:.25em">See <a class="entypo" href="#" onclick="switchpage('people');">&#128101;</a>&nbsp;people who overlap your route. 
+                    View a <a class="entypo" href="#" onclick="switchpage('notesmap');">&#127758;</a>&nbsp;map of bike shops and more. 
+                    <a class="entypo" href="#" onclick="switchpage('notes');">&#57349;</a>&nbsp;Filter &amp; view notes along your route or near you now. 
+                    <a class="entypo" href="#" onclick="switchpage('settings');">&#9881;</a>&nbsp;Set your typical ride. 
+                </p>
+                <p>
+                    Return home anytime: &nbsp; 
+                    <a href="#" onclick="$('#nav-logo').click();" class="bkg-blue" style="padding:3px 6px 4px; text-decoration:none;" >
+                        <span style="font-family:'entypo'; font-size: 1.1em; line-height:1em; color:#f0f;" >&#59229;</span>
+                        <img src="img/cyclee-logo-sm.png" style="width:35px; height:13px;" />
+                    </a>
+                </p>
+            </section>
+        </section>
+
+
+        <section id="filters" class="page">
+            <p>Filters will allow you to customize the quick view drop-down on notes. For example, search for info around a particular location, #hashtag, or group of people. Help us develop the feature: <a href="http://github.com/cyclee" >github.com/cyclee</a>.</p>
+        </section>
+
+        <section id="lastride" class="page">
+            <p>Data about the most recent ride(s)</p>
+        </section>
+
+        <section id="stats" class="page">
+            <p>Stats about rides by you and the community. Help us develop the feature: <a href="http://github.com/cyclee" >github.com/cyclee</a>.</p>
+        </section>
+
+        <section id="modal">
+        </section>
+
+
+        <section id="pastebin" >
+            <form id="commute-locations">
+            
+                <section id="thecommutes">
+                    <section class="commute-path template" >
+
+                        <input class="hidden" name="addressquery" placeholder="zipcode" />
+                        <a class="hidden btn" href="#" id="address-lookup">find address</a>
+                    
+                        <fieldset class="commute-location set-location" >                    
+                            <label>Trip</label>
+                        
+                            <select class="commute_geo1">
+                                <option value="-73.9877700805664,40.70042247927176">Brooklyn (Mnhtn/Brklyn Bridge)</option>
+                                <option value="-73.96305084228516,40.71083299030839">Brooklyn (Willsbrg Bridge)</option>
+                                <option value="-73.98931503295898,40.769491796481404">Upper Manhattan (West Side)</option>
+                                <option value="-73.963565826416,40.761560925502806">Upper Manhattan (East Side)</option>
+                                <option value="-73.99068832397461,40.73555143165807">Union Square</option>
+                                <option value="-73.9990997314453,40.72293316385307">Soho</option>
+                                <option value="-73.97953033447266,40.724949645619056">Loisaida</option>
+                                <option value="-73.98940086364746,40.71720862468233">Lower East Side</option>
+                                <option value="-74.01128768920898,40.70852329864894">Wall Street</option>
+                                <option value="-74.01643753051758,40.71122335281536">Battery Park</option>
+                                <option value="-74.00545120239258,40.73321007823572">West Village</option>
+                                <option value="-73.98605346679688,40.75616479199092">Times Sq</option>
+                                <option value="-73.94433975219727,40.75219867966512">Queens</option>
+                                <option value="-73.92562866210938,40.81796653313175">Bronx</option>
+                            </select><br />
+                            <input type="hidden" name="commute_geoA" class="location" placeholder="location" value="Dumbo" disabled />
+                            <a href="#" class="hidden entypo btn link_getlocation" >&#127919;<small>Here</small></a>
+                            <a href="#" class="hidden entypo btn link_findlocation" >&#128269;<small>Find</small></a>
+                        </fieldset>
+                        <fieldset class="commute-location set-location" >                    
+
+                            <select class="commute_geo2">
+                                <option value="-73.9877700805664,40.70042247927176">Brooklyn (Mnhtn/Brklyn Bridge)</option>
+                                <option value="-73.96305084228516,40.71083299030839">Brooklyn (Willsbrg Bridge)</option>
+                                <option value="-73.98931503295898,40.769491796481404">Upper Manhattan (West Side)</option>
+                                <option value="-73.963565826416,40.761560925502806">Upper Manhattan (East Side)</option>
+                                <option value="-73.99068832397461,40.73555143165807">Union Square</option>
+                                <option value="-73.9990997314453,40.72293316385307">Soho</option>
+                                <option value="-73.97953033447266,40.724949645619056">Loisaida</option>
+                                <option value="-73.98940086364746,40.71720862468233">Lower East Side</option>
+                                <option value="-74.01128768920898,40.70852329864894">Wall Street</option>
+                                <option value="-74.01643753051758,40.71122335281536">Battery Park</option>
+                                <option value="-74.00545120239258,40.73321007823572">West Village</option>
+                                <option value="-73.98605346679688,40.75616479199092">Times Sq</option>
+                                <option value="-73.94433975219727,40.75219867966512">Queens</option>
+                                <option value="-73.92562866210938,40.81796653313175">Bronx</option>
+                            </select><br />
+
+
+                            <input type="hidden" name="commute_geoB" class="location" placeholder="location" value="Union Sq" disabled />
+                            <a href="#" class="hidden entypo btn link_getlocation" >&#127919;<small>Here</small></a>
+                            <a href="#" class="hidden entypo btn link_findlocation" >&#128269;<small>Find</small></a>
+                        </fieldset>
+                    </section>
+                </section>
+            
+                <button id="commute-more" disabled class="hidden">+Commute</button>    
+                <button id="commute-save">Save</button>    
+
+                <!-- <p>Trip saved locally, not shared. Free free to choose a nearby intersection rather than your exact address.</p> -->
+            </form>
+        </section>
+
+
+        <script src="js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="js/helper.js"></script>
+        <script src="js/vendor/moment.js"></script>
+        <script src="js/main-v107.js"></script>
+
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.css" />
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
+        <![endif]-->
+        <script src="http://libs.cartocdn.com/cartodb.js/v2/cartodb.js"></script>
+
+        <!-- <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing" type="text/javascript"></script> -->
+        
+
+    </body>
+</html>
