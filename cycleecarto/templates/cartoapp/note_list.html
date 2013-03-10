@@ -1,0 +1,4 @@
+{notes=[{% for note in object_list %}
+{ description="{{note.description}}", category="{{note.category}}", user="{{note.user}}", point.x={{note.the_geom.x}}, point.y={{note.geom.y}}, created_at="{{note.created_at}}" }{%if not forloop.last%},{% endif %}
+{% endfor %}]}
+

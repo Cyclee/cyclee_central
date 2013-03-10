@@ -7,6 +7,8 @@
 # Thumbnails
 ._*
 
+# emacs backup
+*~
 
 # Django #
 ######################
@@ -24,7 +26,6 @@ local_settings.py
 .project
 .pydevproject
 createdb.py
-cycleecarto/*
 hellodjango
 dotcloud.yml
 mkadmin.py

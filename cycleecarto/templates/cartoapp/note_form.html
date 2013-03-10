@@ -1,0 +1,9 @@
+Add a note:
+<form  method="post" action=".">{% csrf_token %}
+<ul>
+{{form.as_ul}}
+</ul>
+<div class="btn-submit"><input type="submit" value="Add Note!" /></div>
+</form>
+
+

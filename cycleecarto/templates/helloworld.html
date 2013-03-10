@@ -1,0 +1,10 @@
+<html>
+<head><title>Cyclee Carto!</title>
+<body>{% if user.is_authenticated %}
+	<p>Welcome to Cyclee, {{user.username}}! We use gravatar.com for rider thumbnails. If you haven't before, add your photo there and it will appear in Cyclee soon. Thanks!</p>
+    <img src="http://gravatar.com/avatar/{{user.get_profile.avatar }}" />
+    {% else %}
+    <p>Hello Cylee-ist. The current day and time is {{current_time|date:"DATETIME_FORMAT"}}.</p>
+    {% endif %}
+</body>
+</html>
