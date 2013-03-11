@@ -1,4 +1,5 @@
 from urllib2 import urlopen
+from urllib import urlencode
 
 import logging
 from django.db.models import permalink
@@ -77,18 +78,20 @@ carto_table = 'route_flags'
 def cartodb_add_note(sender, instance=None, **kwargs):
     # get the values from the new Note instance
     note = instance
-    sql_insert = "INSERT INTO %(table)s (username,category,description,the_geom) VALUES('%(username)s', '%(category)s', '%(description)s', ST_SetSrid(st_makepoint(%(the_geom)s),4326))" %
+    sql_insert = "INSERT INTO %(table)s (username,category,description,the_geom) VALUES('%(username)s', '%(category)s', '%(description)s', ST_SetSrid(st_makepoint(%(the_geom)s),4326))" % \
     dict(table=carto_table,
          username=note.user.username,
          category=note.category,
          description=note.description,
          the_geom="%s, %s" % (note.the_geom.x, note.the_geom.y))
 
+    sql_inset_urlencoded = urllib.urlencode(dict(q=sql_insert))
+    
     # build url
-    url_carto_data = 'http://%(account_name)s.cartodb.com/api/v2/sql/?api_key=%(carto_key)s&q=(query)s' %
+    url_carto_data = 'http://%(account_name)s.cartodb.com/api/v2/sql/?api_key=%(carto_key)s&%(query)s' % \
     dict(account_name=settings.CARTODB_ACCOUNT_NAME,
          carto_key=settings.CARTODB_API_KEY,
-         query=sql_insert)
+         query=sql_insert_urlencoded)
     # send it
     logger.info('CartoDB request: %s' % url_carto_data)
     fp = urlopen(url_carto_data)
