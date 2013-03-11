@@ -38,7 +38,7 @@ class Note(models.Model):
     user = models.ForeignKey(User)
     category = models.CharField(max_length=128)
     time_start = models.DateTimeField(blank=True, null=True)
-    time_end = models. DateTimeField(blank=True, null=True)
+    time_end = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     accuracy = models.FloatField(default=0)
 
