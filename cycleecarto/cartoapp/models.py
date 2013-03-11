@@ -85,7 +85,7 @@ def cartodb_add_note(sender, instance=None, **kwargs):
          description=note.description,
          the_geom="%s, %s" % (note.the_geom.x, note.the_geom.y))
 
-    sql_inset_urlencoded = urllib.urlencode(dict(q=sql_insert))
+    sql_insert_urlencoded = urlencode(dict(q=sql_insert))
     
     # build url
     url_carto_data = 'http://%(account_name)s.cartodb.com/api/v2/sql/?api_key=%(carto_key)s&%(query)s' % \
