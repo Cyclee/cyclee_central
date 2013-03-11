@@ -1,10 +1,20 @@
+from urllib2 import urlopen
+
+import logging
 from django.db.models import permalink
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
+from django.db.models.signals import post_save
 
 from reversegeo.openstreetmap import OpenStreetMap
+
+import settings
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
 
 '''
 carto: notes // currently called route_flags
@@ -51,3 +61,37 @@ class Note(models.Model):
         
     def __unicode__(self):
         return '{0}: {1}'.format(self.pk, self.description)
+
+"""
+    var sqlInsert ="&q=INSERT INTO "+table+" (username,category,description,the_geom) VALUES('"+ username +"','"+ category +"','"+ description +"',ST_SetSrid(st_makepoint("+ location +"),4326))";
+
+var account_name = 'ideapublic';
+var cartoKey = "api_key=7302db3d477047e379af83c1987573e043022fe4"; 
+var url_cartoData = 'http://'+account_name+'.cartodb.com/api/v2/sql/?';
+var theUrl = url_cartoData + cartoKey + sql;
+var note_single_table = 'route_flags';
+"""
+
+carto_table = 'route_flags'
+
+def cartodb_add_note(sender, instance=None, **kwargs):
+    # get the values from the new Note instance
+    note = instance
+    sql_insert = "INSERT INTO %(table)s (username,category,description,the_geom) VALUES('%(username)s', '%(category)s', '%(description)s', ST_SetSrid(st_makepoint(%(the_geom)s),4326))" %
+    dict(table=carto_table,
+         username=note.user.username,
+         category=note.category,
+         description=note.description,
+         the_geom="%s, %s" % (note.the_geom.x, note.the_geom.y))
+
+    # build url
+    url_carto_data = 'http://%(account_name)s.cartodb.com/api/v2/sql/?api_key=%(carto_key)s&q=(query)s' %
+    dict(account_name=settings.CARTODB_ACCOUNT_NAME,
+         carto_key=settings.CARTODB_API_KEY,
+         query=sql_insert)
+    # send it
+    logger.info('CartoDB request: %s' % url_carto_data)
+    fp = urlopen(url_carto_data)
+    logger.info('CartoDB response: %s' % fp.read())
+
+post_save.connect(cartodb_add_note, sender=Note)
