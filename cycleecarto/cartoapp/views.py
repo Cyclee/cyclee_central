@@ -33,10 +33,11 @@ def note_add(request, template='cartoapp/note_form.html'):
             ret = dict(status=True, note=note.pk)
         else:
             ret = dict(status=False, errors=form.errors)
+            
         return HttpResponse(json.dumps(ret), content_type="application/json")        
 
     form = NoteAddForm()
-    return render_to_response(template, dict(form=form))
+    return render_to_response(template, dict(form=form), context_instance=RequestContext(request))
 
 class NoteDetailView(DetailView):
     model = Note

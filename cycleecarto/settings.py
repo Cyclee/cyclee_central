@@ -1,9 +1,13 @@
 # Django settings for cycleecarto project.
 import os
-
 import json
 with open('/home/dotcloud/environment.json') as f:
   env = json.load(f)
+
+# celery
+import djcelery
+djcelery.setup_loader()
+
 
 settings_dir = os.path.dirname(__file__)
 PROJECT_ROOT = os.path.abspath(os.path.dirname(settings_dir))
@@ -46,6 +50,24 @@ CACHES = {
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+
+# celery configuration
+"""
+BROKER_HOST = env['DOTCLOUD_CACHE_REDIS_HOST']
+BROKER_PORT = env['DOTCLOUD_CACHE_REDIS_PORT']
+BROKER_PASSWORD = env['DOTCLOUD_CACHE_REDIS_PASSWORD']
+BROKER_VHOST = 0
+"""
+BROKER_URL = env['DOTCLOUD_CACHE_REDIS_URL'] 
+
+CELERY_RESULT_BACKEND = 'redis://%(host)s:%(port)s/0' % dict(
+                                                             host=env['DOTCLOUD_CACHE_REDIS_HOST'],
+                                                             port=env['DOTCLOUD_CACHE_REDIS_PORT']
+                                                             )
+REDIS_CONNECT_RETRY = True
+
+
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -142,6 +164,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'django.contrib.gis',
+    'djcelery',
     'registration',
     'cycleeapp',
     'cartoapp',
