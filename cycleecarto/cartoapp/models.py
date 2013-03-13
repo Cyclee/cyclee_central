@@ -2,6 +2,7 @@ from urllib2 import urlopen
 from urllib import urlencode
 
 import logging
+from reversegeo.openstreetmap import OpenStreetMap
 from django.db.models import permalink
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
@@ -9,9 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.db.models.signals import post_save
 
-from reversegeo.openstreetmap import OpenStreetMap
-
 import settings
+from cartoapp.tasks import cartodb_add_note
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -92,9 +92,8 @@ def cartodb_add_note(sender, instance=None, **kwargs):
     dict(account_name=settings.CARTODB_ACCOUNT_NAME,
          carto_key=settings.CARTODB_API_KEY,
          query=sql_insert_urlencoded)
-    # send it
-    logger.info('CartoDB request: %s' % url_carto_data)
-    fp = urlopen(url_carto_data)
-    logger.info('CartoDB response: %s' % fp.read())
+    
+    # send it with celery
+    cartodb_add_note.delay(url_carto_data)
 
 post_save.connect(cartodb_add_note, sender=Note)
