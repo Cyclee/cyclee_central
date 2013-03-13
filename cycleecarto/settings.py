@@ -58,12 +58,9 @@ BROKER_PORT = env['DOTCLOUD_CACHE_REDIS_PORT']
 BROKER_PASSWORD = env['DOTCLOUD_CACHE_REDIS_PASSWORD']
 BROKER_VHOST = 0
 """
-BROKER_URL = env['DOTCLOUD_CACHE_REDIS_URL'] 
 
-CELERY_RESULT_BACKEND = 'redis://%(host)s:%(port)s/0' % dict(
-                                                             host=env['DOTCLOUD_CACHE_REDIS_HOST'],
-                                                             port=env['DOTCLOUD_CACHE_REDIS_PORT']
-                                                             )
+BROKER_URL = env['DOTCLOUD_CACHE_REDIS_URL']
+CELERY_RESULT_BACKEND = env['DOTCLOUD_CACHE_REDIS_URL']
 REDIS_CONNECT_RETRY = True
 
 
