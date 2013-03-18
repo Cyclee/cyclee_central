@@ -1,6 +1,8 @@
 from urllib2 import urlopen
+from urllib import urlencode
 
 import logging
+from reversegeo.openstreetmap import OpenStreetMap
 from django.db.models import permalink
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
@@ -8,9 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.db.models.signals import post_save
 
-from reversegeo.openstreetmap import OpenStreetMap
-
 import settings
+from cartoapp.tasks import cartodb_add_note
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -37,7 +38,7 @@ class Note(models.Model):
     user = models.ForeignKey(User)
     category = models.CharField(max_length=128)
     time_start = models.DateTimeField(blank=True, null=True)
-    time_end = models. DateTimeField(blank=True, null=True)
+    time_end = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     accuracy = models.FloatField(default=0)
 
@@ -77,21 +78,22 @@ carto_table = 'route_flags'
 def cartodb_add_note(sender, instance=None, **kwargs):
     # get the values from the new Note instance
     note = instance
-    sql_insert = "INSERT INTO %(table)s (username,category,description,the_geom) VALUES('%(username)s', '%(category)s', '%(description)s', ST_SetSrid(st_makepoint(%(the_geom)s),4326))" %
+    sql_insert = "INSERT INTO %(table)s (username,category,description,the_geom) VALUES('%(username)s', '%(category)s', '%(description)s', ST_SetSrid(st_makepoint(%(the_geom)s),4326))" % \
     dict(table=carto_table,
          username=note.user.username,
          category=note.category,
          description=note.description,
          the_geom="%s, %s" % (note.the_geom.x, note.the_geom.y))
 
+    sql_insert_urlencoded = urlencode(dict(q=sql_insert))
+    
     # build url
-    url_carto_data = 'http://%(account_name)s.cartodb.com/api/v2/sql/?api_key=%(carto_key)s&q=(query)s' %
+    url_carto_data = 'http://%(account_name)s.cartodb.com/api/v2/sql/?api_key=%(carto_key)s&%(query)s' % \
     dict(account_name=settings.CARTODB_ACCOUNT_NAME,
          carto_key=settings.CARTODB_API_KEY,
-         query=sql_insert)
-    # send it
-    logger.info('CartoDB request: %s' % url_carto_data)
-    fp = urlopen(url_carto_data)
-    logger.info('CartoDB response: %s' % fp.read())
+         query=sql_insert_urlencoded)
+    
+    # send it with celery
+    cartodb_add_note.delay(url_carto_data)
 
 post_save.connect(cartodb_add_note, sender=Note)
