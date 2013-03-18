@@ -31,15 +31,16 @@
         --> 
 
         <link rel="stylesheet" href="/static/css/normalize.css">
-        <link rel="stylesheet" href="/static/css/main-v105.css">
+        <link rel="stylesheet" href="/static/css/main-v106.css">
         <script src="/static/js/vendor/modernizr-2.6.1.min.js"></script>
     </head>
     <body>
 
         <nav id="primary" class="clearfix" >
             <a id="nav-logo" class="ir" href="#">Cyclee</a>
-            <a id="nav-settings" class="nav-page entypo btn" href="#" >&#9881;</a>
-            <a id="nav-ride" class="nav-page" href="#">Ride</a>
+            <a id="nav-settings" class="nav-page entypo btn toggle" href="#" >&#9881;</a>
+            <a id="nav-ride" class="nav-page toggle" href="#">Ride</a>
+            <a id="nav-notes" class="nav-page toggle active" href="#">Notes</a>
             <span class="nav-toggle nav-back">&#59229;</span>
         </nav>
 
@@ -50,7 +51,7 @@
         </nav>
 
         <section id="splash" >
-            <img alt="Cyclee" src="/static/img/cyclee-logo@3x.png" />
+            <img alt="Cyclee" src="img/cyclee-logo@3x.png" />
         </section>
 
         <section id="notes" class="page" >
@@ -66,7 +67,7 @@
                             <li>Near Here</li>
                             <li>All Notes</li>
                         </ul>
-                    </div> 
+                    </div>                
             </nav>
 
             <article class="template">
@@ -129,11 +130,11 @@
         <section id="ride" class="page" >
             <a id="ridehelp" class="help-link hidden" href="#" >&#59141;</a>
             <section id="triggers">
-                <a id="startstop" class="entypo" href="" >&#9654;</a>
-                <a id="flag-link" class="entypo" href="#">&#9873;</a>
+                <a id="startstop" href="" ><strong class="entypo" >&#9654;</strong><small>Start Ride</small></a>
+                <a id="flag-link" href="#"><strong class="entypo" >&#9873;</strong><small>Flag for Note</small></a>
             </section>
             <p style="border-bottom:1px solid #eee;">Drop a <a class="entypo" href="#">&#9873;</a> flag here to <a class="entypo" href="#" onclick="switchpage('addnote');">&#59160;</a>&nbsp;add a note later.</p>
-            <p>Features for tracing your rides will be added soon. Help decide what comes first: <a class="feedback-addy" href="#" target="_blank">Cyclee</a>. Lend your coding skills: <a href="https://github.com/cyclee">github.com/cyclee</a>.</p>
+            <p>Features for tracing your rides will be added soon. Help decide what comes first: <a class="feedback-addy" href="#" target="_blank">Cyclee</a>. Lend your coding skills: <a href="https://github.com/cyclee">github.com/cyclee</a></p>
         </section>
 
 
@@ -153,6 +154,7 @@
                 <select>
                     <option value="bikeshops" >Bike Shops</option>
                     <option value="corides" >Co-Rides</option>
+                    <option value="stolen" >Stolen</option>
                     <option value="allnotes" >All Notes</option>
                     <!-- 
                         <option value="commutenotes" >Commute Notes</option>
@@ -182,12 +184,11 @@
             <p class="notify">Join Cyclee</p>
             <p>This page is for testing purposes only.</p>
 
-            <!-- Not needed when hosted on same domain as django
             <p class="notify">Session Check</p>
-            <p><a id="session-check" href="#" >session check</a></p> -->
+            <p><a id="session-check" href="#" >session check</a></p>
 
             <p class="notify">Register</p>
-            <form method="post" action="">{% csrf_token %}
+            <form method="post" action="">
                 <!-- <input type='hidden' name='csrfmiddlewaretoken' value='' /> -->
 
                 <label for="id_username">Username<em class="required">*</em></label> <input id="id_username" type="text" class="required" name="username" maxlength="30" />
@@ -202,7 +203,7 @@
             </form>
             
             <p class="notify">Login</p>
-            <form class="login" method="post" action="">{% csrf_token %}
+            <form class="login" method="post" action="">
                 <label for="id_username">Username<em class="required">*</em></label> <input id="id_username" type="text" class="required" name="username" maxlength="30" />
                 <label for="id_password">Password<em class="required">*</em></label> <input id="id_password" type="password" class="required" name="password" />
                 <br /><button type="submit" >Send</button>
@@ -254,7 +255,7 @@
                     Return home anytime: &nbsp; 
                     <a href="#" onclick="$('#nav-logo').click();" class="bkg-blue" style="padding:3px 6px 4px; text-decoration:none;" >
                         <span style="font-family:'entypo'; font-size: 1.1em; line-height:1em; color:#f0f;" >&#59229;</span>
-                        <img src="/static/img/cyclee-logo-sm.png" style="width:35px; height:13px;" />
+                        <img src="img/cyclee-logo-sm.png" style="width:35px; height:13px;" />
                     </a>
                 </p>
             </section>
@@ -347,7 +348,7 @@
         <script src="/static/js/vendor/jquery-1.8.3.min.js"></script>
         <script src="/static/js/helper.js"></script>
         <script src="/static/js/vendor/moment.js"></script>
-        <script src="/static/js/main-v107.js"></script>
+        <script src="/static/js/main-v109.js"></script>
 
         <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.css" />
         <!--[if lte IE 8]>

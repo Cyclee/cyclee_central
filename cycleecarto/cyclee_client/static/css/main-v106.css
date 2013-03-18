@@ -1,0 +1,1150 @@
+/*
+ * HTML5 Boilerplate
+ *
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html,
+button,
+input,
+select,
+textarea {
+    color: #222;
+}
+
+body {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+a {
+    color: #00e;
+}
+
+a:visited {
+    color: #551a8b;
+}
+
+a:hover {
+    color: #06e;
+}
+
+/*
+ * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
+ */
+
+img {
+    vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+
+/***********
+* =splash
+*
+**/
+
+section#splash {
+   display:block;
+   position:fixed;
+   z-index:2001;
+   top:0; width:100%; 
+   height:600px; /* resized via js */
+   text-align:center;
+   background:rgb(31,44,51); /* blue dark */
+}
+section#splash img {
+   margin:180px auto 0;
+}
+
+
+
+
+/**************
+ * =typography
+ *
+**/
+
+@font-face {
+    font-family: 'entypo';
+    src: url('../fonts/entypo.eot');
+    src: url('../fonts/entypo.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/entypo.woff') format('woff'),
+         url('../fonts/entypo.ttf') format('truetype'),
+         url('../fonts/entypo.svg#entypo') format('svg'),
+          url('http://localhost/cyclee-mobile/fonts/entypo.eot?#iefix') format('embedded-opentype'),
+          url('http://localhost/cyclee-mobile/fonts/entypo.woff') format('woff'),
+          url('http://localhost/cyclee-mobile/fonts/entypo.ttf') format('truetype'),
+          url('http://localhost/cyclee-mobile/fonts/entypo.svg#entypo') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'entypo-social';
+    src: url('../fonts/entypo-social.eot');
+    src: url('../fonts/entypo-social.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/entypo-social.woff') format('woff'),
+         url('../fonts/entypo-social.ttf') format('truetype'),
+         url('../fonts/entypo-social.svg#entypo-social') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.entypo { font-family:'entypo'; font-size:40px; line-height:.8em; vertical-align:-4px; }
+a.entypo { text-decoration:none; color:rgba(0,0,0,0.5); }
+a.entypo:hover { color:#f0f; }
+.entypo small { 
+    font-size:.35em; 
+    vertical-align:4px; 
+    }
+p em.entypo,
+p a.entypo { 
+    font-style:normal; color:rgba(0,0,0,0.5); 
+    }
+
+@import url('http://roboto-webfont.googlecode.com/svn/trunk/roboto.all.css');
+/*
+  font-family: 'Roboto';
+  font-style: normal;
+  font-style: italic;
+  font-weight: 100, 300, 400, 500, 700, 900;
+*/
+
+body {
+    font-family: 'Roboto', Arial, sans-serif, 'entypo';
+    font-weight:100;
+    background: url('../img/bkg.jpg') repeat fixed center center;   
+    padding-top:38px; /* for menu */ 
+}
+
+
+
+
+/***********
+ * =nav
+ *
+**/
+
+nav a {
+    display:block;
+    padding:4px 2%;
+    text-decoration:none;
+    color:#fff;
+    border-radius:0;
+}
+nav a:visited {
+    color:white;
+}
+nav a:hover { ; }
+
+nav#primary {
+    position:fixed; top:0;
+    z-index:1003;
+    width:100%;
+    padding:.75em 10px .5em;
+    background:rgb(134,173,191); /* blue light */
+    background:rgb(31,44,51); /* blue dark */
+}
+nav#primary a {
+    text-align:center;
+    background:rgba(255,255,255,0.5);
+}
+nav#primary a#nav-logo {
+    float:left;
+    padding:6px 10px;
+    width:70px;
+    background:rgb(31,44,51) url('../img/cyclee-logo-sm.png') no-repeat center center; 
+}
+nav#primary a#nav-notes, 
+nav#primary a#nav-ride { 
+    float:right;
+    font-size:.9em;
+    margin:6px 4px 0 0;
+    padding:1px 6px;
+    border-radius:4px;
+    }
+nav#primary a#nav-notes {
+    margin-right:0;
+    border-radius:4px 0 0 4px;
+} 
+nav#primary a#nav-ride { 
+    margin-left:0;
+    border-radius:0 4px 4px 0;
+}
+nav#primary a:active { 
+    background:#f0f;
+    }
+nav#primary a.active { 
+    background:rgba(255,255,255,0.2);
+    }
+
+nav#primary a#nav-settings {
+    float:right;
+    color:rgba(255,255,255,0.5);
+    background:none;
+    margin:0 16px 0 0; 
+}
+
+nav#primary a#nav-settings.entypo.btn:hover {
+    color:#fff !important;
+}
+nav#primary a#nav-settings.entypo.btn:active {
+    color:#f0f;
+}
+@media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
+only screen and (-moz-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
+  nav#primary a#nav-logo {
+      background-image:url('../img/cyclee-logo@3x.png'); 
+      background-size: 70px 26px;
+  }
+}
+
+
+nav#secondary {
+    display:none;
+    position:fixed;
+    top:42px; z-index:100; width:100%;
+    background:rgb(31,44,51);
+    padding:1em 0;
+    z-index:1004;
+}
+nav#secondary a {
+}
+nav#secondary a:hover {
+    background:rgba(255,255,255,0.3);
+}
+
+nav#primary .nav-toggle { 
+    position:absolute;
+    top:11px; left:6px;
+    font-family:'entypo'; 
+    font-size:2.2em; line-height:1em;
+    color:rgba(255,255,255,0.8); 
+    color:#f0f;
+    }
+nav#primary .nav-back { 
+    display:none;
+    }
+
+
+footer nav {
+    width:100%;
+    text-align:center;
+    font-size:.8em;
+}
+footer nav a,
+footer nav a:visited {
+display:inline-block;
+    padding:12px 2%;
+    text-align:center;
+    color:#999;
+}
+
+#notes nav {
+    width:100%;
+    height:3em;
+}
+
+nav a.entypo.btn {
+    float:left;
+    font-size:3em;
+    background:rgba(0,0,0,0.33);
+    color:white;
+    color:rgba(0,0,0,0.4);
+    background:transparent;
+    }
+nav a.entypo.btn.active,
+nav a.entypo.btn.active:hover {
+    background:#f0f;
+    color:white !important;
+    }  
+#notes nav a.entypo.btn { 
+    font-size:3.5em;
+    margin-right:3px; 
+    }
+
+nav a.btn:hover { color:rgb(31,44,51) !important; }
+nav a.btn:active { color:white; background:#f0f !important; }
+
+a.btn.active { color:white; background:rgba(0,0,0,0.4); }
+
+
+/***********
+ * =forms
+ *
+**/
+
+form { 
+    position:relative; /* catch floats */
+    }
+label { 
+    display:block; 
+    text-transform:uppercase;
+    font-size:.7em;
+    font-weight:600;
+    color:#777;
+    letter-spacing:1px;
+    }
+
+input, textarea { 
+    margin-bottom:.5em; 
+    border:1px solid #ccc;
+/*    padding:4px 4px;*/
+    width:80%;
+    font-size:1.2em;
+    }
+
+form a.clearinput { /* clear field js */
+    display:block;
+    float:left;
+    position:relative;
+    padding:0; 
+    margin:.22em 0 0 -.6em;
+    font-size:3em;
+    line-height:.25em;
+    text-decoration:none; 
+    color:#ccc !important;
+    background:none !important;
+}
+form a.clearinput:hover,
+form a.clearinput:active,
+form a.clearinput:hover,
+form a.clearinput:active {
+    color:#f0f;
+}
+
+input.search { float:left; }
+
+
+/***********
+ * =set-location fieldset
+ *
+**/
+
+fieldset.set-location input {
+    width:30%;
+}
+
+
+/***********
+ * =settings
+ *
+**/
+
+form#commute-locations select {
+    margin:.25em 0 .5em;
+}
+
+
+/***********
+ * =modal
+ *
+**/
+
+#modal {
+    display:none;
+    position:absolute;
+    text-align:center;
+    color:white;
+    z-index:1010;
+}
+
+#modal.msg {
+    margin:10px 0; width:90%;
+    padding:1em 5%;
+    background:rgba(0,0,0,0.5);    
+    background:rgba(31,44,51,0.75);
+    border-radius:0;  
+    top:60px;
+}
+
+#modal p.notify {
+    float:left;
+    margin:2px;
+    padding:.5em 10px;
+}
+
+ 
+#modal.msg a.close {  
+    display:block; position:absolute;
+    top:5px; right:5px;
+    line-height:.25em;
+    padding:0; margin:0;
+    color:white; 
+    text-decoration:none;
+    font-size:50px;
+    background:none !important;
+}
+
+
+/***********
+* =map modalmap
+*
+**/
+
+#modal.modalmap  { 
+    top:0; margin:0; width:99%; height:100%; padding:0; border:0;
+    background:#eee;
+    overflow:hidden;
+    }
+.modalmapcontainer { /* should probalby merge with div#map */
+    width:100%; height:95%;
+    margin:0;
+    }    
+
+.map-buttons { 
+    text-align:right; 
+    float:left; margin-left:2px;
+    padding-top:6px; /*match paragraph*/
+     }
+.map-buttons a { 
+    display:inline-block; 
+    margin:0 2px;
+    padding:2px 4px; 
+    font-size:1.1em; 
+    background:#f0f; 
+    color:white; 
+    /*box-shadow:1px 1px 4px rgba(0,0,0,0.3); */
+    border-radius:2px; 
+    text-decoration:none; 
+    }
+.map-buttons a:hover,
+.map-buttons a:active { 
+    background:#f0f; 
+    background:black; 
+    }
+
+
+
+/***********
+ * =pages
+ *
+**/
+
+section.page {
+    position:relative; /* catch floats */
+    background:white;
+    margin:22px 10px;
+    min-height:350px;
+    padding:10px;
+    display:none;
+    border-radius:2px;
+    box-shadow:1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+#ride img {
+    display:block; 
+    margin:0 auto;
+}
+   
+
+/***********
+ * =btn
+ *
+**/
+
+a.btn,
+nav a.btn { 
+    display:inline-block;
+    margin:0 2px;
+    padding:6px 4px;
+    color:#777;
+    background:#eee; 
+    border-radius:4px;
+    text-decoration:none;
+    }
+    
+a.btn:hover { 
+    background:#666; color:white !important; 
+    }
+a.btn:active { 
+    background:#f0f; color:white !important;  
+    }
+
+a.entypo.btn {
+    line-height:.7em;
+    padding:1px 4px 0;
+    margin:0 1px;
+}
+
+/***********
+ * =utility
+ *
+**/
+
+.bkg-blue {  background:rgb(31,44,51); } /* blue dark */
+
+.firsttime {
+    color:#f0f !important;
+}
+
+p.notify {
+    display:inline-block;
+    padding:.2em 10px;
+    margin-left:-10px;
+    background:#000;
+    background:rgb(31,44,51);
+    color:white;
+}
+.notify-footer { /* <p> or <a> */
+    position:fixed; bottom:0; 
+    width:100%; margin:0 -10px; padding:.5em 10px;
+    background:#f0f;
+    color:white;
+    text-decoration:none;
+}
+p.notify a,
+a.notify-footer {
+    color:white;
+ }
+ 
+ 
+a.refresh {
+    float:right; 
+    margin:-5px 0 0 5px;
+    padding:0 4px;
+    text-decoration:none; 
+}
+
+section,article,div,a {
+    border-radius:2px;
+}
+
+button {
+    display:inline-block;
+    background:#f0f;
+    color:white;
+    border:0;
+    padding:4px; margin:0 2px;
+    border-radius:2px;    
+}
+button:hover {
+    background:black;
+}
+button:disabled {
+    background:#ccc;
+    /*opacity:0.3;*/
+}
+
+
+a.disabled {
+    cursor:default !important;
+    color:#aaa !important;
+}
+
+p.border-top { border-top:1px solid #eee; padding-top:.25em; }
+
+#pastebin {
+    display:none;
+}
+
+
+/***********
+ * =notes
+ *
+**/
+
+
+section#notes { 
+    display:block;
+    background:none;
+    box-shadow:none;
+    padding:0;
+}
+ 
+article {
+    clear:both;
+    background:white;
+    margin:.5em 0px;
+    padding:10px 10px 15px;
+    border-radius:2px;
+    box-shadow:1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+#people article { clear:none; }
+article img {
+    display:inline-block; float:left;
+    height:50px; width:50px;
+    background:#eee;
+    margin:4px 10px 10px 0;
+}
+article p {
+    margin-bottom:0;
+    margin:0;
+}
+article em {
+    text-transform:lowercase;
+    font-variant:small-caps;
+    font-style:normal;
+    background:rgb(131,144,151); 
+    color:white;
+    font-size:.9em;
+    line-height:1em;
+    padding:0 3px 1px;
+    margin-right:.25em;
+    border-radius:2px;
+}
+article em.username {
+    color:#666; background:#eee;
+}
+
+
+article div.meta {
+    text-align:right;
+}
+article time {
+    font-size:.8em;
+    text-transform:uppercase;
+    color:rgba(0,0,0,0.5);
+}
+article div.meta a.entypo { 
+    font-size:2em;
+    margin:0 6px;
+    vertical-align:-3px;
+    color:rgba(0,0,0,0.3);
+}
+
+
+/***********
+ * =notes filter
+ *
+**/
+
+.notesfilter {
+    display:none;
+    position:absolute;
+    top:40px;
+    width:80%;
+    margin:0 10%;
+    padding:.25em 5px;
+    background:rgba(0,0,0,0.5);
+    background:rgba(255,255,255,0.9);
+    border-radius:2px;    
+    box-shadow:1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+.notesfilter p {
+/*    color:white;*/
+    margin:.25em 0;    
+}
+.notesfilter ul, .notesfilter li { 
+    list-style:none; padding:0; margin:0;
+    }
+.notesfilter li { 
+    margin:.25em 0; padding:5px;
+    background:rgba(31,44,51,0.9);
+    background:rgba(102,102,102,0.9);
+    border-right:10px rgba(31,44,51,0.95) solid;
+    border-right:10px rgba(102,102,102,0.8) solid;
+    border-radius:2px;
+    color:white;
+    }
+.notesfilter li:hover { background:rgba(31,44,51,1); cursor:pointer; }
+.notesfilter li.active { 
+    border-color:#f0f;
+}
+
+.notesfilter a.close {
+    float:right;
+    color:#ccc !important;
+    background:none !important;
+    margin:-10px -8px 0 0;
+}
+
+
+/***********
+ * =note details
+ *
+**/
+
+#modal.notedetail {
+    padding-top:1.5em;
+    padding-bottom:1.5em;
+    text-align:left;
+}
+#modal.notedetail img {
+    border:5px solid white;
+    border-radius:2px;
+}
+#modal.notedetail article time,
+#modal.notedetail article div.location {
+    color:white;
+    margin-right:15px;
+}
+#modal.notedetail article time {
+    padding-top:1em;
+}
+
+#modal.notedetail p {
+}
+
+
+
+/***********
+ * =addnote
+ *
+**/
+
+    /* =addnote layout */
+
+section#addnote {
+    display:none;
+    background:transparent;
+    padding:0;
+    border-radius:0;
+    box-shadow:none;
+}
+section#addnote section {
+    position:relative; /* catch nav */
+    background:white;
+    padding:10px;
+    border-radius:2px;
+    box-shadow:1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+section.addnote-info {
+    opacity:0.3;
+    overflow:hidden;
+}
+section.addnote-location {
+    margin-bottom:52px; /* for nav */
+    margin-bottom:1em;
+}
+
+    /* =addnote form */
+
+section#addnote form {}
+
+em.location-prompt {
+    font-style:normal;
+    color:#f0f;
+    margin-left:10px;
+    vertical-align:2px;
+    display:none;
+}
+em.location-prompt.first-visit { 
+    display:inline-block;
+}
+em.location-prompt.disabled {
+    color:#ccc;
+}
+
+
+
+fieldset#location-end {
+    display:none;
+    margin-top:.5em;
+}
+
+.addnote-info button {
+    float:right;
+    margin:0 0 0 5px;
+    font-size:1.2em;
+    padding:4px;
+}
+
+
+
+    /* =addnote links */
+
+section#addnote nav a,
+section#addnote nav a:visited {
+    font-family:'entypo';
+    color:#777;
+}
+section#addnote nav a:hover,
+section#addnote nav a:active { 
+    color:#f0f; 
+    }
+
+    /* =addnote nav */
+
+section#addnote nav {
+    background:#fff;
+}
+.addnote-location nav {
+    position:absolute;
+    bottom:-35px;
+    border-radius:2px;
+    box-shadow:1px 4px 3px rgba(0, 0, 0, 0.1);
+}
+.addnote-info nav {
+    margin-top:-45px; 
+    margin-top:-45px; 
+    float:right;
+    border-radius:2px;
+    box-shadow:1px -4px 3px rgba(0, 0, 0, 0.1);
+}
+
+section#addnote nav a {
+    width:20px; float:right;
+    background:white;
+    height:32px;
+    padding:2px 10px 0;
+    margin:0;
+    font-size:38px;
+    display: block;
+    color:#777;
+    text-align:center;
+    border:2px solid #ddd;
+    background:rgb(238,238,238);
+}
+section#addnote nav a.active { 
+    border-top-width:0;
+    border-width:0 1px;
+    background:#fff;
+}
+section#addnote .addnote-location nav a { border-width:1px 0 0; }
+section#addnote .addnote-location nav a.active { border-width:0 1px; }
+section#addnote .addnote-info nav a { border-width:0 0 1px; }
+section#addnote .addnote-info nav a.active { border-width:0 1px; }
+
+
+section#addnote .addnote-info nav a#link-hashtag {
+    font-size:26px; 
+    }
+
+section#addnote .addnote-location nav a#link-path { 
+    background-image:url('../img/icon-path.png');
+    background-repeat:no-repeat;
+    background-position:top center;
+    }
+section#addnote .addnote-location nav a#link-path:hover { 
+    background-position:bottom center;
+    }
+
+
+
+
+
+/***********
+ * =people
+ *
+**/
+
+section#people {
+    background:none;
+    box-shadow:none;
+    padding:0;
+    
+}
+
+#people article { float:left; margin-right:10px; padding:5px; }
+
+
+/***********
+ * =hashtags
+ *
+**/
+
+#tags-container {
+    clear:both;
+}
+
+#tags-container a {
+    display:inline-block;
+    color:white;
+    text-decoration:none; 
+    background:#aaa;
+    border-radius:5px;
+    margin:5px 5px 5px 0;
+    padding:3px 6px;
+    font-weight:100;
+}
+#tags-container  a:hover,
+#tags-container  a:active {
+    background:#f0f;    
+}
+#tags-container  a.selected {
+    background:#eee;
+    color:black;
+}
+
+
+
+/***********
+* =notesmap
+*
+**/
+
+section#notesmap {
+    padding:5px 0;
+    padding:0;
+    margin:15px 0 0;
+    box-shadow:none;
+}
+
+div#map,
+iframe#thenotesmap {
+    height:510px;
+    border:0; /* delete me. i exceed the width. */
+    width:99%;
+    margin:0;
+}
+
+section#notesmap form#notesmap-filter {
+    position:absolute;
+    top:20px;
+    right:10px;
+    padding:3px;
+    background:rgba(255,0,255,0.3);
+    /*box-shadow:1px 1px 4px rgba(0,0,0,0.4);*/
+    border-radius:2px;
+}
+
+form#notesmap-filter select {
+    /* should this be full width above the map?? */
+}
+
+
+
+
+/***********
+* =ride
+* =flag
+*
+**/
+
+#ride {}
+
+#addride { 
+    text-align:center;
+    border-bottom:1px solid #eee;;
+    }
+#addflag p { 
+    color:#999;
+    font-size:0.8em;
+    } 
+
+#triggers {
+    position:fixed;
+    bottom:0;
+    border-radius:0;
+    margin:0 -20px;
+    width:96%;
+    padding:0 2% 5px;
+    height:130px;
+}
+#triggers a {
+    position:relative; float:left;
+    width:46%; margin:0 2%; 
+    padding:10px 0;
+    height:110px;
+    text-align:center;
+    text-decoration:none;
+    color:white;
+    border-radius:5px;
+    background:rgb(31,44,51); /* blue dark */
+    }
+    
+#triggers a:hover {
+    background:rgba(255,255,255,0.1);
+    background:rgba(31,44,51,0.5); /* blue dark */
+    
+} 
+#triggers a:active {
+    color:#fff;
+    background:#f0f;
+} 
+#triggers a .entypo {
+    display:block;
+    line-height:.5em;
+    }
+    
+#triggers a#startstop .entypo {   
+    font-size:200px;  
+/*    border-right:2px solid rgba(255,255,255,0.2);*/
+}
+#triggers a#flag-link .entypo {
+    font-size:150px;
+    margin-top:10px;
+}
+a small {
+    position:absolute;
+    width:100%;
+    bottom:7px; left:0;
+    font-size:10px;
+    text-transform:uppercase;
+    font-weight:500;
+    color:rgba(255,255,255,0.6);
+}
+
+/***********
+ * =carto css
+ *
+**/
+
+div.cartodb-popup {
+    text-align:left;
+}
+
+/***********
+* =tempates
+*
+* for js clone
+**/
+
+.template { display:none; }
+#people article.template { display:block; }
+
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/* Prevent callout */
+
+.nocallout {
+    -webkit-touch-callout: none;
+}
+
+.pressed {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* A hack for HTML5 contenteditable attribute on mobile */
+
+textarea[contenteditable] {
+    -webkit-appearance: none;
+}
+
+/* A workaround for S60 3.x and 5.0 devices which do not animated gif images if
+   they have been set as display: none */
+
+.gifhidden {
+    position: absolute;
+    left: -100%;
+}
+
+/*
+ * Image replacement
+ */
+
+.ir {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: 0;
+    direction: ltr;
+    display: block;
+    overflow: hidden;
+    text-align: left;
+    text-indent: -999em;
+}
+
+.ir br {
+    display: none;
+}
+
+/*
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ */
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+/*
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ */
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/*
+ * Extends the .visuallyhidden class to allow the element to be focusable
+ * when navigated to via the keyboard: h5bp.com/p
+ */
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+/*
+ * Hide visually and from screenreaders, but maintain layout
+ */
+
+.invisible {
+    visibility: hidden;
+}
+
+/**
+ * Clearfix helper
+ * Used to contain floats: h5bp.com/q
+ */
+
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   Theses examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 800px) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+       only screen and (min-resolution: 144dpi) {
+    /* Style adjustments for viewports that meet the condition */
+}
