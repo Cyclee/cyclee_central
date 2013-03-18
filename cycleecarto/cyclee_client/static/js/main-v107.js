@@ -7,7 +7,6 @@
 
 var height = $(window).height();
 
-
 var username;
 
 // setup CartoDB
