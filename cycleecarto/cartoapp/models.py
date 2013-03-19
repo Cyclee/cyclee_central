@@ -11,7 +11,7 @@ from django.core.cache import cache
 from django.db.models.signals import post_save
 
 import settings
-from cartoapp.tasks import cartodb_add_note
+from cartoapp.tasks import cartodb_add_note_task
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
