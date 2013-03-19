@@ -11,7 +11,7 @@ from django.core.cache import cache
 from django.db.models.signals import post_save
 
 import settings
-from cartoapp.tasks import cartodb_add_note
+from cartoapp.tasks import cartodb_add_note_task
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -94,6 +94,6 @@ def cartodb_add_note(sender, instance=None, **kwargs):
          query=sql_insert_urlencoded)
     
     # send it with celery
-    cartodb_add_note.delay(url_carto_data)
+    cartodb_add_note_task.delay(url_carto_data)
 
 post_save.connect(cartodb_add_note, sender=Note)

@@ -170,7 +170,7 @@ addnoteform.submit(function() {
 
     var description = $('#noteContent').val();
     description = description.replace(/[']+/gi,''); // apostrophes suck
-    description = escape(description);
+    // description = escape(description);
     console.log(description);
 
     var category = "user note";    
@@ -189,7 +189,7 @@ function addnote(username,category,description,location,table,msg,callback){
     var table = table;
     if ( !table ) { table = note_single_table; }
 
-    var sqlInsert ="&q=INSERT INTO "+table+" (username,category,description,the_geom) VALUES('"+ username +"','"+ category +"','"+ description +"',ST_SetSrid(st_makepoint("+ location +"),4326))";
+    var sqlInsert ="&q=INSERT INTO "+table+" (username,category,description,the_geom) VALUES('"+ username +"','"+ category +"','"+ escape(description) +"',ST_SetSrid(st_makepoint("+ location +"),4326))";
 
     // send data
     if ( send_to_central ){ update_central(category,description,location); }
