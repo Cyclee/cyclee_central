@@ -26,9 +26,9 @@
         -->
 
         <!-- This script prevents links from opening in Mobile Safari. https://gist.github.com/1042026 -->
-        <!-- 
+        <!--
         <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
-        --> 
+        -->
 
         <link rel="stylesheet" href="/static/css/normalize.css">
         <link rel="stylesheet" href="/static/css/main-v107.css">
@@ -36,18 +36,10 @@
     </head>
     <body>
 
-        <nav id="primary" class="clearfix" >
+        <nav id="header" class="clearfix" >
             <a id="nav-logo" class="ir" href="#">Cyclee</a>
-            <a id="nav-settings" class="nav-page entypo btn toggle" href="#" >&#9881;</a>
             <a id="nav-ride" class="nav-page toggle" href="#">Ride</a>
-            <a id="nav-notes" class="nav-page toggle active" href="#">Notes</a>
             <span class="nav-toggle nav-back">&#59229;</span>
-        </nav>
-
-        <nav id="secondary">
-            <a id="nav-filters" class="nav-page hidden" href="#" >Filters</a>
-            <a id="nav-lastride" class="nav-page hidden" href="#" >Last Ride</a>
-            <a id="nav-stats" class="stats hidden" href="#" >Stats</a>
         </nav>
 
         <section id="splash" >
@@ -56,27 +48,34 @@
 
         <section id="notes" class="page" >
             <nav class="clearfix" >
-                <a id="nav-addnote" class="nav-page entypo btn firsttime" href="#">&#59160;</a>
-                <a id="nav-people" class="nav-page entypo btn" href="#">&#128101;</a>
-                <a id="nav-notesmap" class="nav-page entypo btn" href="#">&#127758;</a>
-                <a id="nav-notesfilter" class="entypo btn" href="#">&#57349;</a>
+                <form id="search" ><input type="search" placeholder="search notes" /></form>
+                <a id="nav-notesfilter" class="entypo btn" href="#">&#57349;<small>View</small></a>
                     <div class="notesfilter">
-                        <p>View Notes <a class="close entypo" href="#" onclick="$('#nav-notesfilter').click();" >&#10006;</a></p>
+                        <p style="padding:.25em 4px; font-size:1.2em">View Notes <a class="close entypo" href="#" onclick="$('#nav-notesfilter').click();" >&#10006;</a></p>
                         <ul>
-                            <li class="active">Commute Notes</li>
+                            <li class="active-filter">Route Notes</li>
                             <li>Near Here</li>
                             <li>All Notes</li>
                         </ul>
+                        <p>
+                            <a id="nav-settings" class="nav-page" href="#" ><span class="entypo">&#9881;</span> Settings</a>
+                            <a id="nav-help" class="nav-page" href="#" ><span class="entypo">&#59140;</span> Help</a>
+                        </p>
                     </div>                
             </nav>
-
             <article class="template">
                 <a title="username" href="#" ><img src="http://www.gravatar.com/avatar/?d=mm&s=50" /></a>
-                <p><strong>Welcome to Cyclee!</strong> A network connection is required to view the latest notes. <a href="#" onclick="switchpage('settings');">Set your commute</a> to view info most relevant to your rides. Add notes of your own and view them here using the filter above. @mentions can be viewed here as well.</p>
                 <div class="meta" ><time pubdate="" >Today</time></div>
+                <p><strong>Welcome to Cyclee!</strong> A network connection is required to view the latest notes.<br /><br /><a href="#" onclick="switchpage('settings');">Set your usual route</a> to view info most relevant to your rides.<br /><br />Drop notes for other people who cross your path.</p>
             </article>
-
         </section>
+
+        <nav id="primary" class="clearfix" >
+            <a id="nav-notes" class="nav-page entypo btn toggle active" href="#">&#59168;<small>Notes</small></a>
+            <a id="nav-addnote" class="nav-page entypo btn toggle" href="#">&#59160;<small>Post</small></a>
+            <a id="nav-people" class="nav-page entypo btn toggle" href="#">&#128101;<small>People</small></a>
+            <a id="nav-notesmap" class="nav-page entypo btn toggle" href="#">&#127758;<small>Map</small></a>
+        </nav>
 
         <section id="addnote" class="page" >
             
@@ -133,12 +132,12 @@
                 <a id="startstop" href="" ><strong class="entypo" >&#9654;</strong><small>Start Ride</small></a>
                 <a id="flag-link" href="#"><strong class="entypo" >&#9873;</strong><small>Flag for Note</small></a>
             </section>
-            <p style="border-bottom:1px solid #eee;">Drop a <a class="entypo" href="#">&#9873;</a> flag here to <a class="entypo" href="#" onclick="switchpage('addnote');">&#59160;</a>&nbsp;add a note later.</p>
-            <p>Features for tracing your rides will be added soon. Help decide what comes first: <a class="feedback-addy" href="#" target="_blank">Cyclee</a>. Lend your coding skills: <a href="https://github.com/cyclee">github.com/cyclee</a></p>
+            <p>Rides coming soon. </p>
+            <p>Drop a <a class="entypo" href="#">&#9873;</a> flag here to <a class="entypo" href="#" onclick="switchpage('addnote');">&#59160;</a>&nbsp;add a note later.</p>
         </section>
 
 
-        <section id="people" class="page">
+        <section id="people" class="page clearfix">
             <p class="notify">Cyclist who have crossed your path.</p>
             <section>
                 <article class="template">
@@ -291,6 +290,7 @@
                             <label>Trip</label>
                         
                             <select class="commute_geo1">
+                                <option value="-73.9877700805664,40.70042247927176" disabled selected>Select</option>
                                 <option value="-73.9877700805664,40.70042247927176">Brooklyn (Mnhtn/Brklyn Bridge)</option>
                                 <option value="-73.96305084228516,40.71083299030839">Brooklyn (Willsbrg Bridge)</option>
                                 <option value="-73.98931503295898,40.769491796481404">Upper Manhattan (West Side)</option>
@@ -306,13 +306,14 @@
                                 <option value="-73.94433975219727,40.75219867966512">Queens</option>
                                 <option value="-73.92562866210938,40.81796653313175">Bronx</option>
                             </select><br />
-                            <input type="hidden" name="commute_geoA" class="location" placeholder="location" value="Dumbo" disabled />
+                            <input type="hidden" name="commute_geoA" class="location" placeholder="location" value="-73.9877700805664,40.70042247927176" disabled />
                             <a href="#" class="hidden entypo btn link_getlocation" >&#127919;<small>Here</small></a>
                             <a href="#" class="hidden entypo btn link_findlocation" >&#128269;<small>Find</small></a>
                         </fieldset>
                         <fieldset class="commute-location set-location" >                    
 
                             <select class="commute_geo2">
+                                <option value="-73.99068832397461,40.73555143165807" disabled selected>Select</option>
                                 <option value="-73.9877700805664,40.70042247927176">Brooklyn (Mnhtn/Brklyn Bridge)</option>
                                 <option value="-73.96305084228516,40.71083299030839">Brooklyn (Willsbrg Bridge)</option>
                                 <option value="-73.98931503295898,40.769491796481404">Upper Manhattan (West Side)</option>
@@ -330,7 +331,7 @@
                             </select><br />
 
 
-                            <input type="hidden" name="commute_geoB" class="location" placeholder="location" value="Union Sq" disabled />
+                            <input type="hidden" name="commute_geoB" class="location" placeholder="location" value="-73.99068832397461,40.73555143165807" disabled />
                             <a href="#" class="hidden entypo btn link_getlocation" >&#127919;<small>Here</small></a>
                             <a href="#" class="hidden entypo btn link_findlocation" >&#128269;<small>Find</small></a>
                         </fieldset>
