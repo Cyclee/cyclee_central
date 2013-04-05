@@ -31,14 +31,15 @@
         -->
 
         <link rel="stylesheet" href="/static/css/normalize.css">
-        <link rel="stylesheet" href="/static/css/main-v107.css">
+        <link rel="stylesheet" href="/static/css/main-v109.css">
         <script src="/static/js/vendor/modernizr-2.6.1.min.js"></script>
     </head>
     <body>
 
         <nav id="header" class="clearfix" >
             <a id="nav-logo" class="ir" href="#">Cyclee</a>
-            <a id="nav-ride" class="nav-page toggle" href="#">Ride</a>
+            <a id="nav-ride" class="nav-page toggle" href="#">Ride &#187;</a>
+            <a id="nav-ride-back" class="hidden" href="#">&#171; Notes</a>
             <span class="nav-toggle nav-back">&#59229;</span>
         </nav>
 
@@ -49,7 +50,7 @@
         <section id="notes" class="page" >
             <nav class="clearfix" >
                 <form id="search" ><input type="search" placeholder="search notes" /></form>
-                <a id="nav-notesfilter" class="entypo btn" href="#">&#57349;<small>View</small></a>
+                <a id="nav-notesfilter" class="entypo btn firsttime" href="#">&hearts;<!-- eye: &#59146; --><!-- list: &#57349; --><small>View</small></a>
                     <div class="notesfilter">
                         <p style="padding:.25em 4px; font-size:1.2em">View Notes <a class="close entypo" href="#" onclick="$('#nav-notesfilter').click();" >&#10006;</a></p>
                         <ul>
@@ -58,7 +59,8 @@
                             <li>All Notes</li>
                         </ul>
                         <p>
-                            <a id="nav-settings" class="nav-page" href="#" ><span class="entypo">&#9881;</span> Settings</a>
+                            <!-- <a id="nav-settings" class="nav-page" href="#" ><span class="entypo">&#9881;</span> Settings</a> -->
+                            <a id="nav-intro" class="nav-page" href="#" ><span class="entypo">&#9881;</span> Settings</a>
                             <a id="nav-help" class="nav-page" href="#" ><span class="entypo">&#59140;</span> Help</a>
                         </p>
                     </div>                
@@ -129,11 +131,15 @@
         <section id="ride" class="page" >
             <a id="ridehelp" class="help-link hidden" href="#" >&#59141;</a>
             <section id="triggers">
-                <a id="startstop" href="" ><strong class="entypo" >&#9654;</strong><small>Start Ride</small></a>
+                <a id="ride-toggle" href="#" ><strong class="entypo" >&#9654;</strong><small>Start Ride</small></a>
                 <a id="flag-link" href="#"><strong class="entypo" >&#9873;</strong><small>Flag for Note</small></a>
             </section>
-            <p>Rides coming soon. </p>
-            <p>Drop a <a class="entypo" href="#">&#9873;</a> flag here to <a class="entypo" href="#" onclick="switchpage('addnote');">&#59160;</a>&nbsp;add a note later.</p>
+            <div id="clock">0:00:00</div>
+            <section id="ride-info">
+                <p><span id="ride-count">0 rides</span> // <span id="ride-distance">0 miles</span></p>
+                <p id="trace-location" class="debug">x,y</p>
+                <p id="ride-msg">Drop a <a class="entypo" href="#">&#9873;</a> flag while you ride to <a class="entypo" href="#" onclick="switchpage('addnote');">&#59160;</a>&nbsp;add a note later.</p>
+            </section>
         </section>
 
 
@@ -148,7 +154,7 @@
         </section>
 
         <section id="notesmap" class="page">
-            <div id="map"></div>
+            <div id="map" class="mapcontainer"></div>
             <form id="notesmap-filter">
                 <select>
                     <option value="bikeshops" >Bike Shops</option>
@@ -181,23 +187,18 @@
 
         <section id="signup" class="page">
             <p class="notify">Join Cyclee</p>
-            <p>This page is for testing purposes only.</p>
 
             <p class="notify">Session Check</p>
             <p><a id="session-check" href="#" >session check</a></p>
 
             <p class="notify">Register</p>
-            <form method="post" action="">
+            <form class="register" method="post" action="">
                 <!-- <input type='hidden' name='csrfmiddlewaretoken' value='' /> -->
 
                 <label for="id_username">Username<em class="required">*</em></label> <input id="id_username" type="text" class="required" name="username" maxlength="30" />
                 <label for="id_email">E-mail<em class="required">*</em></label> <input id="id_email" type="text" class="required" name="email" maxlength="75" />
                 <label for="id_password1">Password<em class="required">*</em></label> <input id="id_password1" type="password" class="required" name="password1" />
                 <label for="id_password2">Password (again)<em class="required">*</em></label> <input id="id_password2" type="password" class="required" name="password2" />
-                <label for="id_first_name">First name</label> <input type="text" name="first_name" id="id_first_name" />
-                <label for="id_last_name">Last name</label> <input type="text" name="last_name" id="id_last_name" />
-                <label for="id_city">City</label> <input id="id_city" type="text" name="city" maxlength="250" />
-                <label for="id_zip">Zip</label> <input id="id_zip" type="text" name="zip" maxlength="10" />
                 <br /><button type="submit" >Send</button>
             </form>
             
@@ -237,18 +238,18 @@
         <section id="help" class="page">
             <section class="help-addnote">
                 <p class="notify">Add a Note</p>
-                <p style="margin-top:.25em"><a class="entypo firsttime" href="#" onclick="switchpage('addnote');">&#59160;</a>&nbsp;Add a note. 
+                <p style="margin-top:.25em"><a class="entypo firsttime" href="#" >&#59160;</a>&nbsp;Add a note. 
                     Place it on your <a class="entypo" >&#127919;</a>&nbsp;current location, 
                     or <a class="entypo" >&#128269;</a>&nbsp;find somewhere else in the city. 
-                    Drop a <a class="entypo" href="#" onclick="switchpage('ride');">&#9873;</a>&nbsp;flag during your ride to mark a spot to add a note later. 
+                    Drop a <a class="entypo" href="#" >&#9873;</a>&nbsp;flag during your ride to mark a spot to add a note later. 
                 </p>
             </section>
             <section class="help-explore">
                 <p class="notify">Explore</p>
-                <p style="margin-top:.25em">See <a class="entypo" href="#" onclick="switchpage('people');">&#128101;</a>&nbsp;people who overlap your route. 
-                    View a <a class="entypo" href="#" onclick="switchpage('notesmap');">&#127758;</a>&nbsp;map of bike shops and more. 
-                    <a class="entypo" href="#" onclick="switchpage('notes');">&#57349;</a>&nbsp;Filter &amp; view notes along your route or near you now. 
-                    <a class="entypo" href="#" onclick="switchpage('settings');">&#9881;</a>&nbsp;Set your typical ride. 
+                <p style="margin-top:.25em">See <a class="entypo" href="#" >&#128101;</a>&nbsp;people who overlap your route. 
+                    View a <a class="entypo" href="#" >&#127758;</a>&nbsp;map of bike shops and more. 
+                    <a class="entypo" href="#" >&#57349;</a>&nbsp;Filter &amp; view notes along your route or near you now. 
+                    <a class="entypo" href="#" >&#9881;</a>&nbsp;Set your typical ride. 
                 </p>
                 <p>
                     Return home anytime: &nbsp; 
@@ -349,7 +350,7 @@
         <script src="/static/js/vendor/jquery-1.8.3.min.js"></script>
         <script src="/static/js/helper.js"></script>
         <script src="/static/js/vendor/moment.js"></script>
-        <script src="/static/js/main-v110.js"></script>
+        <script src="/static/js/main-v118.js"></script>
 
         <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.css" />
         <!--[if lte IE 8]>
