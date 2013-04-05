@@ -11,7 +11,7 @@
  *
 **/
 
-var send_to_central = false; // send to django rather than carto
+var send_to_central = true; // send to django rather than carto
 
 var height = $(window).height();
 
