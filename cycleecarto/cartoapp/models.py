@@ -78,12 +78,19 @@ carto_table = 'route_flags'
 def cartodb_add_note(sender, instance=None, **kwargs):
     # get the values from the new Note instance
     note = instance
-    sql_insert = "INSERT INTO %(table)s (username,category,description,the_geom) VALUES('%(username)s', '%(category)s', '%(description)s', ST_SetSrid(st_makepoint(%(the_geom)s),4326))" % \
+    try:
+        avatar = note.user.get_profile().avatar
+    except:
+        logger.error('User profile not found: %s' % note.user)
+        avatar = ''
+
+    sql_insert = "INSERT INTO %(table)s (username,category,description,the_geom,uhash) VALUES('%(username)s', '%(category)s', '%(description)s', ST_SetSrid(st_makepoint(%(the_geom)s),4326), '%(uhash)s' )" % \
     dict(table=carto_table,
          username=note.user.username,
          category=note.category,
          description=note.description,
-         the_geom="%s, %s" % (note.the_geom.x, note.the_geom.y))
+         the_geom="%s, %s" % (note.the_geom.x, note.the_geom.y),
+         uhash=avatar)
 
     sql_insert_urlencoded = urlencode(dict(q=sql_insert))
     
