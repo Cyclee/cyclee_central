@@ -6,12 +6,21 @@
 
 
 /******************************* 
+ * Dev & Debugging
+ *
+ * send_to_central = true = app > django > cartoDB
+ *              = false = app > cartoDB
+ *
+**/
+var send_to_central = false; // send to django rather than carto
+
+
+
+/******************************* 
  * Setup Variables
  *
  *
 **/
-
-var send_to_central = true; // send to django rather than carto
 
 var height = $(window).height();
 
