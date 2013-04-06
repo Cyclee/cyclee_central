@@ -12,7 +12,7 @@
  *              = false = app > cartoDB
  *
 **/
-var send_to_central = false; // send to django rather than carto
+var send_to_central = false; // true = send to django rather than directly to cartoDB
 
 
 
@@ -1405,7 +1405,7 @@ $('a#link-addphoto').click( function(){
 **/
 function load_user() {
     
-    session_check();
+    // session_check();
     
     if ( !localStorage.getItem('username') ) { 
          console.log('New User?');
@@ -1906,6 +1906,12 @@ function findlocation_updateValue(e){
 /***********
  * =session testing
  *
+ * check if user is logged in on launch
+ *
+ * note: this has not been tested. might not be set up correctly.
+ *
+ *
+ *
 **/
 
 $("#session-check").on('click',session_check);
@@ -1936,7 +1942,7 @@ $("form.login").submit(function(event) {
     var url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/login/'
 
     /* Send the data using post */
-    // var posting = $.post( url, { username: username } );
+    console.log(theData);
     var posting = $.post( url, theData );
 
     /* Put the results in a div */
@@ -1947,12 +1953,17 @@ $("form.login").submit(function(event) {
 });
 
 
+
 /***********
  * =signup
+ * =register
+ *
+ * send username, email, & password to django
+ * need to do something meaningful with response
  *
 **/
 
-$("#signup form").submit(function(event) {
+$(".register form").submit(function(event) {
 
     event.preventDefault(); /* stop form from submitting normally */
 
@@ -1968,16 +1979,23 @@ $("#signup form").submit(function(event) {
     // var posting = $.post( url, { username: username } );
     var posting = $.post( url, theData );
 
-    /* Put the results in a div */
     posting.done( function(data) {
-        console.log('response: ');
+        console.log('registration response: ');
         console.log(data);
+        
+        // if ( registration successful ) { 
+        //  save_username(user_name); 
+        // }
     });
 });
 
 
 /******************************* 
  * =feedback email
+ * 
+ * obfuscate email address
+ * 
+ * 
 **/
 
 $('#nav-settings').on('click',doaddress);
