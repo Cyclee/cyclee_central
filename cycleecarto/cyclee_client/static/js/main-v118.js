@@ -12,7 +12,7 @@
  *              = false = app > cartoDB
  *
 **/
-var send_to_central = false; // true = send to django rather than directly to cartoDB
+var send_to_central = true; // true = send to django rather than directly to cartoDB
 
 
 
@@ -1400,81 +1400,6 @@ $('a#link-addphoto').click( function(){
 
 
 /***********
- * =settings
- *
-**/
-function load_user() {
-    
-    // session_check();
-    
-    if ( !localStorage.getItem('username') ) { 
-         console.log('New User?');
-         loadintro();
-    }
-    else {
-         username = localStorage.getItem('username');
-         init_user();
-         console.log("username: " + username); 
-    }
-};
-
-// username pre-save 
-$('button.username-save').click( function(){
-
-    username = $(this).siblings('.username').val(); // need username in memory
-    console.log('username val: ' + username);
-    sanitized = username.search(/[^a-z0-9]/gi); // -1 = clean
-    if ( sanitized != -1 ) { 
-        console.log('uri has illegal characters');
-        msg = 'Oops! Only numbers & letters allowed.';
-        $(this).parents('.page').find('p.settings-notice').fadeTo(200, 0.1, function(){
-          $(this).text(msg).fadeTo(200, 1.0);  
-        });
-        return false;
-    }
-    //    new_uri = new_uri.replace(/\s/g,"-").replace(/[^a-z 0-9 \-]+/gi,'').toLowerCase();
-
-    save_username(username); 
-    return false;
-});
-
-
-
-function save_username(username) {
-    localStorage.username = username;
-    $('p.settings-notice').fadeTo(200, 0.1, function(){
-      $(this).text('Username Saved').fadeTo(200, 1.0);  
-    });
-    $('input.username').val(username); // populate both input fields
-    username_filter(); // add to note filters
-    console.log("saved username: " + localStorage.username);
-}
-
-// load user options
-function init_user(){  
-    username_filter();
-    $('input.username').val(username);
-}
-
-// add username option to filters
-function username_filter(){
-    // remove previous
-    $('.filter-username').remove();
-    $('.filter-mentions').remove();
-
-    // set html
-    var user_opt = '<option value="usernotes" class="filter-username">'+username+'</option>';
-    var user_filtername = '<li class="filter-username">'+username+'</li>';
-    var user_mentions = '<li class="filter-mentions">@'+username+' mentions</li>';
-
-    // append
-    $('form#notesmap-filter').find('select').append(user_opt);
-    $('.notesfilter').find('ul').append(user_filtername).append(user_mentions);
-}
-
-
-
-/***********
  * =commutes: load
  *
 **/
@@ -1903,91 +1828,7 @@ function findlocation_updateValue(e){
 // }
 
 
-/***********
- * =session testing
- *
- * check if user is logged in on launch
- *
- * note: this has not been tested. might not be set up correctly.
- *
- *
- *
-**/
 
-$("#session-check").on('click',session_check);
-
-function session_check(){
-    console.log('session check');
-    var url = 'http://cycleecarto-cyclee.dotcloud.com/init/';
-    var get = $.get(url, function(data) {
-      console.log(data);      
-      console.log("authenticated: " + data.authenticate);
-      console.log("authenticated: " + data.authenticated);
-      console.log("username: " + data.user);
-    });
-};
-
-
-/***********
- * =login
- *
-**/
-
-$("form.login").submit(function(event) {
-
-    event.preventDefault(); /* stop form submit action */
-
-    var form = $(this);
-    var theData = form.serializeArray();
-    var url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/login/'
-
-    /* Send the data using post */
-    console.log(theData);
-    var posting = $.post( url, theData );
-
-    /* Put the results in a div */
-    posting.done( function(data) {
-        console.log('login response: ');
-        console.log(data);
-    });
-});
-
-
-
-/***********
- * =signup
- * =register
- *
- * send username, email, & password to django
- * need to do something meaningful with response
- *
-**/
-
-$(".register form").submit(function(event) {
-
-    event.preventDefault(); /* stop form from submitting normally */
-
-    var form = $(this);
-    var user_name = form.find( 'input[name="username"]' ).val();
-    var theData = form.serializeArray();
-    var url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/register/'
-
-    console.log(user_name);
-    console.log(theData);
-
-    /* Send the data using post */
-    // var posting = $.post( url, { username: username } );
-    var posting = $.post( url, theData );
-
-    posting.done( function(data) {
-        console.log('registration response: ');
-        console.log(data);
-        
-        // if ( registration successful ) { 
-        //  save_username(user_name); 
-        // }
-    });
-});
 
 
 /******************************* 
