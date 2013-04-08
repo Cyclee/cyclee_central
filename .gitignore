@@ -31,8 +31,6 @@ mkadmin.py
 nginx.conf
 postinstall
 README.rst
-requirements.txt
-wsgi.py
 
 
 # Misc #
