@@ -27,7 +27,6 @@ local_settings.py
 .pydevproject
 createdb.py
 hellodjango
-dotcloud.yml
 mkadmin.py
 nginx.conf
 postinstall
