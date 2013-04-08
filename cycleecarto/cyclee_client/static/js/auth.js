@@ -145,8 +145,7 @@ $("form.login").submit(function(event) {
  *
 **/
 
-$(".register form").submit(function(event) {
-
+$("form.register").submit(function(event) {
     event.preventDefault(); /* stop form from submitting normally */
 
     var form = $(this);
