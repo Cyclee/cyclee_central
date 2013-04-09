@@ -119,9 +119,12 @@ $("form.login").submit(function(event) {
 
     event.preventDefault(); /* stop form submit action */
 
-    var form = $(this);
-    var theData = form.serializeArray();
-    var url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/login/'
+    var form = $(this),
+        theData = form.serializeArray(),
+        url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/login/',
+        $error = $("#signup form.login p.error");
+
+        $error.hide();
 
     /* Send the data using post */
     console.log(theData);
@@ -130,6 +133,15 @@ $("form.login").submit(function(event) {
     /* Put the results in a div */
     posting.done( function(data) {
         console.log('login response: ');
+
+        $error.show();
+
+        if(data.authenticated){
+            $error.text("you're in!");
+        }else{
+            $error.text(data.errors.__all__.join(" "));
+        }
+
         console.log(data);
     });
 });
@@ -148,20 +160,36 @@ $("form.login").submit(function(event) {
 $("form.register").submit(function(event) {
     event.preventDefault(); /* stop form from submitting normally */
 
-    var form = $(this);
-    var user_name = form.find( 'input[name="username"]' ).val();
-    var theData = form.serializeArray();
-    var url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/register/'
+    var form = $(this),
+        user_name = form.find( 'input[name="username"]' ).val(),
+        theData = form.serializeArray(),
+        url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/register/',
+        $error = $("#signup form.register p.error");
 
     console.log(user_name);
     console.log(theData);
 
+    $error.hide();
     /* Send the data using post */
     // var posting = $.post( url, { username: username } );
     var posting = $.post( url, theData );
 
     posting.done( function(data) {
+        var errors = "";
+
+        $error.show();
         console.log('registration response: ');
+
+        if(data.status){
+            $error.text("you're registered!");
+        }else{
+            $.each(data.errors,function(i,val){
+                errors += val.join(" ");
+            });
+            $error.text(errors);
+        }
+
+
         console.log(data);
         
         // if ( registration successful ) { 
