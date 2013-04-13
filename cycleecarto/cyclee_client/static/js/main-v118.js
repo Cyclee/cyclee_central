@@ -616,9 +616,9 @@ $('#notes').on( 'click', 'a.replylink', function(){
     $('#noteContent').val(theContent);
 
     // reply location
-    var thisgeo = $(this).parents('article').find('.maplink').attr('title').split(",");
+    var thisgeo = $(this).parents('article').find('.maplink').attr('title'); // .split(",");
     inputfield = $('#addnote').find('input[name=inputStart]');
-    inputfield.val(thisgeo[1] +','+ thisgeo[0]);  
+    inputfield.val(thisgeo); // thisgeo[1] +','+ thisgeo[0]);  
     
     // ui
     enable_addnote();
