@@ -9,19 +9,56 @@
 **/
 function load_user() {
     
-    // session_check();
+    //check to see if we have an active session.
+    session_check(undefined,function(){
+    	var username = localStorage.getItem('username');
     
-    if ( !localStorage.getItem('username') ) { 
-         console.log('New User?');
-         loadintro();
-    }
-    else {
+    	switchpage('signup');
+    
+    	if (!username) { 
+    		console.log('New User?');
+    		//loadintro(); // show reg screen
+    		joinLoginView.setRegMode();
+    	}else{
+    		$("#id_username").val(username);
+    		joinLoginView.setLoginMode();
+    	}
+    
+    });
+    
+
+/*    else {
          username = localStorage.getItem('username');
          init_user();
          console.log("username: " + username); 
-    }
+    } */
 };
 
+var joinLoginView = (function(){
+	var regMode = true, //false will mean login mode
+		updateForm = function(){ 
+			if(regMode){
+				$("#joinTitle").show(); 
+				$("#loginTitle").hide();
+				$("#emailField").show();
+				$("#password2Field").show();
+			}else{
+				$("#joinTitle").hide(); 
+				$("#loginTitle").show();
+				$("#emailField").hide();
+				$("#password2Field").hide();
+			}
+		};
+	
+	return {
+		setRegMode : function(){ regMode = true; updateForm();  },
+		setLoginMode : function(){ regMode = false; updateForm(); },
+		getMode : function(){ if(regMode){ return "registration"; }else{ return "login"; } }
+	};
+}());
+
+$("#joinTitle a").on("click",function(){ joinLoginView.setLoginMode(); return false; });
+$("#loginTitle a").on("click",function(){ joinLoginView.setRegMode(); return false; });
 
 /***********
  * =username pre-save
@@ -95,15 +132,17 @@ function username_filter(){
     // remove previous
     $('.filter-username').remove();
     $('.filter-mentions').remove();
+    $('.filter-logout').remove();
 
     // set html
     var user_opt = '<option value="usernotes" class="filter-username">'+username+'</option>';
     var user_filtername = '<li class="filter-username">'+username+'</li>';
     var user_mentions = '<li class="filter-mentions">@'+username+' mentions</li>';
+    var logout = '<li class="filter-logout">logout</li>';
 
     // append
     $('form#notesmap-filter').find('select').append(user_opt);
-    $('.notesfilter').find('ul').append(user_filtername).append(user_mentions);
+    $('.notesfilter').find('ul').append(user_filtername).append(user_mentions).append(logout);
 }
 
 
@@ -115,20 +154,17 @@ function username_filter(){
  *
 **/
 
-$("form.login").submit(function(event) {
-
-    event.preventDefault(); /* stop form submit action */
-
-    var form = $(this),
+var submitLogin = function(){
+    var form = $("#signup .register"),
         theData = form.serializeArray(),
         url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/login/',
-        $error = $("#signup form.login p.error");
+        $error = $("p.error",form);
 
         $error.hide();
 
     /* Send the data using post */
     console.log(theData);
-    var posting = $.post( url, theData );
+    var posting = $.post( url, [{name:"username",value:$("#id_username").val()},{name:"password",value:$("#id_password1").val()}] );
 
     /* Put the results in a div */
     posting.done( function(data) {
@@ -137,14 +173,14 @@ $("form.login").submit(function(event) {
         $error.show();
 
         if(data.authenticated){
-            $error.text("you're in!");
+            switchpage("notes");
         }else{
             $error.text(data.errors.__all__.join(" "));
         }
 
         console.log(data);
     });
-});
+};
 
 
 
@@ -157,14 +193,22 @@ $("form.login").submit(function(event) {
  *
 **/
 
-$("form.register").submit(function(event) {
-    event.preventDefault(); /* stop form from submitting normally */
+$("form.register").submit(function(e){
+	e.preventDefault();
+	
+	if(joinLoginView.getMode() === "registration"){
+		submitRegistration();
+	}else{
+		submitLogin();
+	}
+});
 
-    var form = $(this),
+var submitRegistration = function(){
+    var form = $("#signup .register"),
         user_name = form.find( 'input[name="username"]' ).val(),
         theData = form.serializeArray(),
         url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/register/',
-        $error = $("#signup form.register p.error");
+        $error = $("p.error",form);
 
     console.log(user_name);
     console.log(theData);
@@ -181,7 +225,7 @@ $("form.register").submit(function(event) {
         console.log('registration response: ');
 
         if(data.status){
-            $error.text("you're registered!");
+            switchpage("notes");
         }else{
             $.each(data.errors,function(i,val){
                 errors += val.join(" ");
@@ -196,8 +240,7 @@ $("form.register").submit(function(event) {
         //  save_username(user_name); 
         // }
     });
-});
-
+}
 
 /***********
  * =session testing
@@ -210,16 +253,24 @@ $("form.register").submit(function(event) {
  *
 **/
 
-$("#session-check").on('click',session_check);
+function session_check(onAuth,onUnauth){
+	onAuth = onAuth || $.noop;
+	onAuth = onUnauth || $.noop;
 
-function session_check(){
     console.log('session check');
     var url = 'http://cycleecarto-cyclee.dotcloud.com/init/';
     var get = $.get(url, function(data) {
       console.log(data);      
       console.log("authenticated: " + data.authenticate);
       console.log("authenticated: " + data.authenticated);
+      
+      
       console.log("username: " + data.user);
+      if(!data.authenticate){ 
+      		onUnauth();
+      }else{
+      		onAuth();
+      }
     });
 };
 

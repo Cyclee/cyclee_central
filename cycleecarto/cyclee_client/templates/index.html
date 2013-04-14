@@ -185,27 +185,17 @@
         </section>
 
         <section id="signup" class="page clearfix">
-            <p class="notify">Join Cyclee</p>
+            <div id="joinTitle"><span class="notify" style="margin-top:0;">Join Cyclee</span> or <a href="#">Login</a></div>
+            <div id="loginTitle" style="display:none;"><span class="notify" style="margin-top:0;">Login</span> or <a href="#">Join Cyclee</a></div>
 
-            <p class="notify">Session Check</p>
-            <p><a id="session-check" href="#" >session check</a></p>
-
-            <p class="notify">Register</p>
+            <!-- p class="notify">Register</p -->
             <form class="register clearfix" method="post" action="">
                 <!-- <input type='hidden' name='csrfmiddlewaretoken' value='' /> -->
 
                 <label for="id_username">Username<em class="required">*</em></label> <input id="id_username" type="text" class="required" name="username" maxlength="30" />
-                <label for="id_email">E-mail<em class="required">*</em></label> <input id="id_email" type="text" class="required" name="email" maxlength="75" />
+                <span id="emailField"><label for="id_email">E-mail<em class="required">*</em></label> <input id="id_email" type="text" class="required" name="email" maxlength="75" /></span>
                 <label for="id_password1">Password<em class="required">*</em></label> <input id="id_password1" type="password" class="required" name="password1" />
-                <label for="id_password2">Password (again)<em class="required">*</em></label> <input id="id_password2" type="password" class="required" name="password2" />
-                <p class="error" style="display:none;"></p>
-                <button type="submit" >Send</button>
-            </form>
-            
-            <p class="notify">Login</p>
-            <form class="login clearfix" method="post" action="">
-                <label for="id_username">Username<em class="required">*</em></label> <input id="id_username" type="text" class="required" name="username" maxlength="30" />
-                <label for="id_password">Password<em class="required">*</em></label> <input id="id_password" type="password" class="required" name="password" />
+                <span id="password2Field"><label for="id_password2">Password (again)<em class="required">*</em></label> <input id="id_password2" type="password" class="required" name="password2" /></span>
                 <p class="error" style="display:none;"></p>
                 <button type="submit" >Send</button>
             </form>
