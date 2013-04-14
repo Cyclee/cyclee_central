@@ -173,6 +173,8 @@ var submitLogin = function(){
         $error.show();
 
         if(data.authenticated){
+        	username = $("#id_username").val();
+        	init_user();
             switchpage("notes");
         }else{
             $error.text(data.errors.__all__.join(" "));
@@ -225,6 +227,8 @@ var submitRegistration = function(){
         console.log('registration response: ');
 
         if(data.status){
+        	username = $("#id_username").val();
+        	init_user();
             switchpage("notes");
         }else{
             $.each(data.errors,function(i,val){
