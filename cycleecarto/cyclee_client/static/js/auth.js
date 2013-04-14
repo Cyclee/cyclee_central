@@ -174,6 +174,7 @@ var submitLogin = function(){
 
         if(data.authenticated){
         	username = $("#id_username").val();
+        	localStorage.username = username;
         	init_user();
             switchpage("notes");
         }else{
