@@ -268,6 +268,75 @@
         <section id="modal">
         </section>
 
+		<section id="commute" class="page">
+			<form id="commute-locations">
+            
+                <section id="thecommutes">
+                    <section class="commute-path template" >
+
+                        <input class="hidden" name="addressquery" placeholder="zipcode" />
+                        <a class="hidden btn" href="#" id="address-lookup">find address</a>
+                    
+                        <fieldset class="commute-location set-location" >                    
+                            <label>Trip</label>
+                        
+                            <select class="commute_geo1">
+                                <option value="-73.9877700805664,40.70042247927176" disabled selected>Select</option>
+                                <option value="-73.9877700805664,40.70042247927176">Brooklyn (Mnhtn/Brklyn Bridge)</option>
+                                <option value="-73.96305084228516,40.71083299030839">Brooklyn (Willsbrg Bridge)</option>
+                                <option value="-73.98931503295898,40.769491796481404">Upper Manhattan (West Side)</option>
+                                <option value="-73.963565826416,40.761560925502806">Upper Manhattan (East Side)</option>
+                                <option value="-73.99068832397461,40.73555143165807">Union Square</option>
+                                <option value="-73.9990997314453,40.72293316385307">Soho</option>
+                                <option value="-73.97953033447266,40.724949645619056">Loisaida</option>
+                                <option value="-73.98940086364746,40.71720862468233">Lower East Side</option>
+                                <option value="-74.01128768920898,40.70852329864894">Wall Street</option>
+                                <option value="-74.01643753051758,40.71122335281536">Battery Park</option>
+                                <option value="-74.00545120239258,40.73321007823572">West Village</option>
+                                <option value="-73.98605346679688,40.75616479199092">Times Sq</option>
+                                <option value="-73.94433975219727,40.75219867966512">Queens</option>
+                                <option value="-73.92562866210938,40.81796653313175">Bronx</option>
+                            </select><br />
+                            <input type="hidden" name="commute_geoA" class="location" placeholder="location" value="-73.9877700805664,40.70042247927176" disabled />
+                            <a href="#" class="hidden entypo btn link_getlocation" >&#127919;<small>Here</small></a>
+                            <a href="#" class="hidden entypo btn link_findlocation" >&#128269;<small>Find</small></a>
+                        </fieldset>
+                        <fieldset class="commute-location set-location" >                    
+
+                            <select class="commute_geo2">
+                                <option value="-73.99068832397461,40.73555143165807" disabled selected>Select</option>
+                                <option value="-73.9877700805664,40.70042247927176">Brooklyn (Mnhtn/Brklyn Bridge)</option>
+                                <option value="-73.96305084228516,40.71083299030839">Brooklyn (Willsbrg Bridge)</option>
+                                <option value="-73.98931503295898,40.769491796481404">Upper Manhattan (West Side)</option>
+                                <option value="-73.963565826416,40.761560925502806">Upper Manhattan (East Side)</option>
+                                <option value="-73.99068832397461,40.73555143165807">Union Square</option>
+                                <option value="-73.9990997314453,40.72293316385307">Soho</option>
+                                <option value="-73.97953033447266,40.724949645619056">Loisaida</option>
+                                <option value="-73.98940086364746,40.71720862468233">Lower East Side</option>
+                                <option value="-74.01128768920898,40.70852329864894">Wall Street</option>
+                                <option value="-74.01643753051758,40.71122335281536">Battery Park</option>
+                                <option value="-74.00545120239258,40.73321007823572">West Village</option>
+                                <option value="-73.98605346679688,40.75616479199092">Times Sq</option>
+                                <option value="-73.94433975219727,40.75219867966512">Queens</option>
+                                <option value="-73.92562866210938,40.81796653313175">Bronx</option>
+                            </select><br />
+
+
+                            <input type="hidden" name="commute_geoB" class="location" placeholder="location" value="-73.99068832397461,40.73555143165807" disabled />
+                            <a href="#" class="hidden entypo btn link_getlocation" >&#127919;<small>Here</small></a>
+                            <a href="#" class="hidden entypo btn link_findlocation" >&#128269;<small>Find</small></a>
+                        </fieldset>
+                    </section>
+                </section>
+
+                <button id="commute-more" disabled class="hidden">+Commute</button>    
+                <button id="commute-save">Save</button>    
+
+                <!-- <p>Trip saved locally, not shared. Free free to choose a nearby intersection rather than your exact address.</p> -->
+            </form>
+
+		</section>
+
 
         <section id="pastebin" >
             <form id="commute-locations">

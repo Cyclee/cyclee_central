@@ -230,7 +230,7 @@ var submitRegistration = function(){
         if(data.status){
         	username = $("#id_username").val();
         	init_user();
-            switchpage("notes");
+            switchpage("commute");
         }else{
             $.each(data.errors,function(i,val){
                 errors += val.join(" ");
