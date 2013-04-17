@@ -1,3 +1,8 @@
+
+var location_reply;
+var location_choose;
+
+
 /***********
  * =nav addnote subnav
  *
@@ -28,15 +33,17 @@ var addnoteform = $('form#addnote_carto');
  * enable UI & user to addnote
  * called when location is set
  *
+ * @deprecated
+ *
 **/
 
 function enable_addnote(msg){
     // var msg = msg; 
     console.log('note location added');
-    addnoteform.find('.location-prompt').hide().removeClass('first-visit').text('Location Ok!').fadeIn('slow').addClass('disabled');
-    addnoteform.find('button').removeClass('disabled');
-    addnoteform.find('button').removeAttr('disabled');
-    $('section.addnote-info').css('opacity','1');
+    // addnoteform.find('.location-prompt').hide().removeClass('first-visit').text('Location Ok!').fadeIn('slow').addClass('disabled');
+    // addnoteform.find('button').removeClass('disabled');
+    // addnoteform.find('button').removeAttr('disabled');
+    // $('section.addnote-info').css('opacity','1');
 
     if (msg) { feedback_msg(msg); }
 };
@@ -57,21 +64,49 @@ function get_dateTime(){
 
 
 /******************************* 
+ * =addnote submit
+ *
+ *
+**/
+
+$('.page').on("click", 'a#post-here', function(){
+    geo_locate2(addnote_submit);
+    // should display animated wait signal
+});
+
+
+/******************************* 
+ * =reply submit
+ *
+ *
+**/
+
+
+$('.page').on("click", 'a#post-reply', function(){
+    addnote_submit(location_reply);
+    // should display animated wait signal
+});
+
+
+
+/******************************* 
  * =addnote form data
  *
  * grab data on form submit. prepare for post.  
  *
  *
 **/
-addnoteform.submit(function() {
-
+// addnoteform.submit(function() {
+function addnote_submit(location) {
+    console.log('addnote_submit()');
+    console.log('location: ' + location);
+    
     var description = $('#noteContent').val();
     description = description.replace(/[']+/gi,''); // apostrophes suck
     // description = escape(description);
-    console.log(description);
+    console.log('note desc: ' + description);
 
     var category = "user note";    
-    var location = $('[name=inputStart]').val();
     var msg = 'Note Added';
 
     if ( send_to_central ){ 
@@ -81,15 +116,9 @@ addnoteform.submit(function() {
         addnote(username,category,description,location,note_single_table,msg,finish_note);
     }
     
-    // check if note was made from pending flag 
-    // is this bullet proof? confirm insert success?
-    if(location == flag_location){
-        console.log('flag updated');        
-        flag_remove(flag_id);
-    }
-    
     return false;
-});
+};
+// });
 
 
 /******************************* 
@@ -102,9 +131,29 @@ addnoteform.submit(function() {
 function finish_note(){
     console.log('finish_note');
     
-    $('.location-prompt').text('Set Location').removeClass('disabled');
+    $('.location-prompt').html('&#171; Set Location').removeClass('disabled');
     $('.addnote-location').show(); // hidden for replies
-    $('section.addnote-info').css('opacity','0.3');
+    $('.addnote-reply').hide(); // shown for replies
+    
+    
+    // $('section.addnote-info').css('opacity','0.3');
     $('#addnote .notify').text('Add a Note');
 }
+
+
+
+/******************************* 
+ * =flags enable
+ *
+ * allow posts by flag location 
+ *
+**/
+
+function flags_enable() {
+    if (user_flags > 0) {
+        $('.link_flaglist').css('display','inline-block');
+    }    
+};
+
+
 

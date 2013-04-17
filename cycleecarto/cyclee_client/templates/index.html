@@ -48,7 +48,7 @@
 
         <section id="notes" class="page" >
             <nav class="clearfix" >
-                <form id="search" ><input type="search" placeholder="search notes" /></form>
+                <form id="search" class="hidden" ><input type="search" placeholder="search notes" /></form>
                 <a id="nav-notesfilter" class="entypo btn firsttime" href="#">&hearts;<!-- eye: &#59146; --><!-- list: &#57349; --><small>View</small></a>
                     <div class="notesfilter">
                         <p style="padding:.25em 4px; font-size:1.2em">View Notes <a class="close entypo" href="#" onclick="$('#nav-notesfilter').click();" >&#10006;</a></p>
@@ -72,10 +72,10 @@
         </section>
 
         <nav id="primary" class="clearfix" >
-            <a id="nav-notes" class="nav-page entypo btn toggle active" href="#">&#59168;<small>Notes</small></a>
-            <a id="nav-addnote" class="nav-page entypo btn toggle" href="#">&#59160;<small>Post</small></a>
-            <a id="nav-people" class="nav-page entypo btn toggle" href="#">&#128101;<small>People</small></a>
-            <a id="nav-notesmap" class="nav-page entypo btn toggle" href="#">&#127758;<small>Map</small></a>
+            <a id="nav-notes" class="nav-page entypo toggle active" href="#">&#59168;<small>Notes</small></a>
+            <a id="nav-addnote" class="nav-page entypo toggle" href="#">&#59160;<small>Post</small></a>
+            <a id="nav-people" class="nav-page entypo toggle" href="#">&#128101;<small>People</small></a>
+            <a id="nav-notesmap" class="nav-page entypo toggle" href="#">&#127758;<small>Map</small></a>
         </nav>
 
         <section id="addnote" class="page" >
@@ -83,45 +83,33 @@
             <p class="notify">Add a Note</p>
             
             <form id="addnote_carto">
-                <section class="addnote-location">
-
-                    <fieldset id="location-start" class="set-location" >
-                        <label for="inputStart" >Set Note Location</label>
-                        <a href="#" class="entypo btn link_getlocation" >&#127919;<small>Here</small></a>
-                        <a href="#" class="entypo btn link_findlocation" >&#128269;<small>Find</small></a>
-                        <a href="#" class="entypo btn link_flaglist" >&#9873;<small>Flag</small></a>
-                        <em class="location-prompt first-visit">Set Location</em>
-                        <input type="hidden" name="inputStart" class="location" placeholder="Address &#187;" disabled />
-                    </fieldset>
-
-                    <fieldset id="location-end" class="set-location" >
-                        <label for="inputEnd" ><strong>&#59239;</strong> Start Location // End Location <strong>&#59236;</strong></label>
-                        <a href="#" class="entypo btn link_getlocation" >&#127919;<small>Here</small></a>
-                        <a href="#" class="entypo btn link_findlocation" >&#128269;<small>Find</small></a>
-                        <a href="#" class="entypo btn link_flaglist" >&#9873;<small>Flag</small></a>
-                        <input disabled type="hidden" id="inputEnd" class="location" name="inputEnd" placeholder="set location &#187;" />
-                        <p>Coming soon? Add notes for a path segment (rather than single location). Help us develop the feature: <a href="http://github.com/cyclee" >github.com/cyclee</a>.</p>
-                    </fieldset>
-
-                    <nav class="clearfix hidden">
-                        <a id="link-path" class="ir" href="#" >..!</a>
-                        <a id="link-location" href="#" class="entypo active" >&#59172;</a>
-                    </nav>
-                </section>
 
                 <section class="addnote-info">
-                    <nav class="clearfix hidden">
-                        <a id="link-addphoto" href="#" class="entypo" >&#128247;</a>
-                        <a id="link-keyboard" href="#" class="entypo active" >&#9000;</a>
-                    </nav>
                     <label for="noteContent" >Note</label>
-                    <button class="disabled" disabled>Go</button>    
                     <textarea id="noteContent" name="noteContent" class="input-info" rows="4" ></textarea>
-                    <div id="tags-container" ></div>    
 
-                        <input id="search-hashtags" class="search" placeholder="search #tags" />
+                    <section class="addnote-location">
+                        <!-- <fieldset id="location-start" class="set-location" > -->
+                            <!-- <label for="inputStart" class="hidden" >Set Note Location</label> -->
+                            <a href="#" id="post-here" class="entypo btn btn-left" >&#127919;<small> Post Here</small></a><a href="#" class="entypo btn btn-right link_location_choose" >&#128269;<small> Choose Location</small></a>
+                            <!-- <a href="#" class="entypo btn link_flaglist" >&#9873;<small> Use Flag</small></a> -->
+                            <!-- <em class="location-prompt first-visit">&#171; Set Location</em> -->
+                            <!-- <input type="text" name="inputStart" class="location debug" placeholder="Address &#187;" disabled /> -->
+                        <!-- </fieldset> -->
+                    </section>
+                    <section class="addnote-reply">
+                        <a href="#" id="post-reply" class="entypo btn" >&#59154;<small> Reply</small></a>
+                    </section>
+                    <!-- <button class="disabled" disabled>Go</button>     -->
+
+                    <a id="tags-toggle" class="closed" ><span class="entypo"><i>&#9656;</i><i style="display:none;">&#9662;</i></span> #hashtags</a>
+                    <div id="tags-container" style="display:none;"></div>    
+                    <div id="search-hash-container" style="display:none;">
+                        <input id="search-hashtags" class="search"  placeholder="search #tags" />
                         <a href="#" class="clearinput entypo" title="press escape">&#10006;</a>
+                    </div>
                         <br style="clear:both"/>
+                        
                 </section>
 
             </form>
@@ -299,7 +287,7 @@
                             </select><br />
                             <input type="hidden" name="commute_geoA" class="location" placeholder="location" value="-73.9877700805664,40.70042247927176" disabled />
                             <a href="#" class="hidden entypo btn link_getlocation" >&#127919;<small>Here</small></a>
-                            <a href="#" class="hidden entypo btn link_findlocation" >&#128269;<small>Find</small></a>
+                            <a href="#" class="hidden entypo btn link_location_choose" >&#128269;<small>Find</small></a>
                         </fieldset>
                         <fieldset class="commute-location set-location" >                    
 
@@ -324,7 +312,7 @@
 
                             <input type="hidden" name="commute_geoB" class="location" placeholder="location" value="-73.99068832397461,40.73555143165807" disabled />
                             <a href="#" class="hidden entypo btn link_getlocation" >&#127919;<small>Here</small></a>
-                            <a href="#" class="hidden entypo btn link_findlocation" >&#128269;<small>Find</small></a>
+                            <a href="#" class="hidden entypo btn link_location_choose" >&#128269;<small>Find</small></a>
                         </fieldset>
                     </section>
                 </section>
@@ -369,7 +357,7 @@
                             </select><br />
                             <input type="hidden" name="commute_geoA" class="location" placeholder="location" value="-73.9877700805664,40.70042247927176" disabled />
                             <a href="#" class="hidden entypo btn link_getlocation" >&#127919;<small>Here</small></a>
-                            <a href="#" class="hidden entypo btn link_findlocation" >&#128269;<small>Find</small></a>
+                            <a href="#" class="hidden entypo btn link_location_choose" >&#128269;<small>Find</small></a>
                         </fieldset>
                         <fieldset class="commute-location set-location" >                    
 
@@ -394,7 +382,7 @@
 
                             <input type="hidden" name="commute_geoB" class="location" placeholder="location" value="-73.99068832397461,40.73555143165807" disabled />
                             <a href="#" class="hidden entypo btn link_getlocation" >&#127919;<small>Here</small></a>
-                            <a href="#" class="hidden entypo btn link_findlocation" >&#128269;<small>Find</small></a>
+                            <a href="#" class="hidden entypo btn link_location_choose" >&#128269;<small>Find</small></a>
                         </fieldset>
                     </section>
                 </section>

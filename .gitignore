@@ -38,3 +38,4 @@ README.rst
 
 # textmate project
 *.tmproj
+*.bak

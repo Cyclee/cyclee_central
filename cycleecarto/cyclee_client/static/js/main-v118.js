@@ -127,8 +127,9 @@ function switchpage(id){
         $('nav#primary').hide();
     }
         
-    // hide filters
+    // hide misc
     $('.notesfilter').hide();
+    $('#modal').hide();
 };
 
 
@@ -232,6 +233,7 @@ function addnote(username,category,description,location,table,msg,callback){
     var sqlInsert ="&q=INSERT INTO "+table+" (username,category,description,the_geom) VALUES('"+ username +"','"+ category +"','"+ description_esc +"',ST_SetSrid(st_makepoint("+ location +"),4326))";
 
     // send data
+    console.log('Post to CartoDB');
     update_carto(sqlInsert,msg,callback);
 
     // check if note was made from pending flag 
@@ -277,7 +279,15 @@ function update_central(category,description,location,msg,callback){
         if (callback){
             console.log('update_central callback');
             var t=setTimeout(function(){ callback() },2000);
-            }     
+            }   
+            
+        // check if note was made from pending flag 
+        // is this bullet proof? confirm insert success?
+        if(location == flag_location){
+            console.log('flag updated');        
+            flag_remove(flag_id);
+        }
+     
     });
 };
 
@@ -294,9 +304,9 @@ function update_central(category,description,location,msg,callback){
 function update_carto(sql,msg,callback){
     
     var theUrl = url_cartoData + cartoKey + sql;
-    console.log('update carto: ' + theUrl);
+    console.log('update carto();');
+    // console.log(theUrl);
 
-    console.log(theUrl);
     $.getJSON(theUrl, function(data){
         // console.log(data);
     })
@@ -456,7 +466,7 @@ function queryCarto(sql_statement){
     var templateNote = $("#notes article.template");
     var query_count;
 
-    console.log(url_query);
+    // console.log(url_query);
     $.getJSON(url_query, function(data){
         console.log(data);
 
@@ -576,6 +586,7 @@ function userFlags(){
     $.getJSON(url_query, function(data){
         user_flags = data.rows[0].count;
         console.log('user_flags: '+ user_flags);
+        flags_enable();
     });      
 }
 
@@ -614,16 +625,14 @@ $('#notes').on( 'click', 'a.replylink', function(){
     // reply @username
     var theContent = '@' + $(this).parents('article').find('img').attr('alt') + ' ';
     $('#noteContent').val(theContent);
+    console.log('reply: '+ theContent);
 
     // reply location
-    var thisgeo = $(this).parents('article').find('.maplink').attr('title'); // .split(",");
-    inputfield = $('#addnote').find('input[name=inputStart]');
-    inputfield.val(thisgeo); // thisgeo[1] +','+ thisgeo[0]);  
+    location_reply = $(this).parents('article').find('.maplink').attr('title');
     
     // ui
-    enable_addnote();
-    $('#addnote .notify').text('Reply to Note');
     $('.addnote-location').hide();
+    $('.addnote-reply').show();
     switchpage('addnote');
     
 });
@@ -945,26 +954,6 @@ function mapInit() {
  * pass the function and a variable (ex: input field)
 **/
 
-// DRY -- should replace use of this with geo_locate2
-function geo_locate(inputfield){
-    console.log('nav geo locate'); 
-    
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(updatePosition,error);        
-    } 
-    else { console.log("Geolocation is not supported by this browser."); }
-
-    function updatePosition(position) {
-        var geolong = position.coords.longitude;
-        var geolat = position.coords.latitude;
-        inputfield.val(geolong +','+ geolat);  
-        
-        var msg = "Location Set";
-        enable_addnote(msg);
-    }
-    
-}
-
 // DRY -- merge with geo_location
 // one requires callback. other requires inputfield. 
 // updatePosition() could be merged with 
@@ -990,19 +979,6 @@ function geo_locate2(callback,vars){
 }
 
 
-/******************************* 
- * =location from browser
- *
- * used by addnote
- * allow use to set note to current location
- *
- *
-**/
-
-$('.page').on("click", 'a.link_getlocation', function(){
-    inputfield = $(this).parent().children('input');
-    geo_locate(inputfield);
-});
 
 
 
@@ -1014,17 +990,17 @@ $('.page').on("click", 'a.link_getlocation', function(){
  * 
  *
 **/
-$('.page').on("click", 'a.link_findlocation', function(){
+$('.page').on("click", 'a.link_location_choose', function(){
     
     inputfield = $(this).parent().children('input');
     
-    var theHTML = '<p class="notify">Drag marker to location.</p><div class="map-buttons" ><a id="locateDone" href="#" >Done</a></div><div id="findmap" class="mapcontainer"></div>';
+    var theHTML = '<p class="notify">Drag marker to location.</p><div class="map-buttons" ><a class="close" href="#">Cancel</a> <a id="location-choose-done" class="hidden" href="#" >Post</a></div><div id="findmap" class="mapcontainer"></div>';
     $('#modal').html(theHTML).removeClass().addClass('modalmap').fadeIn();
-    $('#modal').find('#locateDone').click( function(){
+    $('#modal').find('#location-choose-done').click( function(){
         $(this).parents('#modal').fadeOut(); // function updated on when marker moved
     });
     
-    findlocation_init();
+    location_choose_init();
 
 });
 
@@ -1088,6 +1064,8 @@ $('a.link_flaglist').click( function(){
  * create map with flags
  * allow user to select flag to set note location
  * remember flag to delete on addnote success
+ *
+ * could be integrated with createmap()
  *
 **/
 var flag_id; // delete flag when note added
@@ -1176,106 +1154,6 @@ function flags_delete(){
 
 
 
-
-/***********
- * =hashtags setup
- *  
-**/
-    // eventually, grab top tags from database
-var hash_tags = ['bikelane','co-ride','parkedinlane','rack','thanks','stolen','pothole','biketrain','air','repair','water','danger','pedestrian','crosswalk','police','unsafemerge','unsafeleft','unsaferight','laneends','lanestarts','protectedlane','paintedlane','nolane','shelter','ambassador','bridge','shower','coffee','bikeshare','bikeshop','north','south','east','west','bikenyc'];
-hash_tags = hash_tags.sort();
-    // console.log(hash_tags);
-
-
-/***********
- * =hashtags ui
- *  
- * load hashtags for use with addnote   form
- *  
-**/
-function hashtags_load(){
-    console.log('hashtags load');
-    // add top #hashtags
-    var tags_container = $('#tags-container');
-    $.each( hash_tags, function(i,tag){
-        tags_container.append('<a href="#" >#'+ tag +'</a>');
-    });
-    
-    // no need to load again
-    $('a#nav-addnote').off('click', hashtags_load); 
-    $('#notes').off('click', 'a.replylink', hashtags_load);
-}
-
-
-
-/***********
- * =hashtags selected
- *  
- * add user selected hashtags to addnote textarea
- * mark as selected
- *  
-**/
-$("#tags-container").on("click", "a", function(event){    
-    var thetag = $(this).text();
-    $(this).toggleClass('selected'); // should toggle remove #tag
-    var currentcontent = $('#noteContent').val();
-    currentcontent +=  ' ' + thetag + ' ';
-    currentcontent = currentcontent.replace('  ',' ');
-    $('#noteContent').val(currentcontent);
-});
-
-
-/***********
- * =hashtags search
- *  
- * hide all tags
- * show suggested matches (only includes currently loaded)
- *  
-**/
-$('#search-hashtags').on("keyup", function(e){
-
-    if(e.keyCode === 27){  // escape
-        $('#tags-container').find('a').show(); 
-        $('#search-hashtags').val('');
-        return false;
-        }
-
-    // hide them all
-    $('#tags-container').find('a').hide();
-
-    
-    // reveal matches
-    var search = $('#search-hashtags').val();
-    // console.log('searching: ' + search);
-    $('#tags-container').find('a').each( function(){
-
-        var thetag = $(this).text();
-        var found = thetag.match(search);
-        
-        if (found) { 
-            $(this).show();
-            console.log( 'match: ' + thetag );
-            }
-    });
-    
-});
-
-
-/***********
- * =hashtags search end
- * clear input, show all hashtags 
- *  
-**/
-$('#search-hashtags').blur( function(){
-    var search = $('#search-hashtags').val();
-    if ( search == '' ) {
-        $('.hashtags').find('a').show();
-    }
-    
-});
-
-
-
 /***********
  * =addphoto
  *
@@ -1293,6 +1171,11 @@ $('a#link-addphoto').click( function(){
 
 /***********
  * =create map
+ *
+ * see: a.maplink on articles
+ * see: location_choose_init()
+ *
+ *
  *
 **/
 
@@ -1337,33 +1220,29 @@ function add_marker(m_lat,m_lng) {
 
 
 /***********
- * =findlocation by map: init map
+ * =location_choose by map: init map
  *
  * allows users to drag marker on map to set location
 **/
 
-function findlocation_init() {
+function location_choose_init() {
 
-    // use existing location if available
-    user_location = inputfield.val().split(",");
-    if(user_location[1]) {
-        find_lat = user_location[1];
-        find_lng = user_location[0];
-    } else {
-        find_lat = nyc_lat;
-        find_lng = nyc_lng;        
-    }
+    find_lat = nyc_lat;
+    find_lng = nyc_lng;        
+
+    // should find an idle moment to grab current location for various use
+    // also check if( location_choose ) { /* use this instead; */ }    
 
     createmap('findmap',find_lat,find_lng);
     add_marker_draggable(find_lat,find_lng);
-    
+
 };
 
 
 
 
 /***********
- * findlocation by map: draggable marker
+ * location_choose by map: draggable marker
  *
 **/
 
@@ -1379,28 +1258,33 @@ function add_marker_draggable(m_lat,m_lng) {
       draggable: true
     }).addTo(find_map);
 
-    marker.on('dragend',findlocation_updateValue);
+    marker.on('dragend',location_choose_updateValue);
 }
 
 
 /***********
- * findlocation by map: coords from map marker
+ * location_choose by map: coords from map marker
  *
 **/
 
-function findlocation_updateValue(e){
+function location_choose_updateValue(e){
     // console.log(e.target._latlng.lat);
     var lat = e.target._latlng.lat;
     var lng = e.target._latlng.lng;
-    inputfield.val(lng+','+lat);
+    location_choose = lng+','+lat;
+    console.log('drag: ' + location_choose);
+    
+    if (e) { 
+        $('a#location-choose-done').removeClass('hidden');
+    }
     
     // enable Done button only after user drag
-    var doneButton = $('#modal').find('#locateDone');
-    doneButton.off(); // prevent multiple prompts
-    doneButton.on('click', function(){
+    var doneButton = $('#modal').find('#location-choose-done');
+    doneButton.off(); // prevent multiple triggers
+    doneButton.one('click', function(){
+        console.log('user chose location');
         $(this).parents('#modal').fadeOut();
-        var msg = 'Location Updated';
-        enable_addnote(msg);        
+        addnote_submit(location_choose);        
     });
 }
 
