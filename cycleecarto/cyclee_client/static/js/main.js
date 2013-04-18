@@ -496,20 +496,9 @@ function queryCarto(sql_statement){
             templateN.find('.meta').append('<a class="maplink entypo" href="#" title="'+notegeo+'" >&#59172;</a>');
             templateN.find('img').attr('alt', note.username);
 
-            if ( note.username == 'cyclee') { // cyclee avatar
-                templateN.find('img').attr('src', 'https://en.gravatar.com/avatar/bb499013eebc3869dc8b7b4679fdae10?s=50');
-                }
-            else if ( note.username == 'matthew') {
-                templateN.find('img').attr('src', 'https://en.gravatar.com/avatar/8c1e05ef3a00d4d888c0e8b02fe92743?s=50');
-                }
-            else if ( note.username == 'kim') {
-                templateN.find('img').attr('src', 'https://en.gravatar.com/avatar/1a0587602a97a1d004655ba9fe542c8a?s=50');
-                }
-            else if ( note.username == 'Juanp') {
-                templateN.find('img').attr('src', 'https://en.gravatar.com/avatar/fd33de4f49ba50244e3058c23b14aea3?s=50');
-                }
-            else if ( note.username == 'RowdyRoadRacer') {
-                templateN.find('img').attr('src', 'https://en.gravatar.com/avatar/7a9aa695b0c0f00676a0919ba9648b7b?s=50');
+            // gravatar
+            if ( note.uhash ) { 
+                templateN.find('img').attr('src', 'https://en.gravatar.com/avatar/'+note.uhash+'?s=50&d=mm');
                 }
             else if ( note.username == 'test') {
                 templateN.find('img').attr('src', 'http://cyclee.org/mobile/img/test.png');
