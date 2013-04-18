@@ -21,6 +21,7 @@ function load_user() {
     		joinLoginView.setRegMode();
     	}else{
     		$("#id_username").val(username);
+    		username_filter();
     		joinLoginView.setLoginMode();
     	}
     
@@ -117,7 +118,6 @@ function save_username(username) {
 **/
 function init_user(){  
     username_filter();
-    $('input.username').val(username); // deprecated??
 }
 
 
@@ -266,7 +266,7 @@ function session_check(onAuth,onUnauth){
     var url = 'http://cycleecarto-cyclee.dotcloud.com/init/';
     var get = $.get(url, function(data) {
       console.log(data);      
-      console.log("authenticated: " + data.authenticate);
+      console.log("authenticate: " + data.authenticate);
       console.log("authenticated: " + data.authenticated);
       
       
