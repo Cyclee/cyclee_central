@@ -266,11 +266,13 @@ function update_central(category,description,location,msg,callback){
     console.log('Post to central: ');
     console.log(post_data);
     $.post(url, post_data, function(data) {
-            console.log('Post return: ' + data);
+            console.log('Post return: ');
+            console.log(data);
     }).success(function(){
 
         // return to notes view
         $('a#nav-notes').click();
+        finish_note('clear');
 
         if (msg){
             console.log('msg: ' +msg);
@@ -313,7 +315,7 @@ function update_carto(sql,msg,callback){
     .success(function(e) { 
         console.log('update_carto success');
         console.log(e);
-        addnoteform.find("input, textarea").val("");
+        finish_note('clear');
         
         // return to notes view
         $('a#nav-notes').click();
@@ -327,7 +329,11 @@ function update_carto(sql,msg,callback){
             var t=setTimeout(function(){ callback() },2000);
             }     
     })
-    .error(function() { console.log('update_carto error'); })
+    .error(function() { 
+        console.log('update_carto error'); 
+        msg = 'Sorry. There was an error.'
+        feedback_msg(msg);
+    })
     .complete(function() {  });  
     
 }
@@ -623,9 +629,12 @@ $('#notes').on( 'click', 'a.maplink', function(){
 $('#notes').on( 'click', 'a.replylink', function(){
     
     // reply @username
-    var theContent = '@' + $(this).parents('article').find('img').attr('alt') + ' ';
-    $('#noteContent').val(theContent);
-    console.log('reply: '+ theContent);
+    var replyName = '@' + $(this).parents('article').find('img').attr('alt') + ' ';
+
+    $('#noteContent').val(replyName);
+    $('#addnote p.notify').text('Reply ' + replyName);
+
+    console.log('reply: '+ replyName);
 
     // reply location
     location_reply = $(this).parents('article').find('.maplink').attr('title');
@@ -1172,8 +1181,8 @@ $('a#link-addphoto').click( function(){
 /***********
  * =create map
  *
- * see: a.maplink on articles
- * see: location_choose_init()
+ * @see: a.maplink on articles
+ * @see: location_choose_init()
  *
  *
  *

@@ -122,22 +122,23 @@ function addnote_submit(location) {
 
 
 /******************************* 
- * =cleanup
+ * =finish_note
  *
  * cleanup addnote UI for next note
  *
 **/
 
-function finish_note(){
+function finish_note(clear){
     console.log('finish_note');
     
-    $('.location-prompt').html('&#171; Set Location').removeClass('disabled');
     $('.addnote-location').show(); // hidden for replies
     $('.addnote-reply').hide(); // shown for replies
-    
-    
-    // $('section.addnote-info').css('opacity','0.3');
+
     $('#addnote .notify').text('Add a Note');
+
+    if( clear ){
+        $('#noteContent').val('');
+    }
 }
 
 

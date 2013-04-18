@@ -882,6 +882,7 @@ section.addnote-reply { /* button for reply */
 
 section#addnote form {}
 
+/*
 em.location-prompt {
     font-style:normal;
     color:#f0f;
@@ -895,7 +896,7 @@ em.location-prompt.first-visit {
 em.location-prompt.disabled {
     color:#ccc;
 }
-
+*/
 
 
 fieldset#location-end {
