@@ -12,7 +12,14 @@
  *
 **/
 
+var nyc1 = '-73.99086 40.735031';
+var nyc2 = '-73.989573 40.702244';
+var nyc_lat = 40.7; // nyc default
+var nyc_lng = -73.96; // nyc default
 
+var mycommutes = [];
+var commute_1a;
+var commute_1b;
 
 /***********
  * =commutes: load
@@ -26,7 +33,8 @@ function load_commutes(){
     // load commutes or prep if none
     if (localStorage.mycommutes) {
         mycommutes = $.parseJSON(localStorage.mycommutes);
-        console.log('mycommutes: ' + mycommutes);
+        console.log('mycommutes: ');
+        console.log(mycommutes);
         commute_setpoints();
         commutes_form();
     } else {
@@ -45,6 +53,26 @@ function commute_setpoints(){
 
 
 
+
+/***********
+ * =commutes: prompt
+ *
+ * prompt users to set their commute
+ *
+ * @see: submitRegistration()
+ *
+ * this should be abstracted as a uttility for app
+ *
+**/
+
+function prompt_setcommute(){
+    
+    var footer = '<a href="#" class="notify-footer" onclick="switchpage(\'commute\'); $(this).hide();" >Customize notes to your usual route &#187;</a>';
+    $('#notes').append(footer);
+    
+}
+
+
 /***********
  * =commutes: form
  *
@@ -54,8 +82,10 @@ function commutes_form(){
     // prepare form template
     var commuteTemplate = $('#thecommutes .template');
     
+    console.log('commutes_form');
+    
     // populate form
-    for ( var i=0; i<mycommutes.length; i++) {
+    for ( var i=0; i< mycommutes.length; i++) {
         // duplicates template for each commute pair in memory
         var thisCommute = commuteTemplate.clone();
         
@@ -192,9 +222,13 @@ $('button#commute-save').on('click', function(){
     console.log('saved commute locations');
     
     // notify user
-    $('#settings').find('p#commutes-notice').fadeTo(200, 0.1, function(){
-        $(this).text('Commutes Saved').fadeTo(200, 1.0);  
-    });
+    // $('#settings').find('p#commutes-notice').fadeTo(200, 0.1, function(){
+    //     $(this).text('Commutes Saved').fadeTo(200, 1.0);  
+    // });
+
+    var msg = 'Commute Saved';
+    feedback_msg(msg);
+    switchpage('notes'); // this needs a delay
 
     return false;
 });

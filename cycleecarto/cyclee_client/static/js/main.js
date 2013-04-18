@@ -45,15 +45,6 @@ var url_cartoMap = 'https://'+account_name+'.cartodb.com/tables/' // + ?_table+'
     // sql= for embed_map
     // q= for json & geojson
 
-var nyc1 = '-73.99086 40.735031';
-var nyc2 = '-73.989573 40.702244';
-var nyc_lat = 40.7; // nyc default
-var nyc_lng = -73.96; // nyc default
-
-var mycommutes = [];
-var commute_1a;
-var commute_1b;
-
 
 var user_location;
 var inputfield;

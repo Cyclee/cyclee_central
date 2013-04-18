@@ -228,9 +228,11 @@ var submitRegistration = function(){
         console.log('registration response: ');
 
         if(data.status){
+            console.log(data);
         	username = $("#id_username").val();
         	init_user();
-            switchpage("commute");
+            prompt_setcommute();
+            $('#nav-notes').click();
         }else{
             $.each(data.errors,function(i,val){
                 errors += val.join(" ");
@@ -239,7 +241,6 @@ var submitRegistration = function(){
         }
 
 
-        console.log(data);
         
         // if ( registration successful ) { 
         //  save_username(user_name); 
