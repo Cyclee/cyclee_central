@@ -73,7 +73,7 @@ var theUrl = url_cartoData + cartoKey + sql;
 var note_single_table = 'route_flags';
 """
 
-carto_table = settings.CARTO_TABLE
+carto_table = settings.CARTODB_TABLE
 
 def cartodb_add_note(sender, instance=None, **kwargs):
     # get the values from the new Note instance
