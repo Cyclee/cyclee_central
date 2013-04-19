@@ -11,7 +11,7 @@ from django.core.cache import cache
 from django.db.models.signals import post_save
 
 import settings
-from cartoapp.tasks import cartodb_add_note_task
+from cartoapp.tasks import cartodb_add_note_task, note_save
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -43,6 +43,12 @@ class Note(models.Model):
     accuracy = models.FloatField(default=0)
 
     objects = models.GeoManager()
+
+    def save(self, *args, **kwargs):
+        if len(args) == 0 and kwargs == {}:
+            note_save.delay(self)
+        else:
+            super(models.Model, self).save(*args, **kwargs)            
 
     def address(self):
         ''' use openstreetmap reverse geocoder 
