@@ -12,6 +12,7 @@ from django.template.response import TemplateResponse
 from django.contrib.sites.models import get_current_site
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth.forms import AuthenticationForm
+import django.contrib.auth.views
 from registration.backends import get_backend
 
     
@@ -25,7 +26,7 @@ def init(request):
     if request.user.is_authenticated():
         ret = dict(authenticated=True, user=request.user.username)
     else:
-        ret = dict(authenticate=False, message='User needs to register or login')
+        ret = dict(authenticated=False, message='User needs to register or login')
     request.session['init'] = True
     # This bit of code adds the CSRF bits to your request.
     c = RequestContext(request)
@@ -182,7 +183,18 @@ def login(request, template_name='registration/m_login.html',
     return TemplateResponse(request, template_name, context,
                             current_app=current_app)
 
+def logout(request):
+    # logout user
+    django.contrib.auth.views.logout(request)
 
+    # check if still authenticated
+    if request.user.is_authenticated():
+        ret = dict(authenticated=True, user=request.user.username)
+    else:
+        ret = dict(authenticated=False, message='User needs to register or login')
+
+    return HttpResponse(json.dumps(ret), content_type="application/json")
+    
 
 def hello_view(request):
     """ Simple Hello World View """

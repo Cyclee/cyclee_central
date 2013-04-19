@@ -22,8 +22,7 @@ urlpatterns = patterns('',
 
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='cyclee.login'),
     url(r'^m/accounts/login/$', views.login, name='cyclee.m_login'),
-
-
+    url(r'^m/accounts/logout/$', views.logout, name='cyclee.m_logout'),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cartoapp/', include('cartoapp.urls')),
