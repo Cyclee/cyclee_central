@@ -1,0 +1,50 @@
+#notes{
+  marker-fill: #FF6600;
+  marker-opacity: 0.8;
+  marker-allow-overlap: true;
+  marker-placement: point;
+  marker-type: ellipse;
+  marker-width: 12;
+  marker-line-width: 1;
+  marker-line-color: #FFF;
+  marker-line-opacity: 0.8;
+
+  [category='event'] {
+    marker-fill:#9861E0;
+  }
+  [category='user note'] {
+    marker-fill:#F2AE37;
+  }
+  [category='alert'] {
+    marker-fill:#FF0000;
+  }
+  [category='co-ride'] {
+    marker-fill:#ff00ff;
+    marker-width:16;
+  }
+  [category='bike shop'] {
+    marker-fill:#66ff66;
+  }
+  
+}
+
+
+
+#rides{
+  line-width: 2;
+  line-color: #ff00ff;
+  line-opacity: 0.4;
+  line-comp-op: multiply;
+}
+
+#ride_traces{
+  marker-fill: #ff00ff;
+  marker-opacity: 0.7;
+  marker-allow-overlap: true;
+  marker-placement: point;
+  marker-type: ellipse;
+  marker-width: 12;
+  marker-line-width: 1;
+  marker-line-color: #FFF;
+  marker-line-opacity: 0.7;
+}
