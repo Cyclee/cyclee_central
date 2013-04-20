@@ -1,3 +1,4 @@
+var username;
 
 /***********
  * =user load
@@ -8,10 +9,13 @@
  *
 **/
 function load_user() {
-    
+
+    if( localStorage.username ) {
+        username = localStorage.username;
+    }
+
     //check to see if we have an active session.
     session_check(undefined,function(){
-    	var username = localStorage.getItem('username');
     
     	switchpage('signup');
     
@@ -253,28 +257,25 @@ var submitRegistration = function(){
  *
  * check if user is logged in on launch
  *
- * note: this has not been tested. might not be set up correctly.
- *
- *
  *
 **/
 
 function session_check(onAuth,onUnauth){
 	onAuth = onAuth || $.noop;
-	onAuth = onUnauth || $.noop;
+	//onAuth = onUnauth || $.noop;
 
     console.log('session check');
     var url = 'http://cycleecarto-cyclee.dotcloud.com/init/';
     var get = $.get(url, function(data) {
       console.log(data);      
-      console.log("authenticate: " + data.authenticate);
       console.log("authenticated: " + data.authenticated);
-      
-      
       console.log("username: " + data.user);
-      if(!data.authenticate){ 
+
+      if(!data.authenticated){ 
+            console.log('!data.authenticated')
       		onUnauth();
       }else{
+            console.log('data.authenticated')
       		onAuth();
       }
     });
