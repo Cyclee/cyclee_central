@@ -11,6 +11,15 @@
 
 
 /***********
+ * =cartoDB ride vars
+ *
+**/
+
+var ride_trace_table = 'ride_traces';
+var ride_table = 'rides';
+
+
+/***********
  * =ride
  *
 **/
@@ -144,8 +153,8 @@ function trace_carto(lati,longi) {
 
         var gpsTimestamp ="now()";
 
-        var sqlInsert ="&q=INSERT INTO gps_traces(gps_timestamp,ride_id,trace_id,username,the_geom) VALUES("+ gpsTimestamp +","+ rideID +","+ trace_count +",'"+ username +"',ST_SetSrid(st_makepoint("+ longi +","+ lati +"),4326))";
-        var theUrl = url_cartoData + cartoKey + sqlInsert;
+        var sqlInsert ="&q=INSERT INTO "+ride_trace_table+"(gps_timestamp,ride_id,trace_id,username,the_geom) VALUES("+ gpsTimestamp +","+ rideID +","+ trace_count +",'"+ username +"',ST_SetSrid(st_makepoint("+ longi +","+ lati +"),4326))";
+        var theUrl = url_cartoData + cartodb_key + sqlInsert;
         console.log('trace to carto: ');
         console.log(theUrl);
 
@@ -166,8 +175,8 @@ function trace_line() {
     console.log('trace_line');
     if (!send_to_central) { 
 
-        var sqlInsert = "&q=INSERT INTO rides(the_geom,username,ride_id) SELECT ST_Multi(ST_MakeLine(traces.the_geom)) as the_geom,'"+ username +"' as username,"+ rideID +" as ride_id FROM (SELECT the_geom, username FROM gps_traces WHERE username='"+ username +"' AND ride_id="+ rideID +") as traces";
-        var theUrl = url_cartoData + cartoKey + sqlInsert;
+        var sqlInsert = "&q=INSERT INTO "+ride_table+"(the_geom,username,ride_id) SELECT ST_Multi(ST_MakeLine(traces.the_geom)) as the_geom,'"+ username +"' as username,"+ rideID +" as ride_id FROM (SELECT the_geom, username FROM "+ride_trace_table+" WHERE username='"+ username +"' AND ride_id="+ rideID +") as traces";
+        var theUrl = url_cartoData + cartodb_key + sqlInsert;
 
         $.getJSON(theUrl, function(data){
             console.log("Line written to Carto for RideID: " + rideID ); 

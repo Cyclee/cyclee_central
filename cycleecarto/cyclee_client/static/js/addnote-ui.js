@@ -113,7 +113,7 @@ function addnote_submit(location) {
         update_central(category,description,location,msg,finish_note); 
     }
     else {
-        addnote(username,category,description,location,note_single_table,msg,finish_note);
+        addnote(username,category,description,location,notes_table,msg,finish_note);
     }
     
     return false;

@@ -6,6 +6,8 @@
 **/
 
 
+
+
 /******************************* 
  * Dev & Debugging
  *
@@ -13,7 +15,9 @@
  *              = false = app > cartoDB
  *
 **/
-var send_to_central = true; // true = send to django rather than directly to cartoDB
+var send_to_central = false; // true = send to django rather than directly to cartoDB
+if( send_to_central ) { console.log('Post to Central'); }
+else { console.log('Post to CartoDB'); }
 
 
 
@@ -28,19 +32,24 @@ var height = $(window).height();
 var username;
 
 // setup CartoDB
-var account_name = 'ideapublic';
-var cartoKey = "api_key=7302db3d477047e379af83c1987573e043022fe4"; 
+var cartodb_accountname = 'cyclee';
+var cartodb_key = "api_key=d336362b5599c0e0fbcad0f6610b06d88e537e45"; 
+var notes_table = 'notes';
+var routes_table = 'routes';
+var pending_table = 'notes_pending';
 
-var note_single_table = 'route_flags';
-// var routes_table = 'pimp_my_ride';
-var routes_table = 'route_paths';
-var pending_table = 'pending_notes';
+// old CartoDB
+    // cartodb_accountname = 'ideapublic';
+    // cartodb_key = "api_key=7302db3d477047e379af83c1987573e043022fe4"; 
+    // notes_table = 'route_flags';
+    // routes_table = 'route_paths';
+    // pending_table = 'pending_notes';
 
 var dist_route = 1000; // distance of routes to relevant commutes
 var dist_note = 1000; // distance of notes to relevant commutes
 
-var url_cartoData = 'http://'+account_name+'.cartodb.com/api/v2/sql/?';
-var url_cartoMap = 'https://'+account_name+'.cartodb.com/tables/' // + ?_table+'/embed_map?';
+var url_cartoData = 'http://'+cartodb_accountname+'.cartodb.com/api/v2/sql/?';
+var url_cartoMap = 'https://'+cartodb_accountname+'.cartodb.com/tables/' // + ?_table+'/embed_map?';
     // note!!
     // sql= for embed_map
     // q= for json & geojson
@@ -218,7 +227,7 @@ function addnote(username,category,description,location,table,msg,callback){
 
     // if table not specific, use default
     var table = table;
-    if ( !table ) { table = note_single_table; }
+    if ( !table ) { table = notes_table; }
     
     var description_esc = escape(description);
     var sqlInsert ="&q=INSERT INTO "+table+" (username,category,description,the_geom) VALUES('"+ username +"','"+ category +"','"+ description_esc +"',ST_SetSrid(st_makepoint("+ location +"),4326))";
@@ -296,7 +305,7 @@ function update_central(category,description,location,msg,callback){
 
 function update_carto(sql,msg,callback){
     
-    var theUrl = url_cartoData + cartoKey + sql;
+    var theUrl = url_cartoData + cartodb_key + sql;
     console.log('update carto();');
     // console.log(theUrl);
 
@@ -370,7 +379,7 @@ $('#nav-notes').click( function(){
  *
 **/
 function getNotes(start,finish){     
-    var sql_statement = "q=WITH foo AS (SELECT ST_Collect(the_geom) g FROM "+routes_table+" WHERE ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+start+")'), "+dist_route+")) AND ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+finish+")'), "+dist_route+")) ) SELECT * FROM "+note_single_table+", foo WHERE ST_Intersects(ST_Buffer(the_geom::geography,"+dist_note+"), g::geography) ORDER BY created_at DESC LIMIT " + notes_limit;
+    var sql_statement = "q=WITH foo AS (SELECT ST_Collect(the_geom) g FROM "+routes_table+" WHERE ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+start+")'), "+dist_route+")) AND ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+finish+")'), "+dist_route+")) ) SELECT * FROM "+notes_table+", foo WHERE ST_Intersects(ST_Buffer(the_geom::geography,"+dist_note+"), g::geography) ORDER BY created_at DESC LIMIT " + notes_limit;
     queryCarto(sql_statement);
 }
 
@@ -383,7 +392,7 @@ function getNotes(start,finish){
 **/
 function nearNotes(lat,long){ 
     var location = lat + ' ' + long;
-    var sql_statement = "q=SELECT * FROM "+note_single_table+" WHERE ST_DWithin(ST_GeographyFromText('POINT("+ location +")'), the_geom, "+dist_note+") ORDER BY created_at DESC LIMIT " + notes_limit;
+    var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE ST_DWithin(ST_GeographyFromText('POINT("+ location +")'), the_geom, "+dist_note+") ORDER BY created_at DESC LIMIT " + notes_limit;
     queryCarto(sql_statement);
 }
 
@@ -395,7 +404,7 @@ function nearNotes(lat,long){
  *
 **/
 function userNotes(){ 
-    var sql_statement = "q=SELECT * FROM "+note_single_table+" WHERE username='"+username+"' ORDER BY created_at DESC LIMIT 50";
+    var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE username='"+username+"' ORDER BY created_at DESC LIMIT 50";
     queryCarto(sql_statement);
 }
 
@@ -407,7 +416,7 @@ function userNotes(){
  *
 **/
 function userMentions(){ 
-    var sql_statement = "q=SELECT * FROM "+note_single_table+" WHERE description LIKE '%25%40"+username+"%25' ORDER BY created_at DESC LIMIT 17";
+    var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE description LIKE '%25%40"+username+"%25' ORDER BY created_at DESC LIMIT 17";
     queryCarto(sql_statement);
 }
 
@@ -419,7 +428,7 @@ function userMentions(){
  *
 **/
 function searchNotes(search){ 
-    var sql_statement = "q=SELECT * FROM "+note_single_table+" WHERE lower(description) LIKE '%25"+search+"%25' ORDER BY created_at DESC LIMIT 17";
+    var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE lower(description) LIKE '%25"+search+"%25' ORDER BY created_at DESC LIMIT 17";
     queryCarto(sql_statement);
 }
 
@@ -431,7 +440,7 @@ function searchNotes(search){
  *
 **/
 function allNotes(){ 
-    var sql_statement = "q=SELECT * FROM "+note_single_table+" ORDER BY created_at DESC LIMIT " + notes_limit;
+    var sql_statement = "q=SELECT * FROM "+notes_table+" ORDER BY created_at DESC LIMIT " + notes_limit;
     queryCarto(sql_statement);
 }
 
@@ -457,7 +466,8 @@ function queryCarto(sql_statement){
 
     var url_query = url_cartoData + notes_format + sql_statement;
 
-    // console.log(url_query);
+    console.log('url_query: ');
+    console.log(url_query);
 
     var output = [];
     var templateNote = $("#notes article.template");
@@ -738,7 +748,7 @@ function queryPeople(){
     // run once only
     $('#nav-people').off('click',queryPeople);     
 
-    var sql_statement = "q=WITH foo AS (SELECT ST_Collect(the_geom) g FROM "+routes_table+" WHERE ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+commute_1a+")'), "+dist_route+")) AND ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+commute_1b+")'), "+dist_route+")) ), foobar AS (SELECT * FROM "+note_single_table+", foo WHERE ST_Intersects(ST_Buffer(the_geom::geography,"+dist_note+"), g::geography)) SELECT username FROM foobar GROUP BY username LIMIT " + people_limit;
+    var sql_statement = "q=WITH foo AS (SELECT ST_Collect(the_geom) g FROM "+routes_table+" WHERE ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+commute_1a+")'), "+dist_route+")) AND ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+commute_1b+")'), "+dist_route+")) ), foobar AS (SELECT * FROM "+notes_table+", foo WHERE ST_Intersects(ST_Buffer(the_geom::geography,"+dist_note+"), g::geography)) SELECT username FROM foobar GROUP BY username LIMIT " + people_limit;
     var url_query = url_cartoData + sql_statement;
 
     var people = [];
@@ -912,7 +922,8 @@ function mapInit() {
         attribution: 'MapBox'
       }).addTo(map);
 
-      var layerUrl = 'http://ideapublic.cartodb.com/api/v1/viz/12114/viz.json';
+      //var layerUrl = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/12114/viz.json';
+      var layerUrl = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/notes/viz.json';
 
       var layerOptions = {
         // query: "SELECT * FROM {{table_name}}",
@@ -1077,7 +1088,8 @@ function flag_map(inputfield) {
           attribution: 'MapBox'
         }).addTo(map);
 
-        var layerUrl = 'http://ideapublic.cartodb.com/api/v1/viz/18299/viz.json'; // pending_table
+        // var layerUrl = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/18299/viz.json'; // pending_table
+        var layerUrl = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/notes_pending/viz.json'; // pending_table
 
         var layerOptions = {
           query: "SELECT * FROM {{table_name}} WHERE username='"+username+"'",
@@ -1414,4 +1426,5 @@ $('body').on('keyup',function(e){
 
 // $('a#nav-ride').click(); // goto onload
 // $('.debug').show(); //
+// prompt_setcommute();
 

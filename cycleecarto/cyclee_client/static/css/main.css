@@ -57,12 +57,9 @@ textarea {
 *
 **/
 
-.cyclee-blue { 
-	    color:rgb(214,226,238);
-	color:rgb(226,232,238);
-	    color:rgb(168,186,204);
-	color:rgb(180,192,204);
-	    color:rgb(117,135,153);
+.cyclee-blue {  
+	color:rgb(226,232,238); /* replaced: rgb(214,226,238);*/
+	color:rgb(180,192,204); /* replaced: rgb(168,186,204);*/
 	color:rgb(117,135,153);
 	color:rgb(78,90,102);
 	color:rgb(31,44,51);
@@ -1313,3 +1310,4 @@ textarea[contenteditable] {
 #signup p.error {
 	color:red;
 }
+
