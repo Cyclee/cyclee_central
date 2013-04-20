@@ -20,7 +20,7 @@ class OpenStreetMap(Geocoder):
         self.format_string = format_string
         self.url = "http://nominatim.openstreetmap.org/reverse.php?format=json&%s" #lat=40.6728&lon=-73.9789
 
-    def reverse(self, point):
+    def reverse(self, point, default='', format_string="%(road)s, %(suburb)s, %(state)s %(postcode)s"):
         try:
             geo = "lat=%(y)s&lon=%(x)s" % dict(x=point.x, y=point.y)
             url = self.url % geo
@@ -28,9 +28,9 @@ class OpenStreetMap(Geocoder):
             results = json.loads(fp.read())
             logger.info(results)
             address = results['address']
-            result = "%(road)s, %(suburb)s, %(state)s %(postcode)s" % address
+            result = format_string % address
 
             return result #results.get('display_name', point)
         except Exception as exc:
             logger.info(exc)
-            return str(point)
+            return default

@@ -11,7 +11,7 @@ from django.core.cache import cache
 from django.db.models.signals import post_save
 
 import settings
-from cartoapp.tasks import cartodb_add_note_task, note_save
+from cartoapp.tasks import cartodb_add_note, cartodb_add_note_task, note_save
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -47,17 +47,21 @@ class Note(models.Model):
     def save(self, *args, **kwargs):
         if len(args) == 0 and kwargs == {}:
             note_save.delay(self)
+            cartodb_add_note.delay(self)
         else:
             super(models.Model, self).save(*args, **kwargs)            
 
-    def address(self):
+    def address(self, format_string=''):
         ''' use openstreetmap reverse geocoder 
         if the point is not found in the cache
         '''
         ret = cache.get(str(self.the_geom))
         if ret is None:
             g = OpenStreetMap()
-            ret = g.reverse(self.the_geom)
+            if format_string == '':
+                ret = g.reverse(self.the_geom, default=str(self.the_geom))
+            else:
+                ret = g.reverse(self.the_geom, format_string=format_string)
             cache.set(str(self.the_geom), ret)
         return ret
     address.short_description = 'Address'
@@ -81,7 +85,7 @@ var note_single_table = 'route_flags';
 
 carto_table = settings.CARTODB_TABLE
 
-def cartodb_add_note(sender, instance=None, **kwargs):
+def cartodb_add_note_handler(sender, instance=None, **kwargs):
     # get the values from the new Note instance
     note = instance
     try:
@@ -90,13 +94,14 @@ def cartodb_add_note(sender, instance=None, **kwargs):
         logger.error('User profile not found: %s' % note.user)
         avatar = ''
 
-    sql_insert = "INSERT INTO %(table)s (username,category,description,the_geom,uhash) VALUES('%(username)s', '%(category)s', '%(description)s', ST_SetSrid(st_makepoint(%(the_geom)s),4326), '%(uhash)s' )" % \
+    sql_insert = "INSERT INTO %(table)s (username,category,description,the_geom,uhash,address) VALUES('%(username)s', '%(category)s', '%(description)s', ST_SetSrid(st_makepoint(%(the_geom)s),4326), '%(uhash)s', '%(address)s' )" % \
     dict(table=carto_table,
          username=note.user.username,
          category=note.category,
          description=note.description,
          the_geom="%s, %s" % (note.the_geom.x, note.the_geom.y),
-         uhash=avatar)
+         uhash=avatar,
+         address=note.address(format_string='%(road)s'))
 
     sql_insert_urlencoded = urlencode(dict(q=sql_insert))
     
@@ -109,4 +114,4 @@ def cartodb_add_note(sender, instance=None, **kwargs):
     # send it with celery
     cartodb_add_note_task.delay(url_carto_data)
 
-post_save.connect(cartodb_add_note, sender=Note)
+# post_save.connect(cartodb_add_note_handler, sender=Note)
