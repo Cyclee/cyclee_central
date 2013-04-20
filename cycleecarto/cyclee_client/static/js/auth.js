@@ -252,6 +252,20 @@ var submitRegistration = function(){
     });
 }
 
+
+/***********
+ * =logout
+ *
+**/
+function submitLogout(){
+    console.log('logout');
+    var url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/logout/';
+    var get = $.get(url, function(data) {
+    });
+};
+
+
+
 /***********
  * =session testing
  *

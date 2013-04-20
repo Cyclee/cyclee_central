@@ -15,7 +15,7 @@
  *              = false = app > cartoDB
  *
 **/
-var send_to_central = false; // true = send to django rather than directly to cartoDB
+var send_to_central = true; // true = send to django rather than directly to cartoDB
 if( send_to_central ) { console.log('Post to Central'); }
 else { console.log('Post to CartoDB'); }
 
@@ -29,7 +29,6 @@ else { console.log('Post to CartoDB'); }
 
 var height = $(window).height();
 
-var username;
 
 // setup CartoDB
 var cartodb_accountname = 'cyclee';
@@ -87,19 +86,6 @@ load_user();
 var splash = $('#splash');
 splash.css('height',height).delay(1800).fadeOut('slow');
 
-
-/***********
- * =feedback msg 
- *  
- * alert notice
- *
-**/
-
-function feedback_msg(msg){
-    var theHTML = msg;
-    var modal = $('#modal');
-    modal.hide().removeClass().addClass('msg').html(theHTML).fadeIn().delay('2500').fadeOut('slow');
-}
 
 
 /***********
@@ -1385,46 +1371,4 @@ $('a.clearinput').on("click", function(){
     
 });
 
-
-/******************************* 
- * =error msg
-**/
-
-function error(msg) {
-
-  errormsg = typeof msg == 'string' ? msg : "dang. failed.";
-  console.log(errormsg);
-  
-}
-
-
-/******************************* 
- * =mobile hide browser bar
-**/
-
-window.scrollTo(0,1);
-
-
-/******************************* 
- * debugging keys
-**/
-
-$('body').on('keyup',function(e){
-    if( e.which == 192 ){ 
-        console.log('tilda'); 
-        switchpage('signup');
-        
-        
-    }
-//   console.log(e.type + ': ' +  e.which );
-});
-
-
-/******************************* 
- * debugging
-**/
-
-// $('a#nav-ride').click(); // goto onload
-// $('.debug').show(); //
-// prompt_setcommute();
 
