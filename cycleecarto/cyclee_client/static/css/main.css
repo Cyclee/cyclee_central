@@ -706,9 +706,9 @@ section#notes {
 article {
     clear:both;
     background:white;
-    min-height:50px;
+    min-height:75px;
     margin:.5em 0px 1em;
-    padding:.75em 14px 1.25em 7px;
+    padding:.75em 14px 1.5em 0;
     border-radius:2px;
     box-shadow:1px 1px 5px rgba(0, 0, 0, 0.2);
 }
@@ -717,52 +717,62 @@ article img {
     display:inline-block; float:left;
     height:50px; width:50px;
     background:#eee;
-    margin:4px 10px 10px 0;
+    margin:0 10px 10px 0;
 }
 article p {
-    margin:0 20px 0 70px;
+    margin:0 25px 0 65px;
     line-height:1.5em;
 }
 article p+p { margin-top:1em; }
 
 article em {
-    text-transform:lowercase;
-    font-variant:small-caps;
+    display:block;
+    padding:0;
+    margin:0 20px .25em 0;
+    font-size:1.5em;
     font-style:normal;
-    background:rgb(117,135,153);	
-    color:white;
-    font-size:.9em;
     line-height:1em;
-    padding:0 3px 1px;
-    margin-right:.25em;
-    border-radius:2px;
+    color:black; 
 }
-article em.username {
-    color:rgb(31,44,51); 
-    background:rgb(226,232,238);
+article em:not(.username) {
+    color:#f0f;
+/*    background:rgba(255,0,255,0.2);*/
+}
+article time {
+    font-size:.8em;
+    text-transform:uppercase;
+    color:rgba(0,0,0,0.5);
+    white-space:nowrap;
+    
+/*    display:none;*/
 }
 
 
 article div.meta {
     text-align:right;
     float:right;
-}
-article time {
-    font-size:.8em;
-    text-transform:uppercase;
-    color:rgba(0,0,0,0.5);
-    display:none;
+    margin:0 -14px 0 0;
 }
 article div.meta a.entypo { 
+    display:block;
     font-size:2.5em;
-    margin:0 0 0 8px; padding:0 4px; 
+    text-align:center;
+    margin:0 0 .25em; 
+    padding:0 4px; 
     vertical-align:-3px;
-    color:rgba(0,0,0,0.2);
+    color:rgb(117,135,153); background:rgb(226,232,238);
+    color:white; background:rgb(180,192,204);
+    border-radius:0;
 }
 article div.meta a.entypo:hover, 
 article div.meta a.entypo:active { 
     color:white;
     background:#f0f;
+}
+
+article img,
+article div.meta {
+    margin-top:4px;
 }
 
 
@@ -870,7 +880,7 @@ section.addnote-info {
 section.addnote-location { /* buttons for here and choose */
     margin-bottom:1em;
 }
-section.addnote-reply { /* button for reply */
+section.addnote-reply { /* submit button for reply */
     display:none;
     margin-bottom:1em;
 }
@@ -1009,9 +1019,9 @@ section#people {
     color:black;
 }
 #tags-toggle:hover { 
-    background:none; 
-    color:black; 
-    text-decoration:underline;
+    background:rgba(255,0,255,0.2); 
+    color:black;
+    cursor:pointer; 
 }
 #tags-toggle:active {
     background:black;

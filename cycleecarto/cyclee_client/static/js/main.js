@@ -481,15 +481,17 @@ function queryCarto(sql_statement){
             var dateTime = moment(dateTime).fromNow();
 
             templateN.find('p').html(note.description);
+            templateN.find('p').append(' <time>'+dateTime+'</time>');
+            
             if ( note.category != 'user note') { 
-                templateN.find('p').prepend('<em>' + note.category + '</em>');
+                templateN.find('p').prepend('<em class="'+note.category+'">' + note.category + '</em>');
                 }
             else {
                 templateN.find('p').prepend('<em class="username">' + note.username + '</em>');                
             }
-            templateN.find('time').text(dateTime);
-            templateN.find('.meta').prepend('<a href="#" class="replylink entypo" >&#59154;</a>');
-            templateN.find('.meta').append('<a class="maplink entypo" href="#" title="'+notegeo+'" >&#59172;</a>');
+            templateN.find('.meta')
+                .append('<a class="maplink entypo" href="#" title="'+notegeo+'" >&#59172;</a>')
+                .append('<a href="#" class="replylink entypo" >&#59154;</a>');
             templateN.find('img').attr('alt', note.username);
 
             // gravatar
