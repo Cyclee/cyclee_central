@@ -3,20 +3,20 @@ var location_reply;
 var location_choose;
 
 
-/***********
- * =nav addnote subnav
- *
- * @deprecated -- subnav within addnotes
- *
- *
-**/
-$('#addnote nav a').click( function(){
-    $(this).parent().children('a').removeClass('active');
-    $(this).toggleClass('active');
-});
-$('.addnote-location nav a').click( function(){
-    $('#location-end').fadeToggle();
-});
+// /***********
+//  * =nav addnote subnav
+//  *
+//  * @deprecated -- subnav within addnotes
+//  *
+//  *
+// **/
+// $('#addnote nav a').click( function(){
+//     $(this).parent().children('a').removeClass('active');
+//     $(this).toggleClass('active');
+// });
+// $('.addnote-location nav a').click( function(){
+//     $('#location-end').fadeToggle();
+// });
 
 
 
@@ -27,26 +27,26 @@ $('.addnote-location nav a').click( function(){
 var addnoteform = $('form#addnote_carto');
 
 
-/******************************* 
- * =addnote enable
- * 
- * enable UI & user to addnote
- * called when location is set
- *
- * @deprecated
- *
-**/
-
-function enable_addnote(msg){
-    // var msg = msg; 
-    console.log('note location added');
-    // addnoteform.find('.location-prompt').hide().removeClass('first-visit').text('Location Ok!').fadeIn('slow').addClass('disabled');
-    // addnoteform.find('button').removeClass('disabled');
-    // addnoteform.find('button').removeAttr('disabled');
-    // $('section.addnote-info').css('opacity','1');
-
-    if (msg) { feedback_msg(msg); }
-};
+// /******************************* 
+//  * =addnote enable
+//  * 
+//  * enable UI & user to addnote
+//  * called when location is set
+//  *
+//  * @deprecated
+//  *
+// **/
+// 
+// function enable_addnote(msg){
+//     // var msg = msg; 
+//     console.log('note location added');
+//     // addnoteform.find('.location-prompt').hide().removeClass('first-visit').text('Location Ok!').fadeIn('slow').addClass('disabled');
+//     // addnoteform.find('button').removeClass('disabled');
+//     // addnoteform.find('button').removeAttr('disabled');
+//     // $('section.addnote-info').css('opacity','1');
+// 
+//     if (msg) { feedback_msg(msg); }
+// };
 
 
 
