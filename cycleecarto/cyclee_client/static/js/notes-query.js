@@ -157,7 +157,7 @@ function queryCarto(sql_statement){
             templateN.find('p').append(' <time>'+dateTime+'</time>');
 
             if ( note.address ) { 
-                templateN.find('p').append('<address>' + note.address + '</address>');
+                templateN.find('p').append('<address>near ' + note.address + '</address>');
                 }
 
             if ( note.category != 'user note') { 

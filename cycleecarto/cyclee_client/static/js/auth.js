@@ -12,6 +12,7 @@ function load_user() {
 
     if( localStorage.username ) {
         username = localStorage.username;
+        username_filter();
     }
 
     //check to see if we have an active session.
@@ -24,8 +25,6 @@ function load_user() {
     		//loadintro(); // show reg screen
     		joinLoginView.setRegMode();
     	}else{
-    		$("#id_username").val(username);
-    		username_filter();
     		joinLoginView.setLoginMode();
     	}
     
@@ -147,6 +146,9 @@ function username_filter(){
     // append
     $('form#notesmap-filter').find('select').append(user_opt);
     $('.notesfilter').find('ul').append(user_filtername).append(user_mentions).append(logout);
+
+    // add to login/reg form
+	$("#id_username").val(username);
 }
 
 
