@@ -72,8 +72,10 @@ $('#notesmap form').change( function(){
  * set up map on first view
  *
 **/
-$('body').one('click','#nav-notesmap', function(){ // delegated to body to preserve order
-    mapInit();
+$('body').one('click','#nav-notesmap', function(){
+    // is map broken?
+    // this must come after other things tied to #nav-notesmap
+    mapInit(); 
 });
 
 

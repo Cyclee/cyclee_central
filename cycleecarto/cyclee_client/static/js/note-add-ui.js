@@ -90,38 +90,6 @@ $('.page').on("click", 'a#post-reply', function(){
 
 
 /******************************* 
- * =addnote form data
- *
- * grab data on form submit. prepare for post.  
- *
- *
-**/
-// addnoteform.submit(function() {
-function addnote_submit(location,msg) {
-    console.log('addnote_submit()');
-    console.log('msg: ' + msg);
-    console.log('location: ' + location);
-    
-    var description = $('#noteContent').val();
-    description = description.replace(/[']+/gi,''); // apostrophes suck
-    console.log('note desc: ' + description);
-
-    var category = "user note";    
-    if (!msg) { msg = 'Note Added'; }
-
-    if ( send_to_central ){ 
-        update_central(category,description,location,msg,finish_note); 
-    }
-    else {
-        addnote(username,category,description,location,notes_table,msg);
-    }
-    
-    return false;
-};
-// });
-
-
-/******************************* 
  * =finish_note
  *
  * cleanup addnote UI for next note
