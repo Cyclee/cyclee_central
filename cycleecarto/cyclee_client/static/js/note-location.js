@@ -47,6 +47,10 @@ $('#flag-link').click( function(){
 function flag_carto(location){
     console.log('flag: ' + location);
     var msg = 'Location Flagged. Add a Note Later.';
+    
+
+    // this should not trigger return to home screen
+    // also should be sending to cyclee_central
     addnote(username,'pending','',location,pending_table,msg); // no callback
 }
 
