@@ -39,9 +39,6 @@ window.scrollTo(0,1);
 $('body').on('keyup',function(e){
     // console.log(e.which); 
     if( e.which == 192 ){ // backtick
-        switchpage('signup');
-    }
-    if( e.which == 81 ){ // Q for quit
         submitLogout();
         switchpage('signup');
     }

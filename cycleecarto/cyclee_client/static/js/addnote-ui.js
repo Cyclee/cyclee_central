@@ -70,7 +70,7 @@ function get_dateTime(){
 **/
 
 $('.page').on("click", 'a#post-here', function(){
-    geo_locate2(addnote_submit);
+    geo_locate2(addnote_submit,'Note Added Here');
     // should display animated wait signal
 });
 
@@ -83,7 +83,7 @@ $('.page').on("click", 'a#post-here', function(){
 
 
 $('.page').on("click", 'a#post-reply', function(){
-    addnote_submit(location_reply);
+    addnote_submit(location_reply,'Reply Added');
     // should display animated wait signal
 });
 
@@ -97,23 +97,23 @@ $('.page').on("click", 'a#post-reply', function(){
  *
 **/
 // addnoteform.submit(function() {
-function addnote_submit(location) {
+function addnote_submit(location,msg) {
     console.log('addnote_submit()');
+    console.log('msg: ' + msg);
     console.log('location: ' + location);
     
     var description = $('#noteContent').val();
     description = description.replace(/[']+/gi,''); // apostrophes suck
-    // description = escape(description);
     console.log('note desc: ' + description);
 
     var category = "user note";    
-    var msg = 'Note Added';
+    if (!msg) { msg = 'Note Added'; }
 
     if ( send_to_central ){ 
         update_central(category,description,location,msg,finish_note); 
     }
     else {
-        addnote(username,category,description,location,notes_table,msg,finish_note);
+        addnote(username,category,description,location,notes_table,msg);
     }
     
     return false;
@@ -142,19 +142,6 @@ function finish_note(clear){
 }
 
 
-
-/******************************* 
- * =flags enable
- *
- * allow posts by flag location 
- *
-**/
-
-function flags_enable() {
-    if (user_flags > 0) {
-        $('.link_flaglist').css('display','inline-block');
-    }    
-};
 
 
 

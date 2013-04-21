@@ -15,7 +15,7 @@
  *              = false = app > cartoDB
  *
 **/
-var send_to_central = true; // true = send to django rather than directly to cartoDB
+var send_to_central = false; // true = send to django rather than directly to cartoDB
 if( send_to_central ) { console.log('Post to Central'); }
 else { console.log('Post to CartoDB'); }
 
@@ -210,6 +210,7 @@ $('#nav-notes').on('click',function(){
 **/
 
 function addnote(username,category,description,location,table,msg,callback){
+    console.log('addnote_carto');
 
     // if table not specific, use default
     var table = table;
@@ -218,16 +219,16 @@ function addnote(username,category,description,location,table,msg,callback){
     var description_esc = escape(description);
     var sqlInsert ="&q=INSERT INTO "+table+" (username,category,description,the_geom) VALUES('"+ username +"','"+ category +"','"+ description_esc +"',ST_SetSrid(st_makepoint("+ location +"),4326))";
 
+    // check if note was made from pending flag 
+    // is this bullet proof? confirm on insert success?
+    if(location == flag_location){
+        flag_used = flag_id;
+    }
+    else { flag_used = ''; }
+
     // send data
-    console.log('Post to CartoDB');
     update_carto(sqlInsert,msg,callback);
 
-    // check if note was made from pending flag 
-    // is this bullet proof? confirm insert success?
-    if(location == flag_location){
-        console.log('flag updated');        
-        flag_remove(flag_id);
-    }
         
 } // END addnote
 
@@ -267,12 +268,11 @@ function update_central(category,description,location,msg,callback){
         if (callback){
             console.log('update_central callback');
             var t=setTimeout(function(){ callback() },2000);
-            }   
+            }
             
         // check if note was made from pending flag 
-        // is this bullet proof? confirm insert success?
         if(location == flag_location){
-            console.log('flag updated');        
+            console.log('flag used');        
             flag_remove(flag_id);
         }
      
@@ -291,8 +291,8 @@ function update_central(category,description,location,msg,callback){
 
 function update_carto(sql,msg,callback){
     
-    var theUrl = url_cartoData + cartodb_key + sql;
     console.log('update carto();');
+    var theUrl = url_cartoData + cartodb_key + sql;
     // console.log(theUrl);
 
     $.getJSON(theUrl, function(data){
@@ -305,7 +305,7 @@ function update_carto(sql,msg,callback){
         
         // return to notes view
         $('a#nav-notes').click();
-        
+
         if (msg){
             console.log('msg: ' +msg)
             feedback_msg(msg);
@@ -313,7 +313,13 @@ function update_carto(sql,msg,callback){
         if (callback){
             console.log('update_carto callback')
             var t=setTimeout(function(){ callback() },2000);
-            }     
+            }
+            
+        if( flag_used != '' ){
+            console.log('flag_used');
+            flag_used = ''; // clear it
+            flag_remove(flag_id);
+        }
     })
     .error(function() { 
         console.log('update_carto error'); 
@@ -452,7 +458,7 @@ function queryCarto(sql_statement){
 
     var url_query = url_cartoData + notes_format + sql_statement;
 
-    console.log('url_query: ');
+    console.log('url_query');
     console.log(url_query);
 
     var output = [];
@@ -641,9 +647,11 @@ $('#nav-notesfilter').click(function(){
 
 
 /***********
- * =filter notes UI select
+ * =filter notes by user select
  *
  * user selects option: mentions, location, etc
+ * mark active on list
+ * load notes
  *
 **/
 $('.notesfilter').on('click', 'li', function(){
@@ -911,10 +919,9 @@ function mapInit() {
       }).addTo(map);
 
       //var layerUrl = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/12114/viz.json';
-      var layerUrl = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/notes/viz.json';
+      var layerUrl = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/'+notes_table+'/viz.json';
 
       var layerOptions = {
-        // query: "SELECT * FROM {{table_name}}",
         // tile_style: "#{{table_name}}{marker-fill: #F84F40; marker-width: 8; marker-line-color: white; marker-line-width: 2; marker-clip: false; marker-allow-overlap: true;} "
         query: "SELECT * FROM {{table_name}} WHERE category='bike shop'",
         interactivity: "username,description,category"
@@ -939,12 +946,8 @@ function mapInit() {
  * grab current location
  * run a function
  *
- * pass the function and a variable (ex: input field)
 **/
 
-// DRY -- merge with geo_location
-// one requires callback. other requires inputfield. 
-// updatePosition() could be merged with 
 function geo_locate2(callback,vars){
 
     console.log('nav geo locate 2'); 
@@ -1023,94 +1026,73 @@ function flag_carto(location){
 
 
 /***********
- * =flag map UI
- *
- * show map of flags
- * allow user to select flag to set note location
- *
-**/
-$('a.link_flaglist').click( function(){
-    
-    inputfield = $(this).parent().children('input');
-    
-    var prompt = 'No Flags Yet. <a href="#" class="close" onclick="switchpage(\'help\');">Help</a>';
-    if (user_flags > 0) { prompt = 'Select Your Flag'; }
-    
-    var theHTML = '<p class="notify">'+prompt+'</p><div class="map-buttons" ><a class="close" href="#" >Cancel</a><a id="deleteflags" class="hidden" href="#" >Delete All</a></div><div id="mapflags" class="mapcontainer"></div>';
-    $('#modal').html(theHTML).removeClass().addClass('modalmap').fadeIn();
-    
-    $('a#deleteflags').on('click',flags_delete);
-    
-    flag_map(inputfield);
-
-});
-
-
-/***********
- * =flag map
+ * =location choose by flag
  *
  * create map with flags
  * allow user to select flag to set note location
  * remember flag to delete on addnote success
  *
- * could be integrated with createmap()
  *
 **/
 var flag_id; // delete flag when note added
 var flag_location; // confirm match before deleting on +note
-function flag_map(inputfield) {
-    
-      console.log('flags map');
+var flag_used; // queue for remove
 
-        // initiate leaflet map
-        map = new L.Map('mapflags', { 
-          center: [40.72,-73.97],
-          cartodb_logo: false,
-          zoom: 11,
-          maxZoom: 15
-        })
 
-        var basemap = 'https://dnv9my2eseobd.cloudfront.net/v3/cartodb.map-pp0tkn8d/{z}/{x}/{y}.png'; // mapbox light
+function location_choose_flags() {
+    console.log('addflags');
 
-        L.tileLayer(basemap, {
-          attribution: 'MapBox'
-        }).addTo(map);
+    var layer2Url = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/'+pending_table+'/viz.json'; // pending_table
+    var layer2Options = {
+      query: "SELECT * FROM {{table_name}} WHERE username='"+username+"'",
+      tile_style: "#{{table_name}}{marker-fill: #ff00ff; marker-width: 24; marker-line-color: white; marker-line-width: 2; marker-clip: false; marker-allow-overlap: true;} "
+      
+    }
 
-        // var layerUrl = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/18299/viz.json'; // pending_table
-        var layerUrl = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/notes_pending/viz.json'; // pending_table
+    // create layer of flags
+    cartodb.createLayer(find_map, layer2Url, layer2Options)
+        .on('done', function(layer) {
+            find_map.addLayer(layer);
+            //console.log(layer);
 
-        var layerOptions = {
-          query: "SELECT * FROM {{table_name}} WHERE username='"+username+"'",
-        }
+            // set info window
+            var msg = 'Note Added at Flag';
+            var button = '<button onclick="location_selected(flag_location,\''+msg+'\'); return false;">Drop Note Here</button>';
+            layer.infowindow.set('template', button);
 
-        cartodb.createLayer(map, layerUrl, layerOptions)
-          .on('done', function(layer) {
-            map.addLayer(layer);
+            // add layer
+            layers.push(layer);
             
-            console.log(layer);
-            console.log(layer._map._layers);
-
-            layers.push(layer);            
+            // on flag click
             layer.on('featureClick', function(e, latlng, pos, data){
-                console.log('flag clicked: ' + data.cartodb_id);
-
-                // remember flag
+                // remember flag & location
                 flag_id = data.cartodb_id;
+                console.log('flag clicked: ' + flag_id);
                 flag_location = latlng[1] +','+ latlng[0];
+            })
 
-                // prep note
-                inputfield.val(flag_location); // 
-                var msg = 'Flag selected. Add your Note.';
-                enable_addnote(msg);
+        }).on('error', function(e) {
+            console.log('snap. carto error.');
+            console.log(e);
+        });
 
-                })
-            
-          }).on('error', function() {
-              console.log('snap. carto error');
-          });
-    
 }
 
+
+/***********
+ * =location_selected 
+ *
+ * post note at user selected location
+ * @see location_choose_flags()
+ * @see location_choose_updatevalue
+ *
+**/
+function location_selected(location,msg){
+    // console.log(msg);
+    // console.log(location);
+    $('#modal').fadeOut();
+    addnote_submit(location,msg);
+};
 
 
 
@@ -1123,7 +1105,8 @@ function flag_map(inputfield) {
 **/
 function flag_remove(flag_id){    
     var sqlDelete = "&q=DELETE FROM " +pending_table+ " WHERE cartodb_id="+flag_id;
-    update_carto(sqlDelete);
+    var msg = 'Note Added at Flag';
+    update_carto(sqlDelete,msg);
 }
 
 
@@ -1140,21 +1123,6 @@ function flags_delete(){
     var msg = 'Flags Deleted';
     update_carto(sqlDelete,msg);
 }
-
-
-
-/***********
- * =addphoto
- *
- * not currently in use
- *
-**/
-$('a#link-addphoto').click( function(){
-    // change feedback_msg(msg,sticky);
-    var theHTML = '<a class="close" href="#" >&#10006;</a><p class="notify">Photos coming soon. Help us develop the feature: <a href="http://github.com/cyclee" >github.com/cyclee</a>.</p>';
-    $('#modal').html(theHTML).removeClass().addClass('addphoto').addClass('msg').fadeIn();
-});
-
 
 
 
@@ -1224,10 +1192,30 @@ function location_choose_init() {
 
     createmap('findmap',find_lat,find_lng);
     add_marker_draggable(find_lat,find_lng);
+    location_choose_flags();
+
 
 };
 
 
+
+/******************************* 
+ * =flags enable
+ *
+ * allow posts by flag location 
+ *
+**/
+var findloc_dragprompt = 'Drag to Location';
+
+function flags_enable() {
+    if (user_flags > 0) {
+        //console.log('user has flags');
+        findloc_dragprompt = 'Drag to Location or click a Flag';
+    }
+    else {
+        findloc_dragprompt = 'Drag to Location';
+    }
+};
 
 
 /***********
@@ -1247,7 +1235,22 @@ function add_marker_draggable(m_lat,m_lng) {
       draggable: true
     }).addTo(find_map);
 
+    var latlng = new L.LatLng(m_lat,m_lng);
+    var pop_options = { closeButton:false, offset:new L.Point(0,-20), };
+    var popup = L.popup(pop_options)
+        .setLatLng(latlng)
+        .setContent('<p class="drag-prompt">'+findloc_dragprompt+'</p>')
+        .openOn(find_map);
+    
+    marker.on('dragstart',function(e){
+        console.log('dragtart');
+        //marker.closePopup();
+        popup._close();
+        // $('.leaflet-popup').hide();
+        
+        });
     marker.on('dragend',location_choose_updateValue);
+        
 }
 
 
@@ -1256,25 +1259,41 @@ function add_marker_draggable(m_lat,m_lng) {
  *
 **/
 
+var location_choose; 
 function location_choose_updateValue(e){
-    // console.log(e.target._latlng.lat);
+    //console.log(e.target);
+
+    var latlng = e.target._latlng;
     var lat = e.target._latlng.lat;
     var lng = e.target._latlng.lng;
     location_choose = lng+','+lat;
-    console.log('drag: ' + location_choose);
+    // console.log('drag: ' + latlng);
+    // console.log('drag: ' + location_choose);
     
-    if (e) { 
-        $('a#location-choose-done').removeClass('hidden');
-    }
+    var msg = 'Note Added at Location';
+    var html = '<button onclick="location_selected(location_choose,\''+msg+'\'); return false;">Drop Note Here</button>';
+    
+    var pop_options = { closeButton:false, offset:new L.Point(0,0), };
+    var popup = L.popup()
+        .setLatLng(latlng)
+        .setContent(html)
+        .openOn(find_map);
+    
+        // $('a#location-choose-done').removeClass('hidden');
+        $('.leaflet-popup').fadeIn();        
+        $('.leaflet-popup-content-wrapper').addClass('nobubble');
+        $('.leaflet-popup-tip').addClass('nobubble');
+        
     
     // enable Done button only after user drag
-    var doneButton = $('#modal').find('#location-choose-done');
-    doneButton.off(); // prevent multiple triggers
-    doneButton.one('click', function(){
-        console.log('user chose location');
-        $(this).parents('#modal').fadeOut();
-        addnote_submit(location_choose);        
-    });
+    // var doneButton = $('#modal').find('#location-choose-done');
+    // var doneButton = $('#findmap').find('#drag-submit');
+    // doneButton.off(); // prevent multiple triggers
+    // doneButton.one('click', function(){
+    //     console.log('drag location selected: ' + location_choose);
+    //     $(this).parents('#modal').fadeOut();
+    //     //   addnote_submit(location_choose);        
+    // });
 }
 
 

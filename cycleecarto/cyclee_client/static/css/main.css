@@ -417,7 +417,7 @@ form#commute-locations select {
     position:absolute;
     text-align:center;
     color:white;
-    z-index:1010;
+    z-index:10002;
 }
 
 #modal.msg {
@@ -533,6 +533,40 @@ section#notesmap form#notesmap-filter {
 
 form#notesmap-filter select {
     /* should this be full width above the map?? */
+}
+
+
+/***********
+ * =map window popup
+ *
+**/
+
+.cartodb-infowindow button,
+.leaflet-popup button {
+ position:relative;
+ top:-1.5em;
+ margin-top:0;
+ font-size:1.25em;
+}
+.leaflet-popup button {
+ top:-.5em;
+}
+.leaflet-popup-pane {}
+.leaflet-popup {}
+.leaflet-popup .drag-prompt {
+    font-size:1.25em;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    color:black;
+}  
+.leaflet-popup-content-wrapper.nobubble,
+.leaflet-popup-tip.nobubble {
+  
+    background:none !important;
+     box-shadow:none !important;
+     
 }
 
 
@@ -918,10 +952,10 @@ fieldset#location-end {
     padding:4px;
 }
 
-a.btn.link_flaglist {
+/*a.btn.link_flaglist {
     display:none;
 }
-
+*/
     /* =addnote links */
 
 section#addnote nav a,
