@@ -473,7 +473,6 @@ function queryCarto(sql_statement){
 
         // write notes
         $.each(data.features, function(key, val) { // geojson
-            // $.each(data.rows, function(key, val) { // json
 
             var note = val.properties;
             var notegeo = val.geometry.coordinates;
@@ -488,7 +487,11 @@ function queryCarto(sql_statement){
 
             templateN.find('p').html(note.description);
             templateN.find('p').append(' <time>'+dateTime+'</time>');
-            
+
+            if ( note.address ) { 
+                templateN.find('p').append('<address>' + note.address + '</address>');
+                }
+
             if ( note.category != 'user note') { 
                 templateN.find('p').prepend('<em class="'+note.category+'">' + note.category + '</em>');
                 }
@@ -600,6 +603,13 @@ $('#notes').on( 'click', 'a.maplink', function(){
     add_marker(thisgeo[1],thisgeo[0]);
 
 });
+
+// address click triggers map link
+$('#notes').on('click','address', function(){
+    console.log('address click');
+    $(this).parents('article').find('a.maplink').click();
+});
+
 
 
 /***********
@@ -1175,7 +1185,6 @@ function add_marker(m_lat,m_lng) {
 
 
 
-
 /***********
  * =location_choose by map: init map
  *
@@ -1283,113 +1292,11 @@ function location_choose_updateValue(e){
         $('.leaflet-popup').fadeIn();        
         $('.leaflet-popup-content-wrapper').addClass('nobubble');
         $('.leaflet-popup-tip').addClass('nobubble');
-        
-    
-    // enable Done button only after user drag
-    // var doneButton = $('#modal').find('#location-choose-done');
-    // var doneButton = $('#findmap').find('#drag-submit');
-    // doneButton.off(); // prevent multiple triggers
-    // doneButton.one('click', function(){
-    //     console.log('drag location selected: ' + location_choose);
-    //     $(this).parents('#modal').fadeOut();
-    //     //   addnote_submit(location_choose);        
-    // });
+
 }
 
 
 
 
-/***********
- * =cookie: grab cookie
- *
-**/
-
-// function getCookie(name) {
-//     var cookieValue = null;
-//     if (document.cookie && document.cookie != '') {
-//         var cookies = document.cookie.split(';');
-//         console.log('cookies...');
-//         console.log(cookies);
-//         for (var i = 0; i < cookies.length; i++) {
-//             var cookie = jQuery.trim(cookies[i]);
-//             // Does this cookie string begin with the name we want?
-//             if (cookie.substring(0, name.length + 1) == (name + '=')) {
-//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-//                 break;
-//             }
-//         }
-//     }
-//     return cookieValue;
-// }
-// var csrftoken = getCookie('csrftoken');
-
-
-/***********
- * =cookie: add to outgoing headers
- *
-**/
-
-// function csrfSafeMethod(method) {
-//     // these HTTP methods do not require CSRF protection
-//     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-// }
-// 
-// function djangosetup() {
-//         console.log('send to dotcloud');
-//         var csrftoken = getCookie('sessionid');
-//         
-//     $.ajaxSetup({
-//         // crossDomain: false, // obviates need for sameOrigin test
-//         beforeSend: function(xhr, settings) {
-//             if (!csrfSafeMethod(settings.type)) {
-//                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
-//             }
-//         }
-//     });
-// }
-
-
-
-/******************************* 
- * =feedback email
- * 
- * obfuscate email address
- * 
- * 
-**/
-
-$('#nav-settings').on('click',doaddress);
-
-function doaddress(){    
-    var e2 = 'k@c';
-    var e1 = 'feedbac';
-    var e3 = 'yclee.org';
-    var e4 = e1 + e2 + e3;
-    $('.feedback-addy').html(e4).attr('href','mailto:'+e4);   
-    $('#nav-settings').off('click',doaddress);
-}
-
-
-
-
-/***********
- * =utilitiy
- *
-**/
-
-$('.firsttime').click( function(){ 
-    $(this).removeClass('firsttime');
-    })
-
-$('#modal').on("click", 'a.close', function(){ // binds to future elements
-    console.log('closed');
-    $(this).parents('#modal').fadeOut();
-});
-
-$('a.clearinput').on("click", function(){
-    $(this).parent().children('input').val('');
-    $('#search-hashtags').keyup();
-    
-});
 
 

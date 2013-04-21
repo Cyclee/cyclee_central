@@ -772,13 +772,12 @@ article em:not(.username) {
     color:#f0f;
 /*    background:rgba(255,0,255,0.2);*/
 }
-article time {
+article time,
+article address {
     font-size:.8em;
     text-transform:uppercase;
     color:rgba(0,0,0,0.5);
     white-space:nowrap;
-    
-/*    display:none;*/
 }
 
 

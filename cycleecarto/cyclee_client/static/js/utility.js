@@ -31,6 +31,48 @@ function error(msg) {
 window.scrollTo(0,1);
 
 
+/***********
+ * =utilitiy
+ *
+**/
+
+$('.firsttime').click( function(){ 
+    $(this).removeClass('firsttime');
+    })
+
+$('#modal').on("click", 'a.close', function(){ // binds to future elements
+    console.log('closed');
+    $(this).parents('#modal').fadeOut();
+});
+
+$('a.clearinput').on("click", function(){
+    $(this).parent().children('input').val('');
+    $('#search-hashtags').keyup();
+    
+});
+
+
+/******************************* 
+ * =feedback email
+ * 
+ * obfuscate email address
+ * 
+ * 
+**/
+
+$('#nav-settings').on('click',doaddress);
+
+function doaddress(){    
+    var e2 = 'k@c';
+    var e1 = 'feedbac';
+    var e3 = 'yclee.org';
+    var e4 = e1 + e2 + e3;
+    $('.feedback-addy').html(e4).attr('href','mailto:'+e4);   
+    $('#nav-settings').off('click',doaddress);
+}
+
+
+
 
 /******************************* 
  * debugging keys
