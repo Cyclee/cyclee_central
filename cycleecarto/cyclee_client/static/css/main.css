@@ -77,6 +77,7 @@ section#splash {
    z-index:20001;
    top:0; width:100%; 
    height:600px; /* resized via js */
+   height:100%;
    text-align:center;
    background:rgb(31,44,51); /* blue dark */
 }
@@ -85,6 +86,19 @@ section#splash img {
 }
 
 
+
+
+/**************
+ * =layout
+ *
+**/
+
+#wrap {
+    position:fixed;
+    width:100%; height:100%;
+    margin:0; padding:0; border:0;
+    overflow:auto;
+    }
 
 
 /**************
@@ -148,8 +162,14 @@ body {
     font-family: 'Roboto', Arial, sans-serif, 'entypo';
     font-weight:100;
     background: url('../img/bkg.jpg') repeat fixed center center;   
-    padding-top:38px; /* for menu */ 
+    margin:0; padding:0;
+    padding-top:50px; /* for menu. set precisly by init.js */ 
+    overflow:hidden; /* bugfix. attempt to prevent focus on fields from shifting viewport. */
+    /* background:lime;  for debugging damn bug. */
 }
+
+
+
 
 a,
 a:visited {
@@ -218,7 +238,11 @@ nav#header {
     width:100%;
     padding:.75em 0 .5em;
     background:rgb(31,44,51); /* blue dark */
-    border-bottom:1px solid #f0f;
+
+    /* bugfix: padding on body after form field focus*/
+    border:4px solid rgb(31,44,51); 
+    border-width:0 4px;
+    margin:0 -4px;
 }
 
 nav#header a#nav-ride,
@@ -454,8 +478,8 @@ form#commute-locations select {
 **/
 
 .mapcontainer {
-    width:99%; 
-    height:95%; 
+    width:100%; 
+    height:100%; 
     margin:0;
     }    
 
@@ -500,27 +524,12 @@ form#commute-locations select {
 /***********
 * =notesmap
 *
+* @see .flush{}
+* @see setheight()
+*
 **/
 
-section#notesmap { 
-    height:99%;
-    padding:5px 0;
-    padding:0;
-    margin:15px 0 0;
-    box-shadow:none;
-}
 
-div#map.mapcontainer { /* should this just be modalmap as well? */
-    height:510px; /* should sniff this for both div#map and modal */
-    }
-
-/*div#map,
-iframe#thenotesmap {
-    height:510px;
-    width:99%;
-    margin:0;
-}
-*/
 section#notesmap form#notesmap-filter {
     position:absolute;
     top:20px;
@@ -578,18 +587,19 @@ form#notesmap-filter select {
 section.page {
     position:relative; /* catch floats */
     background:white;
-    margin:22px 10px;
+    margin:20px 10px;
     min-height:350px;
-    padding:10px 10px 35px;
+    padding:10px 10px 20px;
     display:none;
     border-radius:2px;
     box-shadow:1px 1px 5px rgba(0, 0, 0, 0.3);
 }
 
-
-#ride img {
-    display:block; 
-    margin:0 auto;
+section.page.flush {
+    padding:0;
+    margin:1px 0 0; /* android bug? requires top:1px */
+    box-shadow:none;
+    border-radius:0;
 }
    
 
@@ -735,6 +745,7 @@ section#notes {
     background:none;
     box-shadow:none;
     padding:0 0 25px;
+    margin-top:0;
 }
  
 article {
@@ -743,8 +754,8 @@ article {
     min-height:75px;
     margin:.5em 0px 1em;
     padding:.75em 14px 1.5em 0;
-    border-radius:2px;
-    box-shadow:1px 1px 5px rgba(0, 0, 0, 0.2);
+    border-radius:1px;
+    box-shadow:1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 #people article { clear:none; }
 article img {
@@ -1114,6 +1125,11 @@ section#people {
     text-align:center;
     }
 
+#ride img {
+    display:block; 
+    margin:0 auto;
+}
+
 
 /***********
  * =clock
@@ -1353,4 +1369,7 @@ textarea[contenteditable] {
 #signup p.error {
 	color:red;
 }
+
+
+
 

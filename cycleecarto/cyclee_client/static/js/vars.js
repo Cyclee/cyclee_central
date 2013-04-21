@@ -18,6 +18,7 @@ else { console.log('Post to CartoDB'); }
 **/
 
 var height = $(window).height();
+var width = $(window).width();
 
 
 // setup CartoDB

@@ -1,50 +1,57 @@
 <!DOCTYPE html>
 <!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
 <!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="HandheldFriendly" content="True">
-        <meta name="MobileOptimized" content="320">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        
-        <meta http-equiv="cleartype" content="on">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <meta http-equiv="cleartype" content="on">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/touch/apple-touch-icon-144x144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/touch/apple-touch-icon-114x114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/touch/apple-touch-icon-72x72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="/static/img/touch/apple-touch-icon-57x57-precomposed.png">
-        <link rel="shortcut icon" href="/static/img/touch/apple-touch-icon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/touch/apple-touch-icon-144x144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/touch/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/touch/apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/static/img/touch/apple-touch-icon-57x57-precomposed.png">
+    <link rel="shortcut icon" href="/static/img/touch/apple-touch-icon.png">
 
-        <!-- For iOS web apps. Delete if not needed. https://github.com/h5bp/mobile-boilerplate/issues/94 -->
-        <!--
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        -->
+    <!-- For iOS web apps. Delete if not needed. https://github.com/h5bp/mobile-boilerplate/issues/94 -->
+    <!--
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    -->
 
-        <!-- This script prevents links from opening in Mobile Safari. https://gist.github.com/1042026 -->
-        <!--
-        <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
-        -->
+    <!-- This script prevents links from opening in Mobile Safari. https://gist.github.com/1042026 -->
+    <!--
+    <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
+    -->
 
-        <link rel="stylesheet" href="/static/css/normalize.css">
-        <link rel="stylesheet" href="/static/css/main.css?v001">
-        <script src="/static/js/vendor/modernizr-2.6.1.min.js"></script>
-    </head>
-    <body>
-        <nav id="header" class="clearfix" >
-            <a id="nav-logo" class="ir" href="#">Cyclee</a>
-            <a id="nav-ride" class="nav-page toggle" href="#">Ride &#187;</a>
-            <a id="nav-ride-back" class="hidden" href="#">&#171; Notes</a>
-            <span class="nav-toggle nav-back">&#59229;</span>
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="/static/css/main.css?v001">
+    <script src="/static/js/vendor/modernizr-2.6.1.min.js"></script>
+</head>
+<body>
+    <nav id="header" class="clearfix" >
+        <a id="nav-logo" class="ir" href="#">Cyclee</a>
+        <a id="nav-ride" class="nav-page toggle" href="#">Ride &#187;</a>
+        <a id="nav-ride-back" class="hidden" href="#">&#171; Notes</a>
+        <span class="nav-toggle nav-back">&#59229;</span>
+    </nav>
+    <section id="splash" >
+        <img alt="Cyclee" src="/static/img/cyclee-logo@3x.png" />
+    </section>
+    
+    <div id="wrap">
+
+        <nav id="primary" class="clearfix" >
+            <a id="nav-notes" class="nav-page entypo toggle active" href="#">&#59168;<small>Notes</small></a>
+            <a id="nav-addnote" class="nav-page entypo toggle" href="#">&#59160;<small>Post</small></a>
+            <a id="nav-notesmap" class="nav-page entypo toggle" href="#">&#127758;<small>Map</small></a>
         </nav>
-
-        <section id="splash" >
-            <img alt="Cyclee" src="/static/img/cyclee-logo@3x.png" />
-        </section>
 
         <section id="notes" class="page" >
             <nav class="clearfix" >
@@ -70,13 +77,6 @@
                 <p><strong>Welcome to Cyclee!</strong> A network connection is required to view the latest notes.<br /><br /><a href="#" onclick="switchpage('settings');">Set your usual route</a> to view info most relevant to your rides.<br /><br />Drop notes for other people who cross your path.</p>
             </article>
         </section>
-
-        <nav id="primary" class="clearfix" >
-            <a id="nav-notes" class="nav-page entypo toggle active" href="#">&#59168;<small>Notes</small></a>
-            <a id="nav-addnote" class="nav-page entypo toggle" href="#">&#59160;<small>Post</small></a>
-            <a id="nav-people" class="nav-page entypo toggle" href="#">&#128101;<small>People</small></a>
-            <a id="nav-notesmap" class="nav-page entypo toggle" href="#">&#127758;<small>Map</small></a>
-        </nav>
 
         <section id="addnote" class="page" >
             
@@ -140,7 +140,7 @@
             </section>
         </section>
 
-        <section id="notesmap" class="page">
+        <section id="notesmap" class="page flush">
             <div id="map" class="mapcontainer"></div>
             <form id="notesmap-filter">
                 <select>
@@ -178,10 +178,8 @@
 
             <!-- p class="notify">Register</p -->
             <form class="register clearfix" method="post" action="">
-                <!-- <input type='hidden' name='csrfmiddlewaretoken' value='' /> -->
-
                 <label for="id_username">Username<em class="required">*</em></label> <input id="id_username" type="text" class="required" name="username" maxlength="30" />
-                <span id="emailField"><label for="id_email">E-mail<em class="required">*</em></label> <input id="id_email" type="text" class="required" name="email" maxlength="75" /></span>
+                <span id="emailField"><label for="id_email">E-mail<em class="required">*</em></label> <input id="id_email" type="email" class="required" name="email" maxlength="75" /></span>
                 <label for="id_password1">Password<em class="required">*</em></label> <input id="id_password1" type="password" class="required" name="password1" />
                 <span id="password2Field"><label for="id_password2">Password (again)<em class="required">*</em></label> <input id="id_password2" type="password" class="required" name="password2" /></span>
                 <p class="error" style="display:none;"></p>
@@ -328,39 +326,37 @@
 
 		</section>
         
+    </div><!-- #wrap -->
 
-        <section id="pastebin" >
-        </section>
+    <script src="/static/js/vendor/jquery-1.8.3.min.js"></script>
+    <script src="/static/js/helper.js"></script>
+    <script src="/static/js/vendor/moment.js"></script>
 
-        <script src="/static/js/vendor/jquery-1.8.3.min.js"></script>
-        <script src="/static/js/helper.js"></script>
-        <script src="/static/js/vendor/moment.js"></script>
-
-        <script src="/static/js/vars.js"></script>
-        <script src="/static/js/auth.js"></script>
-        <script src="/static/js/commute.js"></script>
-        <script src="/static/js/intro.js"></script>
-        <script src="/static/js/ride.js"></script>
-        <script src="/static/js/note-add-ui.js?v001"></script>
-        <script src="/static/js/note-add-db.js"></script>
-        <script src="/static/js/hashtags.js"></script>
-        <script src="/static/js/note-location.js"></script>
-        <script src="/static/js/note-features.js"></script>
-        <script src="/static/js/notes-query.js"></script>
-        <script src="/static/js/nav.js"></script>
-        <script src="/static/js/notes-map.js"></script>
-        <script src="/static/js/utility.js"></script>
-        <script src="/static/js/cyclee-init.js"></script>
+    <script src="/static/js/vars.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/commute.js"></script>
+    <script src="/static/js/intro.js"></script>
+    <script src="/static/js/ride.js"></script>
+    <script src="/static/js/note-add-ui.js?v001"></script>
+    <script src="/static/js/note-add-db.js"></script>
+    <script src="/static/js/hashtags.js"></script>
+    <script src="/static/js/note-location.js"></script>
+    <script src="/static/js/note-features.js"></script>
+    <script src="/static/js/notes-query.js"></script>
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/notes-map.js"></script>
+    <script src="/static/js/utility.js"></script>
+    <script src="/static/js/cyclee-init.js"></script>
 
 
-        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.css" />
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
-        <![endif]-->
-        <script src="http://libs.cartocdn.com/cartodb.js/v2/cartodb.js"></script>
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
+    <![endif]-->
+    <script src="http://libs.cartocdn.com/cartodb.js/v2/cartodb.js"></script>
 
-        <!-- <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing" type="text/javascript"></script> -->
-        
+    <!-- <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing" type="text/javascript"></script> -->
+    
 
-    </body>
+</body>
 </html>
