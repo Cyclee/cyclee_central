@@ -15,9 +15,10 @@ function feedback_msg(msg){
  * =error msg
 **/
 
-function error(msg) {
+function error_msg(msg) {
   errormsg = typeof msg == 'string' ? msg : "dang. failed.";
   console.log(errormsg);
+  feedback_msg(errormsg);
 }
 
 

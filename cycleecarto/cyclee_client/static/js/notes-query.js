@@ -282,7 +282,7 @@ function showNotes(what){
         
         // extract this. D.R.Y.!!
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(updatePosition,error);        
+            navigator.geolocation.getCurrentPosition(updatePosition,error_msg);        
         } 
         else { console.log("Geolocation is not supported by this browser."); }
 
