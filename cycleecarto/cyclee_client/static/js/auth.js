@@ -175,7 +175,12 @@ var submitLogin = function(){
 
     /* Send the data using post */
     console.log(theData);
-    var posting = $.post( url, [{name:"username",value:$("#id_username").val()},{name:"password",value:$("#id_password1").val()}] );
+    var posting = $.post( url, [
+            {name:"username",value:$("#id_username").val()},{name:"password",value:$("#id_password1").val()}
+        ] ).error(function(){
+                var msg = 'Unable to connect for login.'
+                  error_msg(msg);
+              });
 
     /* Put the results in a div */
     posting.done( function(data) {
@@ -187,7 +192,8 @@ var submitLogin = function(){
         	username = $("#id_username").val();
         	localStorage.username = username;
         	init_user();
-            switchpage("notes");
+            // switchpage("notes");
+            $('#nav-notes').click();
         }else{
             $error.text(data.errors.__all__.join(" "));
         }
@@ -230,7 +236,11 @@ var submitRegistration = function(){
     $error.hide();
     /* Send the data using post */
     // var posting = $.post( url, { username: username } );
-    var posting = $.post( url, theData );
+    var posting = $.post( url, theData )
+        .error(function(){
+            var msg = 'Unable to connect for registration.'
+            error_msg(msg);
+          });
 
     posting.done( function(data) {
         var errors = "";
@@ -268,6 +278,9 @@ function submitLogout(){
     console.log('logout');
     var url = cyclee_root + 'm/accounts/logout/';
     var get = $.get(url, function(data) {
+    }).error(function(){
+        var msg = 'Unable to reach server for logout.'
+        error_msg(msg);
     });
 };
 
@@ -299,7 +312,10 @@ function session_check(onAuth,onUnauth){
             console.log('data.authenticated')
       		onAuth();
       }
-    });
+    }).error(function(e){
+        var msg = 'Unable to connect for login.'
+          error_msg(msg);
+      });
 };
 
 
