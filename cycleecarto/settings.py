@@ -61,9 +61,8 @@ BROKER_VHOST = 0
 
 BROKER_URL = env['DOTCLOUD_CACHE_REDIS_URL']
 CELERY_RESULT_BACKEND = env['DOTCLOUD_CACHE_REDIS_URL']
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 REDIS_CONNECT_RETRY = True
-
-
 
 
 # Local time zone for this installation. Choices can be found here:
@@ -84,7 +83,7 @@ SITE_ID = 1
 AUTH_PROFILE_MODULE = 'cycleeapp.UserProfile'
 LOGIN_REDIRECT_URL = '/'
 
-#SESSION_COOKIE_DOMAIN = '.cyclee.org'
+SESSION_COOKIE_DOMAIN = '.cyclee.org'
 SESSION_COOKIE_AGE = 60*60*24*365*10 # 10 years
 
 # If you set this to False, Django will make some optimizations so as not

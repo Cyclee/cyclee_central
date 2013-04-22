@@ -46,8 +46,8 @@ class Note(models.Model):
 
     def save(self, *args, **kwargs):
         if len(args) == 0 and kwargs == {}:
-            note_save.delay(self)
-            cartodb_add_note.delay(self)
+            note_save.delay(self, user=self.user.username)
+            cartodb_add_note.delay(self, user=self.user.username)
         else:
             super(models.Model, self).save(*args, **kwargs)            
 
