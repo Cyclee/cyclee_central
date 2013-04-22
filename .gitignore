@@ -40,3 +40,4 @@ README.rst
 *.tmproj
 *.bak
 dev.html
+debug.js

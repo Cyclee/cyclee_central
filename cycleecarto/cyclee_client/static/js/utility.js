@@ -149,11 +149,3 @@ $('body').on('keyup',function(e){
 //   console.log(e.type + ': ' +  e.which );
 });
 
-
-/******************************* 
- * debugging
-**/
-
-// $('a#nav-ride').click(); // goto onload
-// $('.debug').show(); //
-// prompt_setcommute();
