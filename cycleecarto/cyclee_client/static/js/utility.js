@@ -38,11 +38,10 @@ function userFlags(){
 **/
 
 function geo_locate2(callback,vars){
-
-    console.log('nav geo locate 2'); 
+    console.log('geo_location2()'); 
     
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(updatePosition,error_msg);        
+        navigator.geolocation.getCurrentPosition(updatePosition,error_geo);        
     } 
     else { alert("Geolocation is not supported by this browser."); }
 
@@ -59,7 +58,6 @@ function geo_locate2(callback,vars){
 }
 
 
-
 /***********
  * =feedback msg 
  *  
@@ -67,6 +65,7 @@ function geo_locate2(callback,vars){
 **/
 
 function feedback_msg(msg){
+    console.log('feedback: ' + msg);
     var theHTML = msg;
     var modal = $('#modal');
     modal.hide().removeClass().addClass('msg').html(theHTML).fadeIn().delay('2500').fadeOut('slow');
@@ -81,6 +80,36 @@ function error_msg(msg) {
   console.log(errormsg);
   feedback_msg(errormsg);
 }
+
+
+/******************************* 
+ * =error geo location
+ *
+ * @see navigator.geolocation
+**/
+
+function error_geo(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+    	msg="Change your device's location permissions.";
+    	feedback_msg(msg);
+          break;
+        case error.POSITION_UNAVAILABLE:
+    	msg="Location information is unavailable.";
+    	feedback_msg(msg);
+          break;
+        case error.TIMEOUT:
+    	msg="The request to get location timed out.";
+    	feedback_msg(msg);
+          break;
+        case error.UNKNOWN_ERROR:
+    	msg="An unknown error occurred.";
+    	feedback_msg(msg);
+          break;
+    }        
+}
+
+
 
 
 /******************************* 
