@@ -1,5 +1,10 @@
 var username;
 
+//var cyclee_root = 'http://cycleecarto-cyclee.dotcloud.com/';
+var cyclee_root = 'http://app.cyclee.org/';
+
+
+
 /***********
  * =user load
  *
@@ -163,7 +168,7 @@ function username_filter(){
 var submitLogin = function(){
     var form = $("#signup .register"),
         theData = form.serializeArray(),
-        url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/login/',
+        url = cyclee_root + 'm/accounts/login/',
         $error = $("p.error",form);
 
         $error.hide();
@@ -216,7 +221,7 @@ var submitRegistration = function(){
     var form = $("#signup .register"),
         user_name = form.find( 'input[name="username"]' ).val(),
         theData = form.serializeArray(),
-        url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/register/',
+        url = cyclee_root + 'm/accounts/register/',
         $error = $("p.error",form);
 
     console.log(user_name);
@@ -261,7 +266,7 @@ var submitRegistration = function(){
 **/
 function submitLogout(){
     console.log('logout');
-    var url = 'http://cycleecarto-cyclee.dotcloud.com/m/accounts/logout/';
+    var url = cyclee_root + 'm/accounts/logout/';
     var get = $.get(url, function(data) {
     });
 };
@@ -281,7 +286,7 @@ function session_check(onAuth,onUnauth){
 	//onAuth = onUnauth || $.noop;
 
     console.log('session check');
-    var url = 'http://cycleecarto-cyclee.dotcloud.com/init/';
+    var url = cyclee_root + 'init/';
     var get = $.get(url, function(data) {
       console.log(data);      
       console.log("authenticated: " + data.authenticated);
