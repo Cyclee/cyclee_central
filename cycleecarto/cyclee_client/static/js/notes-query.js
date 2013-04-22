@@ -50,11 +50,28 @@ function getNotes(start,finish){
  * query cartoDB by lat long
  *
 **/
+
+function notes_nearlocation(){
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(updatePosition,error_msg);        
+    } 
+    else { console.log("Geolocation is not supported by this browser."); }
+
+    function updatePosition(position) {
+        var geolong = position.coords.longitude;
+        var geolat = position.coords.latitude;
+        nearNotes(geolong,geolat);
+    }
+    
+}
+
 function nearNotes(lat,long){ 
     var location = lat + ' ' + long;
     var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE ST_DWithin(ST_GeographyFromText('POINT("+ location +")'), the_geom, "+dist_note+") ORDER BY created_at DESC LIMIT " + notes_limit;
     queryCarto(sql_statement);
 }
+
 
 
 /******************************* 
@@ -279,18 +296,7 @@ function showNotes(what){
     }
     else if ( what == 'Near Here' ) {
         // query near here
-        
-        // extract this. D.R.Y.!!
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(updatePosition,error_msg);        
-        } 
-        else { console.log("Geolocation is not supported by this browser."); }
-
-        function updatePosition(position) {
-            var geolong = position.coords.longitude;
-            var geolat = position.coords.latitude;
-            nearNotes(geolong,geolat);
-        }
+        notes_nearlocation();
     }
     else if ( what == username ) {
         // query note by user
