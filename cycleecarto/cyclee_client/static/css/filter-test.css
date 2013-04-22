@@ -1,0 +1,60 @@
+/***********
+ * =notesfilter NEW
+ *
+**/
+
+em.entypo { font-style:normal; }
+
+#notesfilter {
+    position:absolute;
+}
+#notesfilter section {
+    float:left;
+    margin:.75em 4px 0 0;
+    padding:0 4px;
+    border-radius:1px;
+    box-shadow:1px 1px 2px rgba(0, 0, 0, 0.1);
+    background:rgba(255,255,255,0.9);
+}
+#notesfilter section header {
+    min-width:40px; padding-right:4px;
+}
+#notesfilter section header {
+    max-width:110px;
+    white-space:nowrap;
+    overflow:hidden;
+}
+#notesfilter section:first-child header {
+    max-width:none;
+}
+#notesfilter em.entypo {
+	color:rgb(180,192,204);
+    vertical-align:-6px;
+}
+#notesfilter section ul {
+    display:none;
+    list-style:none;
+    margin:.25em 0; padding:.25em 0;
+    border-top:1px solid #eee;
+}
+#notesfilter section li {
+    list-style:none;
+    margin:0; padding:.25em 4px;
+}
+
+#notesfilter section li,
+#notesfilter section header {
+    cursor:pointer;
+}
+#notesfilter section li:hover {
+    background:rgba(255,0,255,0.3);
+}
+
+
+#filter-tags { 
+    display:none;
+}
+
+.open em.entypo.close { display:inline; }
+.open em.entypo.open { display:none; }
+em.entypo.close { display:none; }

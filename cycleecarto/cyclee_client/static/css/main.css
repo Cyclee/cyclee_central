@@ -185,6 +185,14 @@ a:active {
 p { margin-top:.25em; }
 
 
+h2 {
+    display: inline-block;
+    font-size: 1em;
+    margin:0;
+    font-weight:100;
+}
+
+
 /***********
  * =nav
  *
@@ -820,8 +828,9 @@ article div.meta {
 }
 
 
+
 /***********
- * =notes filter
+ * =notesfilter
  *
 **/
 
