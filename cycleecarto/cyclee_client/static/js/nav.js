@@ -20,17 +20,21 @@ function switchpage(id){
     console.log('switch: ' + id);
     
     if( id != 'notes'){
-        $('nav#header').find('.nav-back').fadeIn();
+        $('header#main').find('.nav-backhome').fadeIn();
+        $('#nav-logo').css('border-color','rgba(255,0,255,0)');        
+    }
+    else {
+        $('#nav-logo').css('border-color','rgba(255,0,255,1)');
     }
     $('section.page').hide();
     $('section#' +id).fadeIn();
     
     // hide/show notes nav
-    if( id=='notes' || id=='people' || id=='notesmap' || id=='addnote' || id=='settings' || id=='help' ){
-        $('nav#primary').show();
+    if( id=='notes' || id=='addnote' ){
+        $('nav#mapnav').show();
     }
     else {
-        $('nav#primary').hide();
+        $('nav#mapnav').hide();
     }
         
     // hide misc
@@ -68,6 +72,7 @@ $('body').on('click','a.nav-page', function(){
 $('body').on('click','a.toggle',function(){
    var elem = $(this);
    elem.addClass('active');
+   $(this).siblings().removeClass('active');
 });
 
 
@@ -114,6 +119,6 @@ $('#nav-logo').click( function(){
  *
 **/
 $('#nav-notes').on('click',function(){
-    $('nav#header').find('.nav-back').hide();    
+    $('header#main').find('.nav-backhome').hide();    
 });
 

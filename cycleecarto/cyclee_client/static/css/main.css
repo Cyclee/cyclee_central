@@ -236,15 +236,16 @@ nav a.entypo small { /* label */
 
 
 /***********
- * =nav header
+ * =header & nav
  *
 **/
 
-nav#header {
+header#main {
     position:fixed; top:0;
     z-index:1003;
     width:100%;
-    padding:.75em 0 .5em;
+    height:56px;
+    padding:0;
     background:rgb(31,44,51); /* blue dark */
 
     /* bugfix: padding on body after form field focus*/
@@ -253,24 +254,36 @@ nav#header {
     margin:0 -4px;
 }
 
-nav#header a#nav-ride,
-nav#header a#nav-ride-back { 
-    float:right;
-    font-size:.9em;
-    margin:6px 12px 0;
-    padding:1px 6px;
-    border-radius:4px;
+header#main nav { 
+    text-align:right; 
+    }
+header#main nav a { 
+    display:inline-block;
+    margin:0;
+    border:0 solid rgba(255,0,255,0);
+    border-width:0 0 4px 0;
+    /*total height = 56px*/
+    padding:21px 25px 17px;
+    font-size:14px; line-height:1em;
+    border-radius:0;
+    color:rgba(255,255,255,0.8);
+    background-color:rgb(31,44,51);
+    background-image: linear-gradient(110deg, rgba(78,90,102,.5), rgba(78,90,102,0), rgba(78,90,102,0),rgba(78,90,102,0),rgba(78,90,102,0));
+    background-repeat: repeat-y;
+    text-transform:uppercase;
+}
+header#main nav a:active,
+header#main nav a:hover { 
     color:white;
-}
-nav#header a {
-    background:rgba(255,255,255,0.2);
-}
-nav#header a:active,
-nav#header a:hover { 
     background:#f0f;
     }
-nav#header a.active { 
-    background:rgba(255,255,255,0.2);
+header#main nav a.active { 
+    border-color:#f0f;
+    }
+
+header#main nav a em.entypo { 
+    display:none;
+    font-size:2em; line-height:1em 
     }
 
 
@@ -279,66 +292,71 @@ nav#header a.active {
  *
 **/
 
-nav#header a#nav-logo {
+header#main a#nav-logo {
     float:left;
-    margin-left:10px;
-    padding:6px 10px;
+    height:26px;
+    margin:0;
+    padding:16px 10px 14px 20px;
     width:70px;
     background:rgb(31,44,51) url('../img/cyclee-logo-sm.png') no-repeat center center; 
+    border:0 solid rgba(255,0,255,0);
+    border-width:0 0 0 4px;
 }
 
 @media only screen and (-Webkit-min-device-pixel-ratio: 1.5),
 only screen and (-moz-min-device-pixel-ratio: 1.5),
 only screen and (-o-min-device-pixel-ratio: 3/2),
 only screen and (min-device-pixel-ratio: 1.5) {
-  nav#header a#nav-logo {
+  header#main a#nav-logo {
       background-image:url('../img/cyclee-logo@3x.png'); 
       background-size: 70px 26px;
   }
 }
 
-/* back arrow */
-nav#header .nav-toggle { 
+/* back home arrow */
+header#main .nav-backhome {
     position:absolute;
-    top:11px; left:6px;
+    top:8px; left:6px;
     font-family:'entypo'; 
-    font-size:2.2em; line-height:1em;
+    font-size:40px; line-height:1em;
     color:rgba(255,255,255,0.8); 
     color:#f0f;
-    }
-nav#header .nav-back {
     display:none;
     }
 
 
 
 /***********
- * =nav primary
+ * =nav mapnav
  *
 **/
 
 
-#primary {
+#mapnav {
     position:fixed; z-index:10001; 
-    bottom:0; right:20px; 
-    border:1px solid rgba(204,204,204,0.8); 
-    border-radius:2px 2px 0 0;
-    border-bottom:1px solid #f0f;
-    padding:.25em 20px .25em;
-    box-shadow:1px 1px 1px rgba(0,0,0,0.3);
-    background:rgba(255,255,255,0.8); 
+    bottom:0; left:40px; 
+    border-radius:1px 1px 0 0;
+    border-top:4px solid rgb(31,44,51);
+    border-top:4px solid rgba(255,0,255,0.5);
+    padding:.25em 8px .2em;
+    box-shadow:1px 1px 2px rgba(0,0,0,0.1);
+    background:rgba(255,255,255,0.9); 
 }
 
-#primary a.entypo { 
+#mapnav a.entypo { 
     margin-right:.1em; 
     font-size:4em;
     background:none !important;
+	color:rgb(117,135,153);
 }
 
-#primary a.entypo:active { 
+#mapnav a.entypo:hover { 
+    color:rgb(31,44,51);
+}
+#mapnav a.entypo:active { 
     color:#f0f;
 }
-#primary a.entypo.active { 
+#mapnav a.entypo.active { 
     color:rgb(180,192,204);
 }
 
@@ -453,12 +471,11 @@ form#commute-locations select {
 }
 
 #modal.msg {
-    margin:10px 0; width:90%;
+    top:4px;
+    margin:0; width:90%;
     padding:1em 5%;
-    background:rgba(0,0,0,0.5);    
-    background:rgba(31,44,51,0.75);
+    background:rgba(255,0,255,0.75);
     border-radius:0;  
-    top:60px;
 }
 
 #modal p.notify {
@@ -643,7 +660,6 @@ a.entypo.btn {
     background-color: #f0f;
     background-image: linear-gradient(to bottom, #ff00ff, #dd00dd);
     background-repeat: repeat-x;
-    border:0px solid lime;
 }
 a.entypo.btn:hover {
     background-image: linear-gradient(to bottom, #ff33ff, #ff00ff);
@@ -654,15 +670,16 @@ a.entypo.btn:active {
 
 a.btn.btn-left {
     margin-right:0;
+    border-style:solid;
+    border:0px solid rgba(0, 0, 0, 0.2);
     border-radius:4px 0 0 4px;
     border-right-width:1px;
-    border-color: rgba(0, 0, 0, 0.2);
 }
 a.btn.btn-right {
     margin-left:0;
+    border:0px solid rgba(255,255,255,0.4);
     border-radius:0 4px 4px 0;
     border-left-width:1px;
-    border-color: rgba(255,255,255,0.4);
 }
 
 
@@ -686,8 +703,9 @@ a.btn.btn-right {
     color:white;
 }
 .notify-footer { /* <p> or <a> */
-    position:fixed; bottom:0; 
-    width:100%; margin:0 -10px; padding:.5em 10px;
+/*    position:fixed; bottom:0; */
+    display:block;
+    width:100%; margin:1em -10px; padding:.5em 10px;
     background:#f0f;
     color:white;
     text-decoration:none;
@@ -752,7 +770,7 @@ section#notes {
     display:block;
     background:none;
     box-shadow:none;
-    padding:0 0 25px;
+    padding:0 0 85px; /* for #mapnav */
     margin-top:0;
 }
  
@@ -812,8 +830,8 @@ article div.meta a.entypo {
     margin:0 0 .25em; 
     padding:0 4px; 
     vertical-align:-3px;
-    color:rgb(117,135,153); background:rgb(226,232,238);
-    color:white; background:rgb(180,192,204);
+    color:white; background:rgba(180,192,204,0.8);
+	
     border-radius:0;
 }
 article div.meta a.entypo:hover, 
@@ -1112,6 +1130,7 @@ section#people {
 }
 #search-hashtags {
     float:left;
+    margin-bottom:75px; /* for #mapnav */
 }
 
 
@@ -1356,7 +1375,7 @@ textarea[contenteditable] {
 
 /* ==========================================================================
    EXAMPLE Media Queries for Responsive Design.
-   Theses examples override the primary ('mobile first') styles.
+   Theses examples override the main ('mobile first') styles.
    Modify as content requires.
    ========================================================================== */
 

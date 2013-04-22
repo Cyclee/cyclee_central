@@ -26,19 +26,12 @@ var ride_table = 'rides';
 
 $('#nav-ride').on('click',ride_init);
 
-$('#nav-ride-back').on('click',function(){ 
-    $(this).addClass('hidden'); 
-    $('#nav-ride').removeClass('hidden'); 
-    $('#nav-notes').click(); 
-});
-
 function ride_init(){
   
-  $('#nav-ride').addClass('hidden');
-  $('#nav-ride-back').removeClass('hidden');
-  
   $('#ride-count').text( rideID + ' rides');
-  $('#ride-msg').delay('5000').fadeOut('slow');  
+  
+  var msg = 'Drop a Flag to add a Note later.';
+  var t = setTimeout( function(){feedback_msg(msg)},1000);  
   
   // get total rides from CartoDB
   ride_count = 5;

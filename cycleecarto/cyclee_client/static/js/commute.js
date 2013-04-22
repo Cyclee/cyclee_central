@@ -67,8 +67,8 @@ function commute_setpoints(){
 
 function prompt_setcommute(){
     
-    var footer = '<a href="#" class="notify-footer" onclick="switchpage(\'commute\'); $(this).hide();" >Customize notes to your usual route &#187;</a>';
-    $('#notes').append(footer);
+    var alert = '<a href="#" class="notify-footer" onclick="switchpage(\'commute\'); $(this).hide();" >Customize notes to your usual route &#187;</a>';
+    $('#notes-stream').prepend(alert);
     
 }
 

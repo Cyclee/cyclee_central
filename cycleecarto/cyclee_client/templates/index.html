@@ -35,22 +35,21 @@
     <script src="/static/js/vendor/modernizr-2.6.1.min.js"></script>
 </head>
 <body>
-    <nav id="header" class="clearfix" >
+    <header id="main">
         <a id="nav-logo" class="ir" href="#">Cyclee</a>
-        <a id="nav-ride" class="nav-page toggle" href="#">Ride &#187;</a>
-        <a id="nav-ride-back" class="hidden" href="#">&#171; Notes</a>
-        <span class="nav-toggle nav-back">&#59229;</span>
-    </nav>
+        <nav id="header" class="clearfix" >
+            <a id="nav-notes" class="nav-page toggle hidden" href="#"></a><a id="nav-addnote" class="nav-page toggle" href="#"><em class="entypo">&#59168;</em>Add Note</a><a id="nav-ride" class="nav-page toggle" href="#">Ride</a>
+        </nav>
+        <span class="nav-backhome">&#59229;</span>
+    </header>
     <section id="splash" >
         <img alt="Cyclee" src="/static/img/cyclee-logo@3x.png" />
     </section>
-    
+
     <div id="wrap">
 
-        <nav id="primary" class="clearfix" >
-            <a id="nav-notes" class="nav-page entypo toggle active" href="#">&#59168;<small>Notes</small></a>
-            <a id="nav-addnote" class="nav-page entypo toggle" href="#">&#59160;<small>Post</small></a>
-            <a id="nav-notesmap" class="nav-page entypo toggle" href="#">&#127758;<small>Map</small></a>
+        <nav id="mapnav" class="clearfix" >
+            <a id="nav-notesmap" class="nav-page entypo toggle" href="#">&#127758;<small>Notes Map</small></a>
         </nav>
 
         <section id="notes" class="page" >
@@ -71,11 +70,13 @@
                         </p>
                     </div>                
             </nav>
-            <article class="template">
-                <a title="username" href="#" ><img src="http://www.gravatar.com/avatar/?d=mm&s=50" /></a>
-                <div class="meta" ></div>
-                <p><strong>Welcome to Cyclee!</strong> A network connection is required to view the latest notes.<br /><br /><a href="#" onclick="switchpage('settings');">Set your usual route</a> to view info most relevant to your rides.<br /><br />Drop notes for other people who cross your path.</p>
-            </article>
+            <section id="notes-stream">
+                <article class="template">
+                    <a title="username" href="#" ><img src="http://www.gravatar.com/avatar/?d=mm&s=50" /></a>
+                    <div class="meta" ></div>
+                    <p><strong>Welcome to Cyclee!</strong> A network connection is required to view the latest notes.<br /><br /><a href="#" onclick="switchpage('settings');">Set your usual route</a> to view info most relevant to your rides.<br /><br />Drop notes for other people who cross your path.</p>
+                </article>
+            </section>
         </section>
 
         <section id="addnote" class="page" >
@@ -125,7 +126,7 @@
             <section id="ride-info">
                 <p><span id="ride-count">0 rides</span> // <span id="ride-distance">0 miles</span></p>
                 <p id="trace-location" class="debug">x,y</p>
-                <p id="ride-msg">Drop a <a class="entypo" href="#">&#9873;</a> flag while you ride to <a class="entypo" href="#" onclick="switchpage('addnote');">&#59160;</a>&nbsp;add a note later.</p>
+                <p id="ride-msg"></p>
             </section>
         </section>
 
@@ -240,7 +241,7 @@
 
 
         <section id="filters" class="page">
-            <p>Filters will allow you to customize the quick view drop-down on notes. For example, search for info around a particular location, #hashtag, or group of people. Help us develop the feature: <a href="http://github.com/cyclee" >github.com/cyclee</a>.</p>
+            <p>Coming soon. This will allow you quickly search for info around a particular location, #hashtag, or group of people. Help us develop the feature: <a href="http://github.com/cyclee" >github.com/cyclee</a>.</p>
         </section>
 
         <section id="lastride" class="page">
