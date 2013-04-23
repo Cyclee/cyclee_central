@@ -21,8 +21,83 @@ $('#notesfilter').find('header').each(function(){
     $(this).prepend(filtertoggle);
 });
 
-$('#notesfilter').on('click','header',function(){
+var DropDown = (function(){
+	var publicDropDown,
+		dropDownArray = [],
+		closeOthers = function(current){
+			$.each(dropDownArray,function(i,item){
+				if(item !== current){ item.close(); }
+			});
+		};
+		/*,
+		fire = function(type,params){
+			$(publicDropDown).trigger(type,params);
+		};*/
+	
+	publicDropDown = {
+		create : function($el){
+			var public,
+				open = false,
+				$options = $el.find('ul'),
+				$header = $el.find('header'),
+				$headerText = $el.find('h2'),
+				value = $headerText.text();
+		
+			$header.on('click',function(){ public.toggle(); });
+			$options.on('click','li',function(){ 
+				var newValue = $(this).text();
+				if(newValue !== $headerText.text()){ 
+					value = newValue;
+					$headerText.text(newValue);
+					$(public).trigger("change",{value:newValue});
+				}
+				public.close(); 
+			});
 
+			public = {
+				open : function(){
+					open = true;
+					closeOthers();
+					$el.addClass('open');
+					$options.fadeIn();
+				},
+				close : function(){
+					open = false;
+					$el.removeClass('open');
+					$options.fadeOut();
+				},
+				toggle : function(){
+					if(open){ this.close(); }else{ this.open(); }
+				},
+				value : function(){ return value; }
+			};
+	
+			dropDownArray.push(public);
+	
+			return public;
+		}
+		
+	};
+	
+	return publicDropDown;
+}());
+/*
+var a = DropDown.create($("#filter-type"));
+var b = DropDown.create($("#filter-location1"));
+var c = DropDown.create($("#filter-location2"));
+$(a).on("change",function(e,params){ 
+	console.log("change:" + params.value);
+});
+$(b).on("change",function(e,params){ 
+	console.log("change:" + params.value);
+});
+$(c).on("change",function(e,params){ 
+	console.log("change:" + params.value);
+});
+*/
+
+$('#notesfilter').on('click','header',function(){
+	console.log('#notesfilter click header');
     $(this).toggleClass('open');
     $(this).parent().siblings().find('header').removeClass('open');
     $(this).parent().siblings().find('ul').fadeOut();
