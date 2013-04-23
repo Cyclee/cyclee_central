@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 from django.template import Context, loader, RequestContext, Template
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
@@ -202,4 +202,5 @@ def hello_view(request):
     c = RequestContext(request, {
         'current_time': datetime.now(),
     })
-    return HttpResponse(t.render(c))
+    #return HttpResponse(t.render(c))
+    return HttpResponseRedirect('/mobile/')

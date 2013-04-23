@@ -16,7 +16,7 @@ def add(x, y):
     return x + y
 
 @celery.task(ignore_result=True)
-def note_save(note):
+def note_save(note, **kwargs):
     models.Model.save(note)
 
 
