@@ -2,7 +2,12 @@ www:
   type: python
   config:
     python_version: v2.7
+  systempackages:
+    - libfuse2
+    - fuse-utils
+    
 db:
   type: postgis
+
 cache:
   type: redis
