@@ -80,7 +80,8 @@ function nearNotes(lat,long){
  * query cartoDB w/ username
  *
 **/
-function userNotes(){ 
+function userNotes(theuser){ 
+    if(!theuser){ theuser = username; }
     var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE username='"+username+"' ORDER BY created_at DESC LIMIT 50";
     queryCarto(sql_statement);
 }
@@ -92,8 +93,9 @@ function userNotes(){
  * query cartoDB w/ @username
  *
 **/
-function userMentions(){ 
-    var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE description LIKE '%25%40"+username+"%25' ORDER BY created_at DESC LIMIT 17";
+function userMentions(theuser){ 
+    if(!theuser){ theuser = username; }
+    var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE description LIKE '%25%40"+theuser+"%25' ORDER BY created_at DESC LIMIT 17";
     queryCarto(sql_statement);
 }
 
