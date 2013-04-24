@@ -72,3 +72,25 @@ $('#notes').on( 'click', 'a.replylink', function(){
 });
 $('#notes').on('click', 'a.replylink', hashtags_load); // trigger load. event later removed.
 
+
+
+
+
+
+/***********
+ * =user link
+ *
+ * click a user name or thumbnail
+ * load their posts
+ *
+**/
+
+$('#notes').on( 'click', 'img', function(){
+    
+    // reply @username
+    var theuser = $(this).attr('alt');
+    console.log('click: ' + theuser);
+    
+    userNotes(theuser);
+
+});

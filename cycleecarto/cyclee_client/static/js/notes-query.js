@@ -80,9 +80,9 @@ function nearNotes(lat,long){
  * query cartoDB w/ username
  *
 **/
-function userNotes(theuser){ 
+function userNotes(theuser){
     if(!theuser){ theuser = username; }
-    var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE username='"+username+"' ORDER BY created_at DESC LIMIT 50";
+    var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE username='"+theuser+"' ORDER BY created_at DESC LIMIT 50";
     queryCarto(sql_statement);
 }
 
