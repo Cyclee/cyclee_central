@@ -22,14 +22,14 @@ $('#notesfilter').find('header').each(function(){
 });
 
 var DropDown = (function(){
-	var publicDropDown,
-		dropDownArray = [],
+	var publicDropDown;
+		/*dropDownArray = [],
 		closeOthers = function(current){
 			$.each(dropDownArray,function(i,item){
 				if(item !== current){ item.close(); }
 			});
 		};
-		/*,
+		,
 		fire = function(type,params){
 			$(publicDropDown).trigger(type,params);
 		};*/
@@ -37,6 +37,7 @@ var DropDown = (function(){
 	publicDropDown = {
 		create : function($el){
 			var public,
+				items = [],
 				open = false,
 				$options = $el.find('ul'),
 				$header = $el.find('header'),
@@ -45,11 +46,21 @@ var DropDown = (function(){
 		
 			$header.on('click',function(){ public.toggle(); });
 			$options.on('click','li',function(){ 
+				console.log(this);
+				var itemData, self = this;
+				$.each(items,function(i,item){
+					//console.log()
+					if(item.$el[0] === self){ itemData = item; }
+				});
+			
+				console.log("THIS IS THE DATA");
+				console.log(itemData);
+			
 				var newValue = $(this).text();
 				if(newValue !== $headerText.text()){ 
 					value = newValue;
 					$headerText.text(newValue);
-					$(public).trigger("change",{value:newValue});
+					$(public).trigger("change",itemData);
 				}
 				public.close(); 
 			});
@@ -57,7 +68,7 @@ var DropDown = (function(){
 			public = {
 				open : function(){
 					open = true;
-					closeOthers();
+					//closeOthers(this);
 					$el.addClass('open');
 					$options.fadeIn();
 				},
@@ -69,10 +80,23 @@ var DropDown = (function(){
 				toggle : function(){
 					if(open){ this.close(); }else{ this.open(); }
 				},
-				value : function(){ return value; }
+				/*
+				value : function(){ 
+					return value; 
+				},
+				*/
+				addItem : function(name,query){
+					var $el = $("<li/>").text(name);
+					items.push({name:name,query:query,$el:$el});
+					$("#filter-type ul").append($el);
+				},
+				removeAllItems : function(){
+					items = [];
+					$("#filter-type ul").empty();
+				}
 			};
 	
-			dropDownArray.push(public);
+			//dropDownArray.push(public);
 	
 			return public;
 		}
@@ -81,13 +105,20 @@ var DropDown = (function(){
 	
 	return publicDropDown;
 }());
-/*
+
 var a = DropDown.create($("#filter-type"));
-var b = DropDown.create($("#filter-location1"));
-var c = DropDown.create($("#filter-location2"));
+a.addItem("All",{type:"all"});
+a.addItem("Between Work & Union Square",{type:"route"});
+a.addItem("Between Home & Grand Army Plaza",{type:"route"});
+a.addItem("Favorites",{});
+a.addItem("By @mwillse",{type:"author"});
+a.addItem("About #bikemonth",{type:"tag"});
+//var b = DropDown.create($("#filter-location1"));
+//var c = DropDown.create($("#filter-location2"));
 $(a).on("change",function(e,params){ 
-	console.log("change:" + params.value);
+	console.log("change:" + params);
 });
+/*
 $(b).on("change",function(e,params){ 
 	console.log("change:" + params.value);
 });
@@ -96,6 +127,7 @@ $(c).on("change",function(e,params){
 });
 */
 
+/*
 $('#notesfilter').on('click','header',function(){
 	console.log('#notesfilter click header');
     $(this).toggleClass('open');
@@ -122,7 +154,7 @@ $('#notesfilter').on('click','li',function(){
         filterAction[filter]();
     }
 });
-
+*/
 
 
 
