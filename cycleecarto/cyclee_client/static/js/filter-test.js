@@ -141,8 +141,12 @@ var DropDown = (function(){
 var a = DropDown.create($("#filter-type"));
 a.addItem("All",{query:allNotes});
 
-app.locations.forEach(function(item,i){
-	a.addItem("To " + item.name,{type:"location",location:item.location,query:function(){ getNotes(app.getPosition().coords.longitude + " " + app.getPosition().coords.latitude,item.location) }});
+$(app).one("position", function(){
+
+	app.locations.forEach(function(item,i){
+		a.addItem("To " + item.name,{type:"location",location:item.location,query:function(){ getNotes(app.getPosition().coords.longitude + " " + app.getPosition().coords.latitude,item.location) }});
+	});
+
 });
 //a.addItem("Between Work & Union Square",{type:"route"});
 //a.addItem("Between Home & Grand Army Plaza",{type:"route"});
