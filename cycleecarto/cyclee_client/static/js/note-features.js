@@ -74,9 +74,6 @@ $('#notes').on('click', 'a.replylink', hashtags_load); // trigger load. event la
 
 
 
-
-
-
 /***********
  * =user link
  *
@@ -86,11 +83,6 @@ $('#notes').on('click', 'a.replylink', hashtags_load); // trigger load. event la
 **/
 
 $('#notes').on( 'click', 'img', function(){
-    
-    // reply @username
     var theuser = $(this).attr('alt');
-    console.log('click: ' + theuser);
-    
     userNotes(theuser);
-
 });
