@@ -29,7 +29,7 @@ $('#nav-notes').click( function(){
  *
 **/
 function getNotes(start,finish){     
-    var sql_statement = "q=WITH foo AS (SELECT ST_Collect(the_geom) g FROM "+routes_table+" WHERE ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+start+")'), "+dist_route+")) AND ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+finish+")'), "+dist_route+")) ) SELECT * FROM "+notes_table+", foo WHERE ST_Intersects(ST_Buffer(the_geom::geography,"+dist_note+"), g::geography) ORDER BY created_at DESC LIMIT " + notes_limit;
+    var sql_statement = "q=WITH foo AS (SELECT ST_Collect(the_geom) g FROM "+routes_table+" WHERE ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+start+")'), "+route_buffer+")) AND ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+finish+")'), "+route_buffer+")) ) SELECT * FROM "+notes_table+", foo WHERE ST_Intersects(ST_Buffer(the_geom::geography,"+note_buffer+"), g::geography) ORDER BY created_at DESC LIMIT " + notes_limit;
     queryCarto(sql_statement);
 }
 
@@ -58,7 +58,7 @@ function notes_nearlocation(){
 
 function nearNotes(lat,long){ 
     var location = lat + ' ' + long;
-    var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE ST_DWithin(ST_GeographyFromText('POINT("+ location +")'), the_geom, "+dist_note+") ORDER BY created_at DESC LIMIT " + notes_limit;
+    var sql_statement = "q=SELECT * FROM "+notes_table+" WHERE ST_DWithin(ST_GeographyFromText('POINT("+ location +")'), the_geom, "+note_buffer+") ORDER BY created_at DESC LIMIT " + notes_limit;
     queryCarto(sql_statement);
 }
 
@@ -340,7 +340,7 @@ function queryPeople(){
     // run once only
     $('#nav-people').off('click',queryPeople);     
 
-    var sql_statement = "q=WITH foo AS (SELECT ST_Collect(the_geom) g FROM "+routes_table+" WHERE ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+commute_1a+")'), "+dist_route+")) AND ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+commute_1b+")'), "+dist_route+")) ), foobar AS (SELECT * FROM "+notes_table+", foo WHERE ST_Intersects(ST_Buffer(the_geom::geography,"+dist_note+"), g::geography)) SELECT username FROM foobar GROUP BY username LIMIT " + people_limit;
+    var sql_statement = "q=WITH foo AS (SELECT ST_Collect(the_geom) g FROM "+routes_table+" WHERE ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+commute_1a+")'), "+route_buffer+")) AND ST_Intersects(the_geom::geography, ST_Buffer(ST_GeographyFromText('POINT("+commute_1b+")'), "+route_buffer+")) ), foobar AS (SELECT * FROM "+notes_table+", foo WHERE ST_Intersects(ST_Buffer(the_geom::geography,"+note_buffer+"), g::geography)) SELECT username FROM foobar GROUP BY username LIMIT " + people_limit;
     var url_query = url_cartoData + sql_statement;
 
     var people = [];

@@ -28,15 +28,19 @@ var notes_table = 'notes';
 var routes_table = 'routes';
 var pending_table = 'notes_pending';
 
-// old CartoDB
-    // cartodb_accountname = 'ideapublic';
-    // cartodb_key = "api_key=7302db3d477047e379af83c1987573e043022fe4"; 
-    // notes_table = 'route_flags';
-    // routes_table = 'route_paths';
-    // pending_table = 'pending_notes';
 
-var dist_route = 1000; // distance of routes to relevant commutes
-var dist_note = 1000; // distance of notes to relevant commutes
+/******************************* 
+ * search distance
+ *
+ * a query of two locations finds common routes nearby 
+ * then finds notes near those routes
+ * 
+ * buffer sets distance in meters
+ *
+**/
+
+var route_buffer = 1000; // meters from queried positions to related routes
+var note_buffer = 1000; // meters from notes to related route
 
 var url_cartoData = 'http://'+cartodb_accountname+'.cartodb.com/api/v2/sql/?';
 var url_cartoMap = 'https://'+cartodb_accountname+'.cartodb.com/tables/' // + ?_table+'/embed_map?';
