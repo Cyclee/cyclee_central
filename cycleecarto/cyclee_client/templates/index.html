@@ -53,6 +53,14 @@
         </nav>
 
         <section id="notes" class="page" >
+            <div id ="notesfilter" class="clearfix">
+                <section id="filter-type">
+                    <header>Notes <h2>All</h2></header>
+                    <ul>
+                    </ul>
+                </section>
+            </div>
+            
             <nav class="clearfix" >
                 <form id="search" class="hidden" ><input type="search" placeholder="search notes" /></form>
                 <a id="nav-notesfilter" class="entypo btn firsttime" href="#">&hearts;<!-- eye: &#59146; --><!-- list: &#57349; --><small>View</small></a>
@@ -346,9 +354,9 @@
     <script src="/static/js/notes-query.js"></script>
     <script src="/static/js/nav.js"></script>
     <script src="/static/js/notes-map.js"></script>
+    <script src="/static/js/notes-filter.js"></script>
     <script src="/static/js/utility.js"></script>
     <script src="/static/js/init-cyclee.js"></script>
-
 
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.css" />
     <!--[if lte IE 8]>
