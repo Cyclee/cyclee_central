@@ -1,3 +1,25 @@
+/******************************* 
+ * =query on load
+ *
+ * query CartoDB for notes
+ *
+ * should be integrated with stuff below
+ * ideally it searches from current location to first location saved by user
+ *
+ *
+**/
+getNotes(commute_1a,commute_1b);
+
+
+
+/******************************* 
+ * =position
+ *
+ * query CartoDB for notes
+ *
+**/
+
+
 var app = (function(){
 	var position, public, 
 		newPosition = function(p){ position = p; $(public).trigger("position",position) },

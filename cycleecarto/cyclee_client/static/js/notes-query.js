@@ -1,16 +1,6 @@
 
 
 /******************************* 
- * =notes Query
- *
- * query CartoDB for notes
- * on load and notes page load
- *
-**/
-getNotes(commute_1a,commute_1b); // on app load
-
-
-/******************************* 
  * =notes refresh
  *
  * on notes page load or filter select
