@@ -5,6 +5,14 @@ www:
   systempackages:
     - libfuse2
     - fuse-utils
+
+workers:
+  type: python-worker
+  config:
+    python_version: v2.7
+  systempackages:
+    - libfuse2
+    - fuse-utils
     
 db:
   type: postgis
