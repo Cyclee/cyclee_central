@@ -39,11 +39,11 @@ $('#addnote').on("click", 'a.post-here', function(){
     var location = lng +','+ lat;  
     console.log(location);
 
-    var msg = 'One Moment...'
+    var msg = '<em class="entypo loading">&#9733;</em>One Moment'
     feedback_msg(msg,'sticky');
 
     msg = 'Note Added';
-    addnote_submit(location,msg);
+//    addnote_submit(location,msg);
     
 });
 

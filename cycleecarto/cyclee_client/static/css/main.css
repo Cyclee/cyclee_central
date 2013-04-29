@@ -808,6 +808,34 @@ p.border-top { border-top:1px solid #eee; padding-top:.25em; }
 }
 
 
+/***********
+ * =spinner
+ *
+**/
+
+.loading {
+    display:block;
+    float:right;
+    background:none;
+    line-height:.5em;
+    animation:rotate 1s;
+    -webkit-animation-name:rotate; /* Safari and Chrome */
+    -webkit-animation-iteration-count:  infinite;
+    -webkit-animation-duration:         1s; 
+    -webkit-animation-iteration-count:  infinite;
+    -webkit-transition-timing-function: linear;
+}
+
+@keyframes rotate {
+    0%   { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@-webkit-keyframes rotate {
+    0%   { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
 
 /***********
  * =notes
