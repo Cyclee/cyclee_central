@@ -43,7 +43,7 @@ $('#addnote').on("click", 'a.post-here', function(){
     feedback_msg(msg,'sticky');
 
     msg = 'Note Added';
-//    addnote_submit(location,msg);
+    addnote_submit(location,msg);
     
 });
 
