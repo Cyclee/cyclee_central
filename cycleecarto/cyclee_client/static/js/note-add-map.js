@@ -2,7 +2,7 @@
 var addnotemap_once = true;
 
 function addnotemap_init(){ // gets screwed up onclick before switchpage
-    console.log( 'addnotemap_init()');
+    // console.log( 'addnotemap_init()');
     
     addnotemap_once = false;
     
@@ -21,7 +21,6 @@ function addnotemap_init(){ // gets screwed up onclick before switchpage
 }
 
 function addnotemap_locate(){
-
     $('#addnotemap').fadeIn();
     var mapzoom = 14;
     
@@ -30,17 +29,16 @@ function addnotemap_locate(){
         var thisgeo = location_reply.split(',');
         addnotemap.setView(thisgeo[1],thisgeo[0],mapzoom);
     }
-    else {
-        navigator.geolocation.getCurrentPosition(updatePosition,error, {enableHighAccuracy: false, maximumAge: 300000}); // mk - use gps / max age 5 min.
-    }    	
+    else { navigator.geolocation.getCurrentPosition(updatePosition,error, {enableHighAccuracy: false, maximumAge: 300000}); }  // mk - use gps / max age 5 min.
 
     function updatePosition(p){
 	    console.log(p);
 	    addnotemap.setView(p.coords.latitude,p.coords.longitude,mapzoom);        
 	}
 	function error(){}
-
-
-
-
 }
+
+
+$('#addnote').one('click','.drag-me',dragPrompt);
+$('#addnotemap').one('click',dragPrompt);
+function dragPrompt(){ $('#addnote .drag-me').fadeOut(); }
