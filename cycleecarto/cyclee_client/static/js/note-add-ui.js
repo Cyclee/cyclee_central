@@ -40,7 +40,7 @@ $('#addnote').on("click", 'a.post-here', function(){
     console.log(location);
 
     var msg = 'One Moment...'
-    feedback_msg(msg,sticky);
+    feedback_msg(msg,'sticky');
 
     msg = 'Note Added';
     addnote_submit(location,msg);
@@ -59,7 +59,7 @@ $('#addnote').on("click", 'a.post-reply', function(){
     console.log(location_reply);
     
     var msg = 'One Moment...';
-    feedback_msg(msg,sticky);
+    feedback_msg(msg,'sticky');
 
     msg = 'Reply Added';
     addnote_submit(location_reply,msg);

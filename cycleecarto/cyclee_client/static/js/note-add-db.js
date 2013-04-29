@@ -51,7 +51,7 @@ function update_central(category,description,location,msg,callback){
                             altitude: 0,
                             the_geom: 'POINT(' + location.replace(',', ' ') + ')' };
 
-    console.log('Post to central: ');
+    console.log('update_central()');
     console.log(post_data);
     $.post(url, post_data, function(data) {
             console.log('Post return: ');

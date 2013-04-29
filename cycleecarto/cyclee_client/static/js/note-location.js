@@ -205,8 +205,7 @@ function Maps(id){
     
     this.setView = setView;
     function setView(m_lat,m_lng,mapzoom){
-        console.log('setView');
-        console.log(m_lat);
+        // console.log('setView');
         if ( !mapzoom ) { mapzoom = 13 };
         this.map.setView([m_lat,m_lng],mapzoom);
     }

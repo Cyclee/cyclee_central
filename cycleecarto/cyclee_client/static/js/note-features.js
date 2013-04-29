@@ -46,7 +46,7 @@ $('#notes').on( 'click', 'a.maplink', function(){
     // scroll note up
     var s = $(this).position().top;
     s = s - 26;
-    console.log(s);
+    // console.log(s);
     // $('#wrap').scrollTop(s);
     $('#wrap').animate({scrollTop:s}, 'slow');
     
