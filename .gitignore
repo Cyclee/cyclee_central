@@ -38,6 +38,9 @@ README.rst
 
 # textmate project
 *.tmproj
+
 *.bak
 dev.html
 debug.js
+cyclee.appcache
+appcache.js

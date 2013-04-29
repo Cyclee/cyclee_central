@@ -9,12 +9,15 @@
 **/
 $('.page').on("click", 'a.link_location_choose', function(){
     
-    inputfield = $(this).parent().children('input');
+    // inputfield = $(this).parent().children('input');
+    var theHTML = '<a class="map-close close" href="#" ><em class="entypo">&#59228;</em><em class="entypo">&#59228;</em></a><div id="mapchoose-map" class="mapcontainer"></div>';
+    $('.modal').hide(); // hide others
     
-    var theHTML = '<p class="notify">Drag marker to location.</p><div class="map-buttons" ><a class="close" href="#">Cancel</a> <a id="location-choose-done" class="hidden" href="#" >Post</a></div><div id="findmap" class="mapcontainer"></div>';
-    $('#modal').html(theHTML).removeClass().addClass('modalmap').fadeIn();
-    $('#modal').find('#location-choose-done').click( function(){
-        $(this).parents('#modal').fadeOut(); // function updated on when marker moved
+    console.log('clickity');
+    
+    $('#mapchoose').html(theHTML).addClass('map-location').fadeIn('slow');    
+    $('#mapchoose').find('#location-choose-done').click( function(){
+        // $(this).parents('.modal').fadeOut(); // function updated on when marker moved
     });
     
     location_choose_init();
@@ -64,10 +67,11 @@ function flag_carto(location){
  *
  *
 **/
+var find_map = null;
 var flag_id; // delete flag when note added
 var flag_location; // confirm match before deleting on +note
 var flag_used; // queue for remove
-
+var flag_layers = [];
 
 function location_choose_flags() {
     console.log('addflags');
@@ -91,7 +95,7 @@ function location_choose_flags() {
             layer.infowindow.set('template', button);
 
             // add layer
-            layers.push(layer);
+            flag_layers.push(layer);
             
             // on flag click
             layer.on('featureClick', function(e, latlng, pos, data){
@@ -120,7 +124,7 @@ function location_choose_flags() {
 function location_selected(location,msg){
     // console.log(msg);
     // console.log(location);
-    $('#modal').fadeOut();
+    $('.modal').fadeOut();
     addnote_submit(location,msg);
 };
 
@@ -159,30 +163,101 @@ function flags_delete(){
 /***********
  * =create map
  *
+ * use for indiv note locations
+ * and to set location for addnote
+ * not yet for notes map with filter 
+ *
  * @see: a.maplink on articles
  * @see: location_choose_init()
  *
  *
- *
 **/
+// var maps=new Object();
 
-function createmap(mapname,map_lat,map_lng){
+
+
+function Maps(id){
+    this.id = id;
+    this.map;
+    this.marker = false;
+
+    this.createMap = createMap;
+    // run once and then removed
+    function createMap(map_lat,map_lng,mapzoom){
+        console.log('createMap()');
+
+        if ( !mapzoom ) { mapzoom = 13 };
+        this.map = new L.Map(this.id, { 
+          center: [map_lat, map_lng],
+          cartodb_logo: false,
+          zoom: mapzoom,
+          maxZoom: 15
+        })
+
+        var basemap = 'https://dnv9my2eseobd.cloudfront.net/v3/cartodb.map-pp0tkn8d/{z}/{x}/{y}.png'; // mapbox light
+
+        L.tileLayer(basemap, {
+          attribution: 'MapBox'
+        }).addTo(this.map);
+
+        delete this.createMap;
+    }
     
-    // initiate leaflet map
-    find_map = new L.Map(mapname, { 
-      center: [map_lat, map_lng],
-      cartodb_logo: false,
-      zoom: 13,
-      maxZoom: 15
-    })
+    this.setView = setView;
+    function setView(m_lat,m_lng,mapzoom){
+        console.log('setView');
+        console.log(m_lat);
+        if ( !mapzoom ) { mapzoom = 13 };
+        this.map.setView([m_lat,m_lng],mapzoom);
+    }
+    
+    this.addMarker = addMarker;
+    function addMarker(m_lat,m_lng) {
+        console.log('addMarker');
 
-    var basemap = 'https://dnv9my2eseobd.cloudfront.net/v3/cartodb.map-pp0tkn8d/{z}/{x}/{y}.png'; // mapbox light
+        var myIcon = L.icon({
+              iconUrl: 'http://cartodb-gallery.appspot.com/static/icon.png',
+              iconSize: [28, 28],
+        });
 
-    L.tileLayer(basemap, {
-      attribution: 'MapBox'
-    }).addTo(find_map);
+        this.marker = new L.Marker( [m_lat,m_lng],{
+          icon: myIcon,
+        }).addTo(this.map);
 
+    }
+
+    this.moveMarker = moveMarker;
+    function moveMarker(m_lat,m_lng) {
+        console.log('moveMarker()');
+
+        this.marker.setLatLng([m_lat,m_lng]);
+    }
+    
+    
+    
 }
+
+
+
+// var themaps = {
+//     maps: [],
+//     add: function(mapname) {
+//       var map = {
+//         name: mapname
+//       };
+//       themaps.maps.push(map);
+//     },
+//     hello: function(mapname) {
+//         
+//         console.log(themaps.maps);
+//         console.log(themaps.maps(mapname));
+//         console.log(1+1);
+//     },
+//     createmap: 
+//     
+//   };
+
+
 
 
 /***********
@@ -190,18 +265,18 @@ function createmap(mapname,map_lat,map_lng){
  *
 **/
 
-function add_marker(m_lat,m_lng) {
-
-    var myIcon = L.icon({
-          iconUrl: 'http://cartodb-gallery.appspot.com/static/icon.png',
-          iconSize: [28, 28],
-    });
-
-    var marker = new L.Marker( [m_lat,m_lng],{
-      icon: myIcon,
-    }).addTo(find_map);
-
-}
+// function add_marker(mapname,m_lat,m_lng) {
+// 
+//     var myIcon = L.icon({
+//           iconUrl: 'http://cartodb-gallery.appspot.com/static/icon.png',
+//           iconSize: [28, 28],
+//     });
+// 
+//     var marker = new L.Marker( [m_lat,m_lng],{
+//       icon: myIcon,
+//     }).addTo(mapname.map);
+// 
+// }
 
 
 
@@ -212,19 +287,37 @@ function add_marker(m_lat,m_lng) {
 **/
 
 function location_choose_init() {
-
-    find_lat = nyc_lat;
-    find_lng = nyc_lng;        
-
+    console.log('location_choose_init()');
+    var choose_lat = nyc_lat;
+    var choose_lng = nyc_lng;   
     // should find an idle moment to grab current location for various use
     // also check if( location_choose ) { /* use this instead; */ }    
 
-    createmap('findmap',find_lat,find_lng);
-    add_marker_draggable(find_lat,find_lng);
+    if(mapchoose.createMap){ // run once and removed
+        mapchoose.createMap(choose_lat,choose_lng,7);        
+    }
+
+    console.log('map: ');
+    console.log(locationmap);
+
+    if(mapchoose.marker == false){
+        console.log('false?')
+        add_marker_draggable('mapchoose',choose_lat,choose_lng);
+    }
+
+    mapchoose.setView(thisgeo[1],thisgeo[0],mapzoom);
+
+    // createmap('mapchoose',find_lat,find_lng);
+    // add_marker_draggable('',find_lat,find_lng);
     location_choose_flags();
 
 
+
+
+
 };
+
+
 
 
 
@@ -252,7 +345,7 @@ function flags_enable() {
  *
 **/
 
-function add_marker_draggable(m_lat,m_lng) {
+function add_marker_draggable(id,m_lat,m_lng) {
 
     var myIcon = L.icon({
           iconUrl: 'http://cartodb-gallery.appspot.com/static/icon.png',
@@ -262,14 +355,14 @@ function add_marker_draggable(m_lat,m_lng) {
     var marker = new L.Marker( [m_lat,m_lng],{
       icon: myIcon,
       draggable: true
-    }).addTo(find_map);
+    }).addTo(id.map);
 
     var latlng = new L.LatLng(m_lat,m_lng);
     var pop_options = { closeButton:false, offset:new L.Point(0,-20), };
     var popup = L.popup(pop_options)
         .setLatLng(latlng)
         .setContent('<p class="drag-prompt">'+findloc_dragprompt+'</p>')
-        .openOn(find_map);
+        .openOn(id.map);
     
     marker.on('dragstart',function(e){
         console.log('dragtart');

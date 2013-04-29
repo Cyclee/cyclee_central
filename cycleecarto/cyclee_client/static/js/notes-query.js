@@ -208,7 +208,7 @@ function queryCarto(sql_statement){
             $('section#notes').append(output);
             $('section#notes').find('article[class!=template]').hide().each( function(i){
               $(this).delay(delay).fadeIn('slow');
-              delay += 250;
+              delay += 100;
             }); 
         } 
         else {

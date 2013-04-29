@@ -7,8 +7,8 @@
  * used by map page
  *
 **/
-var map;
-var layers = [];
+var notesmap;
+var notesmap_layers = [];
 
 
 /***********
@@ -19,23 +19,30 @@ var layers = [];
 **/
 var LayerActions = {
   allnotes: function(){
-    layers[0].setQuery("SELECT * FROM {{table_name}}");
+    notesmap_layers[0].setQuery("SELECT * FROM {{table_name}}");
+    console.log(notesmap_layers[0]);
+    
     return true;
   },
   bikeshops: function(){
-    layers[0].setQuery("SELECT * FROM {{table_name}} WHERE category='bike shop'");
+    notesmap_layers[0].setQuery("SELECT * FROM {{table_name}} WHERE category='bike shop'");
     return true;
   },
   stolen: function(){
-    layers[0].setQuery("SELECT * FROM {{table_name}} WHERE description LIKE '%stolen%'");
+   notesmap_layers[0].setQuery("SELECT * FROM {{table_name}} WHERE lower(description) LIKE '%25stolen%25'");
+    console.log(notesmap_layers[0]);
     return true;
   },
   corides: function(){
-    layers[0].setQuery("SELECT * FROM {{table_name}} WHERE category='co-ride'");
+    notesmap_layers[0].setQuery("SELECT * FROM {{table_name}} WHERE category='co-ride'");
     return true;
   },
   usernotes: function(){
-    layers[0].setQuery("SELECT * FROM {{table_name}} WHERE username = '"+username+"'");
+    notesmap_layers[0].setQuery("SELECT * FROM {{table_name}} WHERE username = '"+username+"'");
+    return true;
+  },
+  usermention: function(){
+    notesmap_layers[0].setQuery("SELECT * FROM {{table_name}} WHERE description LIKE '%25%40"+username+"'%25");
     return true;
   },
   
@@ -51,10 +58,10 @@ var LayerActions = {
  * change data on form select
  *
 **/
-$('#notesmap form').change( function(){
+$('#notesmap').on('change','#notesmap-filter', function(){
     
     // grab val from form
-    var filter = $('#notesmap form').find('option:selected').val();
+    var filter = $(this).find('option:selected').val();
     console.log('map layer:' + filter);
 
     // send it to layer action // weird
@@ -72,10 +79,16 @@ $('#notesmap form').change( function(){
  * set up map on first view
  *
 **/
-$('body').one('click','#nav-notesmap', function(){
-    // is map broken?
-    // this must come after other things tied to #nav-notesmap
-    mapInit(); 
+// is map broken?
+// this must come _after_ other things tied to #nav-notesmap
+
+
+$('body').one('click','#nav-notesmap', mapInit);
+$('body').on('click','#nav-notesmap', function(){
+    
+    $('#notesmap').fadeIn('slow');
+    
+// mapInit(); 
 });
 
 
@@ -88,10 +101,16 @@ $('body').one('click','#nav-notesmap', function(){
 **/
 
 function mapInit() {
-    console.log('new map');
+    console.log('init notesmap');
+
+    // LIKE query not working: <option value="stolen" >Stolen</option> <option value="racks" >Racks</option> <option value="usermention" >@'+username+'</option> 
+    var theFilter = '<form id="notesmap-filter"><select> <option value="bikeshops" >Bike Shops</option> <option value="corides" >Co-Rides</option> <option value="allnotes" >All Notes</option> <option value="usernotes" class="filter-username">'+username+'</option> </select> </form>'; 
+    var theHTML = '<a class="map-close close" href="#" ><em class="entypo">&#59228;</em><em class="entypo">&#59228;</em></a><div id="map" class="mapcontainer"></div>'+theFilter;
+    $('#notesmap').html(theHTML).addClass('map-location').fadeIn('slow');
+
 
       // initiate leaflet map
-      map = new L.Map('map', { 
+      notesmap = new L.Map('map', { 
         center: [40.72,-73.97],
         cartodb_logo: false,
         zoom: 12,
@@ -102,7 +121,7 @@ function mapInit() {
 
       L.tileLayer(basemap, {
         attribution: 'MapBox'
-      }).addTo(map);
+      }).addTo(notesmap);
 
       //var layerUrl = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/12114/viz.json';
       var layerUrl = 'http://'+cartodb_accountname+'.cartodb.com/api/v1/viz/'+notes_table+'/viz.json';
@@ -113,10 +132,10 @@ function mapInit() {
         interactivity: "username,description,category"
       }
 
-      cartodb.createLayer(map, layerUrl, layerOptions)
+      cartodb.createLayer(notesmap, layerUrl, layerOptions)
         .on('done', function(layer) {
-          map.addLayer(layer);
-          layers.push(layer);
+          notesmap.addLayer(layer);
+          notesmap_layers.push(layer);
         }).on('error', function() {
         //log the error
         });

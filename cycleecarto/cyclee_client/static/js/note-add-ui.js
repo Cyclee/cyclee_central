@@ -3,50 +3,11 @@ var location_reply;
 var location_choose;
 
 
-// /***********
-//  * =nav addnote subnav
-//  *
-//  * @deprecated -- subnav within addnotes
-//  *
-//  *
-// **/
-// $('#addnote nav a').click( function(){
-//     $(this).parent().children('a').removeClass('active');
-//     $(this).toggleClass('active');
-// });
-// $('.addnote-location nav a').click( function(){
-//     $('#location-end').fadeToggle();
-// });
-
-
-
 /******************************* 
  * =addnote UI
 **/
 
 var addnoteform = $('form#addnote_carto');
-
-
-// /******************************* 
-//  * =addnote enable
-//  * 
-//  * enable UI & user to addnote
-//  * called when location is set
-//  *
-//  * @deprecated
-//  *
-// **/
-// 
-// function enable_addnote(msg){
-//     // var msg = msg; 
-//     console.log('note location added');
-//     // addnoteform.find('.location-prompt').hide().removeClass('first-visit').text('Location Ok!').fadeIn('slow').addClass('disabled');
-//     // addnoteform.find('button').removeClass('disabled');
-//     // addnoteform.find('button').removeAttr('disabled');
-//     // $('section.addnote-info').css('opacity','1');
-// 
-//     if (msg) { feedback_msg(msg); }
-// };
 
 
 
@@ -69,9 +30,21 @@ function get_dateTime(){
  *
 **/
 
-$('.page').on("click", 'a#post-here', function(){
-    geo_locate2(addnote_submit,'Note Added Here');
+$('#addnote').on("click", 'a.post-here', function(){
+
     // should display animated wait signal
+    
+    var lat = addnotemap.map.getCenter().lat;
+    var lng = addnotemap.map.getCenter().lng;
+    var location = lng +','+ lat;  
+    console.log(location);
+
+    var msg = 'One Moment...'
+    feedback_msg(msg,sticky);
+
+    msg = 'Note Added';
+    addnote_submit(location,msg);
+    
 });
 
 
@@ -82,8 +55,14 @@ $('.page').on("click", 'a#post-here', function(){
 **/
 
 
-$('.page').on("click", 'a#post-reply', function(){
-    addnote_submit(location_reply,'Reply Added');
+$('#addnote').on("click", 'a.post-reply', function(){
+    console.log(location_reply);
+    
+    var msg = 'One Moment...';
+    feedback_msg(msg,sticky);
+
+    msg = 'Reply Added';
+    addnote_submit(location_reply,msg);
     // should display animated wait signal
 });
 
@@ -99,16 +78,15 @@ $('.page').on("click", 'a#post-reply', function(){
 function finish_note(clear){
     console.log('finish_note');
     
-    $('.addnote-location').show(); // hidden for replies
-    $('.addnote-reply').hide(); // shown for replies
-
-    $('#addnote .notify').text('Add a Note');
+    $('a#post-note').addClass('post-here'); 
+    $('a#post-note').html('Drop Note Here'); 
+    $('a#post-note').removeClass('post-reply');
+    location_reply = ''; // clear reply location
 
     if( clear ){
         $('#noteContent').val('');
     }
 }
-
 
 
 

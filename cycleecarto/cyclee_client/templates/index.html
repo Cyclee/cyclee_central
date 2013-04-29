@@ -31,7 +31,7 @@
     -->
 
     <link rel="stylesheet" href="/static/css/normalize.css">
-    <link rel="stylesheet" href="/static/css/main.css?v001">
+    <link rel="stylesheet" href="/static/css/main.css?v003">
     <script src="/static/js/vendor/modernizr-2.6.1.min.js"></script>
 </head>
 <body>
@@ -49,7 +49,7 @@
     <div id="wrap">
 
         <nav id="mapnav" class="clearfix" >
-            <a id="nav-notesmap" class="nav-page entypo toggle" href="#">&#127758;<small>Notes Map</small></a>
+            <a id="nav-notesmap" class="entypo" href="#">&#127758;<small>Notes Map</small></a>
         </nav>
 
         <section id="notes" class="page" >
@@ -87,43 +87,28 @@
             </section>
         </section>
 
+        <section id="addnotemap" class="modal"><!-- map --></div>
+
         <section id="addnote" class="page" >
-            
-            <p class="notify">Add a Note</p>
-            
-            <form id="addnote_carto">
+            <section id="addnote-container">
+                <section id="addnote-arrow-container">
+                    <span id="addnote-arrow"></span>
+                    <span id="addnote-target"></span>
+                    <a href="#" id="post-note" class="post-here btn" >Post Here</a>
+                </section>
+                <form id="addnote_carto">
+                    <textarea id="noteContent" name="noteContent" class="input-info" rows="4" placeholder="Add Note Text" ></textarea>
 
-                <section class="addnote-info">
-                    <label for="noteContent" >Note</label>
-                    <textarea id="noteContent" name="noteContent" class="input-info" rows="4" ></textarea>
-
-                    <section class="addnote-location">
-                        <!-- <fieldset id="location-start" class="set-location" > -->
-                            <!-- <label for="inputStart" class="hidden" >Set Note Location</label> -->
-                            <a href="#" id="post-here" class="entypo btn btn-left" >&#127919;<small> Post Here</small></a><a href="#" class="entypo btn btn-right link_location_choose" >&#128269;<small> Choose Location</small></a>
-                            <!-- <a href="#" class="entypo btn link_flaglist" >&#9873;<small> Use Flag</small></a> -->
-                            <!-- <em class="location-prompt first-visit">&#171; Set Location</em> -->
-                            <!-- <input type="text" name="inputStart" class="location debug" placeholder="Address &#187;" disabled /> -->
-                        <!-- </fieldset> -->
-                    </section>
-                    <section class="addnote-reply">
-                        <a href="#" id="post-reply" class="entypo btn" >&#59154;<small> Reply</small></a>
-                    </section>
-                    <!-- <button class="disabled" disabled>Go</button>     -->
-
-                    <a id="tags-toggle" class="closed" ><span class="entypo"><i>&#9656;</i><i style="display:none;">&#9662;</i></span> #hashtags</a>
+                    <a id="tags-toggle" class="closed hidden" ><span class="entypo"><i>&#9656;</i><i style="display:none;">&#9662;</i></span> #hashtags</a>
                     <div id="tags-container" style="display:none;"></div>    
                     <div id="search-hash-container" style="display:none;">
                         <input id="search-hashtags" class="search"  placeholder="search #tags" />
                         <a href="#" class="clearinput entypo" title="press escape">&#10006;</a>
-                    </div>
-                        <br style="clear:both"/>
-                        
-                </section>
-
-            </form>
+                    </div>                        
+                </form>
+            </section>
         </section>
-
+        
         <section id="ride" class="page" >
             <a id="ridehelp" class="help-link hidden" href="#" >&#59141;</a>
             <section id="triggers">
@@ -147,23 +132,6 @@
                     <p><em class="username">Loading...</em></p>
                 </article>
             </section>
-        </section>
-
-        <section id="notesmap" class="page flush">
-            <div id="map" class="mapcontainer"></div>
-            <form id="notesmap-filter">
-                <select>
-                    <option value="bikeshops" >Bike Shops</option>
-                    <option value="corides" >Co-Rides</option>
-                    <option value="stolen" >Stolen</option>
-                    <option value="allnotes" >All Notes</option>
-                    <!-- 
-                        <option value="commutenotes" >Commute Notes</option>
-                        <option>Commute Routes</option>
-                        <option>All Routes</option>
-                    -->
-                </select>
-            </form>
         </section>
 
         <section id="settings" class="page">
@@ -260,9 +228,6 @@
             <p>Stats about rides by you and the community. Help us develop the feature: <a href="http://github.com/cyclee" >github.com/cyclee</a>.</p>
         </section>
 
-        <section id="modal">
-        </section>
-
 		<section id="commute" class="page">
 		    <p class="notify">Set Your Path</p>
             <p style="margin-top:.25em">See the people and notes that cross your usual&nbsp;routes. <span class="entypo hidden" style="color:rgba(0,0,0,0.1);">&#59160; &#59168; &#59160; &#59160; &#128101; <strong class="firsttime">&#59168;</strong> &#59160;</span></p>
@@ -337,6 +302,11 @@
         
     </div><!-- #wrap -->
 
+    <section id="modal"></section><!-- should deprecate -->
+    <section id="notesmap" class="modal"></section>
+    <section id="locationmap" class="modal"></section>
+    <section id="mapchoose" class="modal"></section>
+    
     <script src="/static/js/vendor/jquery-1.8.3.min.js"></script>
     <script src="/static/js/helper.js"></script>
     <script src="/static/js/vendor/moment.js"></script>
@@ -356,6 +326,7 @@
     <script src="/static/js/notes-map.js"></script>
     <script src="/static/js/notes-filter.js"></script>
     <script src="/static/js/utility.js"></script>
+    <script src="/static/js/note-add-map.js"></script>
     <script src="/static/js/init-cyclee.js"></script>
 
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.css" />

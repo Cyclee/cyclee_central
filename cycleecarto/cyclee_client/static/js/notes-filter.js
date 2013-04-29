@@ -29,7 +29,8 @@ var app = (function(){
 		getPosition : function(){ return position; }
 	};
 
-	navigator.geolocation.getCurrentPosition(newPosition,positionError, {enableHighAccuracy: true, maximumAge: 300000}); // mk - use gps / max age 5 min.
+//	navigator.geolocation.getCurrentPosition(newPosition,positionError, {enableHighAccuracy: true, maximumAge: 300000}); // mk - use gps / max age 5 min.
+    navigator.geolocation.getCurrentPosition(newPosition,positionError, {enableHighAccuracy: false, maximumAge: 300000}); // mk - use gps / max age 5 min.
 
 	return public;
 

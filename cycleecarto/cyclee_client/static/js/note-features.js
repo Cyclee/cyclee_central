@@ -2,6 +2,8 @@
  * =note-feature.js
  *
  * features on each note in the feed
+ * includes: reply, map, and link to user
+ *
  *
 **/
 
@@ -13,6 +15,10 @@
  *
 **/
 
+$('#notes').on( 'click', 'img', function(){
+    var theuser = $(this).attr('alt');
+    userNotes(theuser);
+});
 
 
 
@@ -23,21 +29,49 @@
  * click loads map of location
  *
 **/
+
+
+$('#notes').one( 'click', 'a.maplink', function(){
+    // map container
+    var theHTML = '<a class="map-close close" href="#" ><em class="entypo">&#59228;</em><em class="entypo">&#59228;</em></a><div id="locationmap-map" class="mapcontainer"></div>';
+    $('#locationmap').html(theHTML).addClass('map-location').fadeIn('slow');
+});
+
+
 $('#notes').on( 'click', 'a.maplink', function(){
     
-    // could also get info on user + map
-    var theHTML = '<p class="notify">Note Location</p><div class="map-buttons" ><a class="close" href="#" >Close</a></div><div id="findmap" class="mapcontainer"></div>';
-    $('#modal').html(theHTML).removeClass().addClass('modalmap').fadeIn('slow');
+    
+    $('#locationmap:hidden').fadeIn('slow');
+    
+    // scroll note up
+    var s = $(this).position().top;
+    s = s - 26;
+    console.log(s);
+    // $('#wrap').scrollTop(s);
+    $('#wrap').animate({scrollTop:s}, 'slow');
+    
 
+    // create map
     var thisgeo = $(this).attr('title').split(",");
-    createmap('findmap',thisgeo[1],thisgeo[0]);
-    add_marker(thisgeo[1],thisgeo[0]);
+    var mapzoom = 14;
+
+    if(locationmap.createMap){ // run once and removed
+        locationmap.createMap(nyc_lat,nyc_lng,7);        
+    }
+    
+    if(locationmap.marker == false){
+        locationmap.addMarker(thisgeo[1],thisgeo[0]);
+    }
+    else {
+        locationmap.moveMarker(thisgeo[1],thisgeo[0]);        
+    }        
+    locationmap.setView(thisgeo[1],thisgeo[0],mapzoom);
 
 });
 
 // address click triggers map link
 $('#notes').on('click','address', function(){
-    console.log('address click');
+    // console.log('address click');
     $(this).parents('article').find('a.maplink').click();
 });
 
@@ -52,37 +86,24 @@ $('#notes').on('click','address', function(){
 **/
 
 $('#notes').on( 'click', 'a.replylink', function(){
-    
+
     // reply @username
     var replyName = '@' + $(this).parents('article').find('img').attr('alt') + ' ';
 
     $('#noteContent').val(replyName);
-    $('#addnote p.notify').text('Reply ' + replyName);
-
     console.log('reply: '+ replyName);
 
     // reply location
     location_reply = $(this).parents('article').find('.maplink').attr('title');
-    
+    console.log('location_reply: '+ location_reply);
+
     // ui
-    $('.addnote-location').hide();
-    $('.addnote-reply').show();
+    $('a#post-note').html('Drop Reply Here').removeClass('post-here').addClass('post-reply');
+
     switchpage('addnote');
-    
+    // then check for location_reply ... clear on nav-addnote
+
 });
 $('#notes').on('click', 'a.replylink', hashtags_load); // trigger load. event later removed.
 
 
-
-/***********
- * =user link
- *
- * click a user name or thumbnail
- * load their posts
- *
-**/
-
-$('#notes').on( 'click', 'img', function(){
-    var theuser = $(this).attr('alt');
-    userNotes(theuser);
-});

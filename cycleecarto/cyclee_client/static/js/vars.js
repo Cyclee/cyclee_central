@@ -51,7 +51,6 @@ var url_cartoMap = 'https://'+cartodb_accountname+'.cartodb.com/tables/' // + ?_
 
 var user_location;
 var inputfield;
-var find_map = null;
 var find_lat, find_lng;
 var user_flags;
 

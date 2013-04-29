@@ -149,7 +149,6 @@ function username_filter(){
     var logout = '<li class="filter-logout">logout</li>';
 
     // append
-    $('form#notesmap-filter').find('select').append(user_opt);
     $('.notesfilter').find('ul').append(user_filtername).append(user_mentions).append(logout);
 
     // add to login/reg form

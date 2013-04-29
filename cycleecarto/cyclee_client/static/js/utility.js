@@ -64,11 +64,12 @@ function geo_locate2(callback,vars){
  * notice to user
 **/
 
-function feedback_msg(msg){
+function feedback_msg(msg,sticky){
     console.log('feedback: ' + msg);
     var theHTML = msg;
     var modal = $('#modal');
-    modal.hide().removeClass().addClass('msg').html(theHTML).fadeIn().delay('2500').fadeOut('slow');
+    modal.hide().removeClass().addClass('msg').html(theHTML).fadeIn();
+    if  ( !sticky ) { modal.delay('2500').fadeOut('slow'); }
 }
 
 /******************************* 
@@ -131,10 +132,16 @@ $('.firsttime').click( function(){
     $(this).removeClass('firsttime');
     })
 
+$('.modal').on("click", 'a.close', function(){ // binds to future elements
+    console.log('closed');
+    $('.modal').fadeOut();
+});
+    // should deprecate #modal
 $('#modal').on("click", 'a.close', function(){ // binds to future elements
     console.log('closed');
     $(this).parents('#modal').fadeOut();
 });
+
 
 $('a.clearinput').on("click", function(){
     $(this).parent().children('input').val('');

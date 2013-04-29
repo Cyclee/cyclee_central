@@ -26,11 +26,12 @@ function switchpage(id){
     else {
         $('#nav-logo').css('border-color','rgba(255,0,255,1)');
     }
+    
     $('section.page').hide();
     $('section#' +id).fadeIn();
     
     // hide/show notes nav
-    if( id=='notes' || id=='addnote' ){
+    if( id=='notes'){
         $('nav#mapnav').show();
     }
     else {
@@ -39,7 +40,17 @@ function switchpage(id){
         
     // hide misc
     $('.notesfilter').hide();
-    $('#modal').hide();
+    $('#modal').hide(); // should deprecate
+    $('.modal').hide();
+
+    if( id=='addnote' && addnotemap_once){
+        addnotemap_init();
+    }
+    else if(id=='addnote'){ 
+        addnotemap_locate();
+    }; 
+
+
 };
 
 
@@ -84,7 +95,7 @@ $('body').on('click','a.toggle',function(){
  *
 **/
 $('#nav-addnote').click( function(){
-    finish_note(); // just to be sure for replies not sent
+    finish_note('clear'); // just to be sure for replies not sent
     userFlags();
 });
 
