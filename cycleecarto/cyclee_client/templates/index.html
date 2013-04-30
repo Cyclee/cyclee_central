@@ -31,7 +31,7 @@
     -->
 
     <link rel="stylesheet" href="/static/css/normalize.css">
-    <link rel="stylesheet" href="/static/css/main.css?v003">
+    <link rel="stylesheet" href="/static/css/main.css?v004">
     <script src="/static/js/vendor/modernizr-2.6.1.min.js"></script>
 </head>
 <body>
@@ -91,11 +91,6 @@
 
         <section id="addnote" class="page" >
             <section id="addnote-container">
-                <section id="addnote-arrow-container">
-                    <span id="addnote-arrow"></span>
-                    <span id="addnote-target"></span>
-                    <a href="#" id="post-note" class="post-here btn" >Post Here</a>
-                </section>
                 <form id="addnote_carto">
                     <textarea id="noteContent" name="noteContent" class="input-info" rows="4" placeholder="Add Note Text" ></textarea>
 
@@ -106,6 +101,11 @@
                         <a href="#" class="clearinput entypo" title="press escape">&#10006;</a>
                     </div>                        
                 </form>
+                <a href="#" id="post-note" class="post-here btn" >Post Here</a>
+            </section>
+            <section id="addnote-arrow-container">
+                <span id="addnote-arrow"></span>
+                <span id="addnote-target"></span>
             </section>
             <p class="drag-me">Drag Map</p>
         </section>
