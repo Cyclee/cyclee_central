@@ -999,39 +999,52 @@ em.entypo { font-style:normal; }
     box-shadow:1px 1px 2px rgba(0, 0, 0, 0.1);
     background:rgba(255,255,255,0.9);
 }
-#notesfilter section header {
-    min-width:40px; padding-right:4px;
-}
-#notesfilter section header {
+
+#notesfilter header {
     max-width:110px;
     white-space:nowrap;
+    padding:0 10px 0 5px;
     overflow:hidden;
 }
-#notesfilter section:first-child header {
-    max-width:none;
+
+#notesfilter h2 { 
+    margin-left:.1em;
+    font-weight:300; 
+    }
+
+#notesfilter footer {
+    display:none;
+    border-top:1px solid #eee;
+    padding:.25em 10px .25em 5px;
+    overflow:hidden;
 }
-#notesfilter em.entypo {
-	color:rgb(180,192,204);
-    vertical-align:-6px;
-}
-#notesfilter section ul {
+
+#notesfilter ul {
     display:none;
     list-style:none;
     margin:.25em 0; padding:.25em 0;
     border-top:1px solid #eee;
 }
-#notesfilter section li {
+#notesfilter li {
     list-style:none;
     margin:0; padding:.25em 4px;
 }
 
-#notesfilter section li,
-#notesfilter section header {
+#notesfilter li,
+#notesfilter header {
     cursor:pointer;
 }
-#notesfilter section li:hover {
+#notesfilter li:hover,
+#notesfilter a:hover {
     background:rgba(255,0,255,0.3);
 }
+#notesfilter li:active,
+#notesfilter a:active {
+    color:#fff;
+    background:rgba(255,0,255,1);
+}
+
+#notesfilter a { padding:2px 4px; text-decoration:none; }
 
 
 #filter-tags { 
@@ -1042,6 +1055,28 @@ em.entypo { font-style:normal; }
 .open em.entypo.open { display:none; }
 em.entypo.close { display:none; }
 
+
+
+/***********
+ * =destinations
+ *
+**/
+
+#destinations fieldset { 
+    margin-bottom:1em; 
+    padding-top:.5em;
+    border-top:1px solid #eee;
+    }
+
+#destinations input { float:left; }
+
+#destinations input.destination-name { 
+    width:30%; margin-right:2%;
+    }
+
+#destinations input.destination-address { 
+    width:64%;
+    }
 
 
 /***********

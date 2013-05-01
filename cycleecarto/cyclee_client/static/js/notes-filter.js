@@ -41,20 +41,23 @@ $(app).on("position",function(position){ console.log("newPosition"); console.log
 
 
 app.locations = [
-	{ name : "Brooklyn (Mnhtn/Brklyn Bridge)", location: "-73.9877700805664 40.70042247927176"},
-	{ name : "Brooklyn (Willsbrg Bridge)", location: "-73.96305084228516 40.71083299030839"},
-	{ name : "Upper Manhattan (West Side)", location: "-73.98931503295898 40.769491796481404"},
-	{ name : "Upper Manhattan (East Side)", location: "-73.963565826416 40.761560925502806"},
-	{ name : "Union Square", location: "-73.99068832397461 40.73555143165807"},
-	{ name : "Soho", location: "-73.9990997314453 40.72293316385307"},
-	{ name : "Loisaida", location: "-73.97953033447266 40.724949645619056"},
-	{ name : "Lower East Side", location: "-73.98940086364746 40.71720862468233"},
-	{ name : "Wall Street", location: "-74.01128768920898 40.70852329864894"},
-	{ name : "Battery Park", location: "-74.01643753051758 40.71122335281536"},
-	{ name : "West Village", location: "-74.00545120239258 40.73321007823572"},
-	{ name : "Times Sq", location: "-73.98605346679688 40.75616479199092"},
-	{ name : "Queens", location: "-73.94433975219727 40.75219867966512"},
-	{ name : "Bronx", location: "-73.92562866210938 40.81796653313175"}
+    { name : "The Met", location: "-73.96219254 40.77911158"},
+    { name : "Union Square", location: "-73.99112284 40.73502707"},
+    { name : "Grand Army Plaza", location: "-73.96970272 40.67484475"},
+    // { name : "Brooklyn (Mnhtn/Brklyn Bridge)", location: "-73.9877700805664 40.70042247927176"},
+    // { name : "Brooklyn (Willsbrg Bridge)", location: "-73.96305084228516 40.71083299030839"},
+    // { name : "Upper Manhattan (West Side)", location: "-73.98931503295898 40.769491796481404"},
+    // { name : "Upper Manhattan (East Side)", location: "-73.963565826416 40.761560925502806"},
+    // { name : "Union Square", location: "-73.99068832397461 40.73555143165807"},
+    // { name : "Soho", location: "-73.9990997314453 40.72293316385307"},
+    // { name : "Loisaida", location: "-73.97953033447266 40.724949645619056"},
+    // { name : "Lower East Side", location: "-73.98940086364746 40.71720862468233"},
+    // { name : "Wall Street", location: "-74.01128768920898 40.70852329864894"},
+    // { name : "Battery Park", location: "-74.01643753051758 40.71122335281536"},
+    // { name : "West Village", location: "-74.00545120239258 40.73321007823572"},
+    // { name : "Times Sq", location: "-73.98605346679688 40.75616479199092"},
+    // { name : "Queens", location: "-73.94433975219727 40.75219867966512"},
+    // { name : "Bronx", location: "-73.92562866210938 40.81796653313175"}
 ];
 
 
@@ -102,6 +105,7 @@ var DropDown = (function(){
 				$options = $el.find('ul'),
 				$header = $el.find('header'),
 				$headerText = $el.find('h2'),
+				$footer = $el.find('footer'),
 				value = $headerText.text();
 		
 			$header.on('click',function(){ public.toggle(); });
@@ -126,11 +130,13 @@ var DropDown = (function(){
 					//closeOthers(this);
 					$el.addClass('open');
 					$options.fadeIn();
+					$footer.fadeIn();
 				},
 				close : function(){
 					open = false;
 					$el.removeClass('open');
 					$options.fadeOut();
+					$footer.fadeOut();
 				},
 				toggle : function(){
 					if(open){ this.close(); }else{ this.open(); }
