@@ -1,13 +1,18 @@
 var app = (function(){
-	var position, public, 
+	var position, public, recordingIntervalId,
 		newPosition = function(p){ position = p; $(public).trigger("position",position) },
-		positionError = function(error){ console.log(error); };
+		positionError = function(error){ console.log(error); },
+		updatePosition = function(onData,onError){
+			navigator.geolocation.getCurrentPosition(onData,onError, {enableHighAccuracy: true, maximumAge: 500}); // mk - use gps / max age 1s
+		};
 
 	public = {
-		getPosition : function(){ return position; }
+		getPosition : function(){ return position; },
+		startRecordingPosition : function(){ recordingIntervalId = setInterval(function(){ updatePosition(function(p){ newPosition(p); console.log("new position:",p); },positionError); },1000); },
+		stopRecordingPosition : function(){ clearInterval(recordingIntervalId); }
 	};
 
-	navigator.geolocation.getCurrentPosition(newPosition,positionError, {enableHighAccuracy: true, maximumAge: 300000}); // mk - use gps / max age 5 min.
+	updatePosition(newPosition,positionError);
 
 	return public;
 
