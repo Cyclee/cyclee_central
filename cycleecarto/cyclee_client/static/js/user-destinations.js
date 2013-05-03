@@ -17,7 +17,24 @@ $('#nav-destinations').one('click',function(){
     
 });
 
-
+var loadDestinations = function(){
+	console.log("destinations load count:" + app.locations.length);
+	var count = 3, i, location, address;
+	
+	for(i = 0; i < count; i++){
+		//location = localStorage.getItem('destination'+i+'location'); //mk - swap location for address once geocoded
+		//if(location){
+		address = localStorage.getItem('destination'+i+'address');
+		if(address){
+			app.locations.push({
+				location : location,
+				name : localStorage.getItem('destination'+i+'name'),
+				address : localStorage.getItem('destination'+i+'address')
+			});
+		}
+	}
+	console.log("destinations loaded count:" + app.locations.length);
+};
 
 /***********
  * =save user destinations
