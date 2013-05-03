@@ -26,7 +26,8 @@ var app = (function(){
 		positionError = function(error){ console.log(error); };
 
 	public = {
-		getPosition : function(){ return position; }
+		getPosition : function(){ return position; },
+		locations : []
 	};
 
 //	navigator.geolocation.getCurrentPosition(newPosition,positionError, {enableHighAccuracy: true, maximumAge: 300000}); // mk - use gps / max age 5 min.
@@ -40,10 +41,9 @@ var app = (function(){
 $(app).on("position",function(position){ console.log("newPosition"); console.log(position); });
 
 
-app.locations = [
-    { name : "The Met", location: "-73.96219254 40.77911158"},
-    { name : "Union Square", location: "-73.99112284 40.73502707"},
-    { name : "Grand Army Plaza", location: "-73.96970272 40.67484475"},
+app.locations.push({ name : "The Met", location: "-73.96219254 40.77911158"});
+app.locations.push({ name : "Union Square", location: "-73.99112284 40.73502707"});
+app.locations.push({ name : "Grand Army Plaza", location: "-73.96970272 40.67484475"});
     // { name : "Brooklyn (Mnhtn/Brklyn Bridge)", location: "-73.9877700805664 40.70042247927176"},
     // { name : "Brooklyn (Willsbrg Bridge)", location: "-73.96305084228516 40.71083299030839"},
     // { name : "Upper Manhattan (West Side)", location: "-73.98931503295898 40.769491796481404"},
@@ -58,7 +58,7 @@ app.locations = [
     // { name : "Times Sq", location: "-73.98605346679688 40.75616479199092"},
     // { name : "Queens", location: "-73.94433975219727 40.75219867966512"},
     // { name : "Bronx", location: "-73.92562866210938 40.81796653313175"}
-];
+
 
 
 
@@ -171,12 +171,13 @@ var a = DropDown.create($("#filter-type"));
 a.addItem("All",{query:allNotes});
 
 $(app).one("position", function(){
-
+	loadDestinations();
 	app.locations.forEach(function(item,i){
 		a.addItem("To " + item.name,{type:"location",location:item.location,query:function(){ getNotes(app.getPosition().coords.longitude + " " + app.getPosition().coords.latitude,item.location) }});
 	});
-
+	
 });
+
 //a.addItem("Between Work & Union Square",{type:"route"});
 //a.addItem("Between Home & Grand Army Plaza",{type:"route"});
 //a.addItem("Favorites",{});
