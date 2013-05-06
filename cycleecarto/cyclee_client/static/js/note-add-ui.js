@@ -109,7 +109,7 @@ $('#addnote').on('click', 'a.post-reply', function(){
 function finish_note(clear){
     console.log('finish_note');
     
-    $('a#post-note').addClass('post-here'); 
+    $('a#post-note').addClass('post-here').hide();     
     $('a#post-note').html('Drop Note Here'); 
     $('a#post-note').removeClass('post-reply');
     location_reply = ''; // clear reply location
