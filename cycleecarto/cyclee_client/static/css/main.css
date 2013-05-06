@@ -309,6 +309,8 @@ header#main a#nav-logo {
     padding:16px 10px 14px 20px;
     width:70px;
     background:rgb(31,44,51) url('../img/cyclee-logo-sm.png') no-repeat center center; 
+    background-image:url('../img/cyclee-logo@3x.png'); 
+    background-size: 70px 26px;
     border:0 solid rgba(255,0,255,0);
     border-width:0 0 0 4px;
 }
@@ -847,7 +849,7 @@ section#notes {
     display:block;
     background:none;
     box-shadow:none;
-    padding:0 0 85px; /* for #mapnav */
+    padding:3em 0 85px; /* for #mapnav */
     margin-top:0;
 }
  
@@ -990,6 +992,8 @@ em.entypo { font-style:normal; }
 
 #notesfilter {
     position:absolute;
+    top:0;
+    max-width:90%;
 }
 #notesfilter section {
     float:left;
@@ -1001,7 +1005,6 @@ em.entypo { font-style:normal; }
 }
 
 #notesfilter header {
-    max-width:110px;
     white-space:nowrap;
     padding:0 10px 0 5px;
     overflow:hidden;
@@ -1044,7 +1047,11 @@ em.entypo { font-style:normal; }
     background:rgba(255,0,255,1);
 }
 
-#notesfilter a { padding:2px 4px; text-decoration:none; }
+#notesfilter a { 
+    display:block;
+    padding:2px 4px; 
+    text-decoration:none; 
+    }
 
 
 #filter-tags { 
@@ -1088,6 +1095,7 @@ em.entypo.close { display:none; }
     display:none;
     height:100%;
     z-index:-1;
+    z-index:0;
     border:0; 
 }
 
@@ -1099,6 +1107,7 @@ em.entypo.close { display:none; }
     padding:0;
 /*    border-radius:0;*/
     width:100%;
+    z-index:1;
 /*    bottom:50%;*/
 /*    margin-bottom:-12px;*/
     }

@@ -49,13 +49,44 @@ $('#addnote').on("click", 'a.post-here', function(){
 
 
 /******************************* 
+ * =reply show button
+ *
+ *
+**/
+
+$('#post-note').hide();
+
+$('#addnote').on('focus','#noteContent', function(){
+    
+    console.log('adding note content');
+    $('#post-note').fadeIn('slow');
+    
+    
+});
+
+$('#nav-addnote').on('click',function(){ 
+    console.log('addFirstNote()');   
+    if (!localStorage.addfirstnote){
+        console.log('first note');   
+        var msg = 'Drag Map to Change Location';
+        var t = setTimeout( function(){feedback_msg(msg)},1000);  
+        }
+    else {
+        // should set on first pan
+        // localStorage.addfirstnote = 'x';
+    }
+    
+});
+
+
+/******************************* 
  * =reply submit
  *
  *
 **/
 
 
-$('#addnote').on("click", 'a.post-reply', function(){
+$('#addnote').on('click', 'a.post-reply', function(){
     console.log(location_reply);
     
     var msg = 'One Moment...';
@@ -78,7 +109,7 @@ $('#addnote').on("click", 'a.post-reply', function(){
 function finish_note(clear){
     console.log('finish_note');
     
-    $('a#post-note').addClass('post-here'); 
+    $('a#post-note').addClass('post-here').hide();     
     $('a#post-note').html('Drop Note Here'); 
     $('a#post-note').removeClass('post-reply');
     location_reply = ''; // clear reply location
