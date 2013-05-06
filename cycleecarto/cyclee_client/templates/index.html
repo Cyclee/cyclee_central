@@ -58,11 +58,15 @@
                     <header>Notes <h2>All</h2></header>
                     <ul>
                     </ul>
-                    <footer><a href="#" id="nav-destinations" class="nav-page">Settings</a></footer>
+                    <footer>
+                        <a id="nav-destinations" class="nav-page" href="#" ><span class="entypo">&#9881;</span> Settings</a>
+                        <a id="nav-help" class="nav-page" href="#" ><span class="entypo">&#59140;</span> Help</a>
+                        <a href="#" class="logout"><span class="entypo">&#11013;</span> Logout</a>
+                    </footer>
                 </section>
             </div>
             
-            <nav class="clearfix" >
+            <nav class="hidden clearfix" >
                 <form id="search" class="hidden" ><input type="search" placeholder="search notes" /></form>
                 <a id="nav-notesfilter" class="entypo btn firsttime" href="#">&hearts;<!-- eye: &#59146; --><!-- list: &#57349; --><small>View</small></a>
                     <div class="notesfilter">
@@ -93,14 +97,14 @@
         <section id="addnote" class="page" >
             <section id="addnote-container">
                 <form id="addnote_carto">
-                    <textarea id="noteContent" name="noteContent" class="input-info" rows="4" placeholder="Drag Map to Location" ></textarea>
+                    <textarea id="noteContent" name="noteContent" class="input-info" rows="4" placeholder="Drag Map to Location. Add text here." ></textarea>
 
                     <a id="tags-toggle" class="closed hidden" ><span class="entypo"><i>&#9656;</i><i style="display:none;">&#9662;</i></span> #hashtags</a>
                     <div id="tags-container" style="display:none;"></div>    
                     <div id="search-hash-container" style="display:none;">
                         <input id="search-hashtags" class="search"  placeholder="search #tags" />
                         <a href="#" class="clearinput entypo" title="press escape">&#10006;</a>
-                    </div>                        
+                    </div>
                 </form>
                 <a href="#" id="post-note" class="post-here btn" >Post Here</a>
             </section>
@@ -180,31 +184,18 @@
         </section>
 
         <section id="help" class="page">
-            <section class="help-addnote">
-                <p class="notify">Add a Note</p>
-                <p style="margin-top:.25em"><a class="entypo firsttime" href="#" >&#59160;</a>&nbsp;Add a note. 
-                    Place it on your <a class="entypo" >&#127919;</a>&nbsp;current location, 
-                    or <a class="entypo" >&#128269;</a>&nbsp;find somewhere else in the city. 
-                    Drop a <a class="entypo" href="#" >&#9873;</a>&nbsp;flag during your ride to mark a spot to add a note later. 
-                </p>
-            </section>
-            <section class="help-explore">
-                <p class="notify">Explore</p>
-                <p style="margin-top:.25em">See <a class="entypo" href="#" >&#128101;</a>&nbsp;people who overlap your route. 
-                    View a <a class="entypo" href="#" >&#127758;</a>&nbsp;map of bike shops and more. 
-                    <a class="entypo" href="#" >&#57349;</a>&nbsp;Filter &amp; view notes along your route or near you now. 
-                    <a class="entypo" href="#" >&#9881;</a>&nbsp;Set your typical ride. 
-                </p>
-                <p>
-                    Return home anytime: &nbsp; 
-                    <a href="#" onclick="$('#nav-logo').click();" class="bkg-blue" style="padding:3px 6px 4px; text-decoration:none;" >
-                        <span style="font-family:'entypo'; font-size: 1.1em; line-height:1em; color:#f0f;" >&#59229;</span>
-                        <img src="/static/img/cyclee-logo-sm.png" style="width:35px; height:13px;" />
-                    </a>
-                </p>
-            </section>
+            <p class="notify">Explore</p>
+            <p style="margin-top:.25em">
+                View notes and their <em class="entypo">&#59172;</em> locations. View a <a class="entypo" href="#" >&#127758;</a>&nbsp;map of bike shops and more.
+                Return home anytime:&nbsp;<a href="#" onclick="$('#nav-logo').click();" class="bkg-blue" style="padding:3px 6px 4px; text-decoration:none;" ><span style="font-family:'entypo'; font-size: 1.1em; line-height:1em; color:#f0f;" >&#59229;</span><img src="img/cyclee-logo-sm.png" style="width:35px; height:13px;" /></a>
+            </p>
+            <p class="notify">Add a Note</p>
+            <p style="margin-top:.25em">Drag the map to position your note. Click <em>Drop Note</em> to submit. <em class="entypo">&#59154;</em>&nbsp;Reply to the people who overlap your rides.</p>
+            <p class="notify">Thumbnails</p>
+            <p style="margin-top:.25em">Cyclee uses <a href="https://secure.gravatar.com/">Gravatar</a> for rider thumbnails. Use the same email address.</p>
+            <p class="notify">Destinations</p>
+            <p style="margin-top:.25em"><a class="entypo" href="#" >&#9662;</a> Filter notes based on your usual destinations. </p>
         </section>
-
 
         <section id="filters" class="page">
             <p>Coming soon. This will allow you quickly search for info around a particular location, #hashtag, or group of people. Help us develop the feature: <a href="http://github.com/cyclee" >github.com/cyclee</a>.</p>

@@ -140,7 +140,7 @@ function username_filter(){
     // remove previous
     $('.filter-username').remove();
     $('.filter-mentions').remove();
-    $('.filter-logout').remove();
+    // $('.filter-logout').remove();
 
     // set html
     var user_opt = '<option value="usernotes" class="filter-username">'+username+'</option>';
@@ -149,7 +149,7 @@ function username_filter(){
     var logout = '<li class="filter-logout">logout</li>';
 
     // append
-    $('.notesfilter').find('ul').append(user_filtername).append(user_mentions).append(logout);
+    // $('.notesfilter').find('ul').append(user_filtername).append(user_mentions).append(logout);
 
     // add to login/reg form
 	$("#id_username").val(username);
@@ -273,11 +273,17 @@ var submitRegistration = function(){
  * =logout
  *
 **/
+
+$('body').on('click','a.logout',submitLogout);
+
 function submitLogout(){
     console.log('logout');
     var url = cyclee_root + 'm/accounts/logout/';
     var get = $.get(url, function(data) {
-    }).error(function(){
+    }).success(function(){
+        switchpage('signup');
+    })
+    .error(function(){
         var msg = 'Unable to reach server for logout.'
         error_msg(msg);
     });
