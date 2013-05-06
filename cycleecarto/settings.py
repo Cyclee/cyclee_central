@@ -12,7 +12,7 @@ djcelery.setup_loader()
 settings_dir = os.path.dirname(__file__)
 PROJECT_ROOT = os.path.abspath(os.path.dirname(settings_dir))
 
-DEBUG = True
+DEBUG = env['DJANGO_DEBUG'] #get DEBUG from env
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
