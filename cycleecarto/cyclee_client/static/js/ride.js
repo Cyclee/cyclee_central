@@ -159,7 +159,7 @@ function trace_carto(lati,longi) {
 
 
 /******************************* 
- * Ride Geometry
+ * =ride draw path 
  */
 
 // ride complete. make line in CartoDB from points.
@@ -178,3 +178,26 @@ function trace_line() {
 
     }
 }
+
+
+
+/******************************* 
+ * =rides query
+ *
+ * get user rides
+ *
+ *
+ */
+
+function ridesList(){ 
+
+    // var sql_statement = "q=SELECT ST_Length(the_geom) FROM "+ride_table+" WHERE username = "+username+" ORDER BY created_at DESC";
+    // var url_query = url_cartoData + sql_statement;
+    // 
+    // $.getJSON(url_query, function(data){
+    //     user_flags = data.rows[0].count;
+    //     console.log('user_flags: '+ user_flags);
+    //     flags_enable();
+    // });      
+}
+
