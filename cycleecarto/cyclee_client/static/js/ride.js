@@ -104,7 +104,7 @@ function ride_start(){
     clock_int = self.setInterval(clock_tick, 1000);
     
     rideID += 1;
-    watch_int = navigator.geolocation.watchPosition(watchTrace,error,{enableHighAccuracy:true}); 
+    watch_int = navigator.geolocation.watchPosition(watchTrace,function(){ console.log("watchPosition error"); },{enableHighAccuracy:true}); 
 }
 
 function ride_stop(){
@@ -116,7 +116,8 @@ function ride_stop(){
      trace_line();
      
      trace_count = 0;
-     localStorage.rideid = rideID;
+     //localStorage.rideid = rideID;
+     app.addRide(rideID);
      $('#ride-count').text( rideID + ' rides');
      
 };
@@ -174,7 +175,28 @@ function trace_line() {
         $.getJSON(theUrl, function(data){
             console.log("Line written to Carto for RideID: " + rideID ); 
             console.log(data);
+            app.addRide(rideID);
         });
 
     }
 }
+
+$("#prevRidesShow").on("click",function(e){
+	$("#prevRidesContent").removeClass("hidden");
+	$("#prevRidesShow").addClass("hidden");
+	return false;
+});
+
+$("#prevRidesContent > a").on("click",function(e){
+	$("#prevRidesContent").addClass("hidden");
+	$("#prevRidesShow").removeClass("hidden");
+	return false;
+});
+
+$(document).ready(function(){
+	var $ul = $("#prevRidesContent > ul");
+
+	app.getRides().forEach(function(element,index){
+		$ul.append("<li>" + element + "</li>");
+	});
+});

@@ -1559,6 +1559,10 @@ textarea[contenteditable] {
 	color:red;
 }
 
-
+#prevRidesList {
+	position: absolute;
+	top:10px;
+	left:20px;
+}
 
 

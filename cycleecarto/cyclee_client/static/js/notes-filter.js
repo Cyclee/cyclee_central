@@ -21,11 +21,16 @@ getNotes(commute_1a,commute_1b);
 
 
 var app = (function(){
-	var position, public, 
-		newPosition = function(p){ position = p; $(public).trigger("position",position) },
-		positionError = function(error){ console.log(error); };
+	var position, publicObj, 
+		newPosition = function(p){ position = p; $(publicObj).trigger("position",position) },
+		positionError = function(error){ console.log(error); },
+		rides = localStorage.getItem("rides") ? JSON.parse(localStorage.getItem("rides")) : [];
 
-	public = {
+	publicObj = {
+		getRides : function(){ return rides; },
+		addRide : function(ride){ rides.push(ride); localStorage.setItem("rides",JSON.stringify(rides)); $(publicObj).trigger("newRide",ride); },
+		removeRide : function(ride){ rides = _.without(rides,ride); localStorage.setItem("rides",JSON.stringify(rides)); },
+		resetRides : function(){ localStorage.removeItem("rides"); },
 		getPosition : function(){ return position; },
 		locations : []
 	};
@@ -33,12 +38,15 @@ var app = (function(){
 //	navigator.geolocation.getCurrentPosition(newPosition,positionError, {enableHighAccuracy: true, maximumAge: 300000}); // mk - use gps / max age 5 min.
     navigator.geolocation.getCurrentPosition(newPosition,positionError, {enableHighAccuracy: false, maximumAge: 300000}); // mk - use gps / max age 5 min.
 
-	return public;
+	return publicObj;
 
 }());
 
 
 $(app).on("position",function(position){ console.log("newPosition"); console.log(position); });
+$(app).on("newRide",function(ride){ 
+	console.log("new ride - update list - " + ride); 
+});
 
 
 app.locations.push({ name : "The Met", location: "-73.96219254 40.77911158"});
