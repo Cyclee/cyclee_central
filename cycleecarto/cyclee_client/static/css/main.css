@@ -309,6 +309,8 @@ header#main a#nav-logo {
     padding:16px 10px 14px 20px;
     width:70px;
     background:rgb(31,44,51) url('../img/cyclee-logo-sm.png') no-repeat center center; 
+    background-image:url('../img/cyclee-logo@3x.png'); 
+    background-size: 70px 26px;
     border:0 solid rgba(255,0,255,0);
     border-width:0 0 0 4px;
 }
