@@ -16,7 +16,7 @@ DEBUG = env['DJANGO_DEBUG'] #get DEBUG from env
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Cyclee', 'info@cyclee.org'),
 )
 
 MANAGERS = ADMINS
@@ -48,6 +48,10 @@ CACHES = {
     },
 }
 
+EMAIL_HOST = env['CYCLEE_SMTP_HOST']
+EMAIL_PORT = int(env['CYCLEE_SMTP_PORT'])
+EMAIL_HOST_USER = env['CYCLEE_SMTP_LOGIN']
+EMAIL_HOST_PASSWORD = str(env['CYCLEE_SMTP_PASSWORD'])
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
@@ -139,6 +143,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    # 'cycleeapp.middleware.InactiveUserMiddleware',
     'cycleeapp.middleware.XssSharingMiddleware'
 )
 

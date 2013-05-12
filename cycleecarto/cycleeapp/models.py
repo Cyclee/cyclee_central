@@ -17,7 +17,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     city = models.CharField(max_length=250, null=True, blank=True)
     zip = models.CharField(max_length=10, null=True, blank=True)
-    avatar = models.URLField(blank=True, null=True) # md5 hash of email used by http://gravatar.com
+    avatar = models.CharField(max_length=200, blank=True, null=True) # md5 hash of email used by http://gravatar.com
     bike = models.CharField(max_length=128, blank=True, null=True)
     
 

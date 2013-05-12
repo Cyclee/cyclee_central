@@ -1,4 +1,6 @@
- 
+import json
+import logging 
+from django.contrib.auth import logout
 from django import http
  
 try:
@@ -9,6 +11,7 @@ except:
     XS_SHARING_ALLOWED_ORIGINS = '*'
     XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT']
  
+logger = logging.getLogger(__name__)
  
 class XssSharingMiddleware(object):
     """
@@ -38,3 +41,16 @@ class XssSharingMiddleware(object):
         response['Access-Control-Allow-Methods'] = ",".join( XS_SHARING_ALLOWED_METHODS )
  
         return response
+
+class InactiveUserMiddleware(object):
+    def process_request(self, request):
+        try:
+            if not request.user.is_active:
+                logout(request)
+                logging.warning('Inactive user access: {}'.format(request.user.username))
+                ret = dict(authenticated=False, message='User not active')
+                return http.HttpResponse(json.dumps(ret), content_type='application/json')
+        except:
+            logging.exception('Inactive user middleware error')
+            pass
+        return None
