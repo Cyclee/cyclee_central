@@ -87,7 +87,7 @@
                 <article class="template">
                     <a title="username" href="#" ><img src="http://www.gravatar.com/avatar/?d=mm&s=50" /></a>
                     <div class="meta" ></div>
-                    <p><strong>Welcome to Cyclee!</strong> A network connection is required to view the latest notes.<br /><br /><a href="#" onclick="switchpage('settings');">Set your usual route</a> to view info most relevant to your rides.<br /><br />Drop notes for other people who cross your path.</p>
+                    <p><strong>Welcome to Cyclee!</strong> No notes found. A network connection is required. <a href="#" onclick="switchpage('destinations');">Set your usual destinations</a> to view info most relevant to your rides. Drop notes for other people who cross your path.</p>
                 </article>
             </section>
         </section>
@@ -97,8 +97,7 @@
         <section id="addnote" class="page" >
             <section id="addnote-container">
                 <form id="addnote_carto">
-                    <textarea id="noteContent" name="noteContent" class="input-info" rows="4" placeholder="Drag Map to Location. Add text here." ></textarea>
-
+                    <textarea id="noteContent" name="noteContent" class="input-info" rows="4" placeholder="Add Note Text" ></textarea>
                     <a id="tags-toggle" class="closed hidden" ><span class="entypo"><i>&#9656;</i><i style="display:none;">&#9662;</i></span> #hashtags</a>
                     <div id="tags-container" style="display:none;"></div>    
                     <div id="search-hash-container" style="display:none;">
@@ -135,7 +134,7 @@
             </section>
             <div id="clock">0:00:00</div>
             <section id="ride-info">
-                <p><span id="ride-count">0 rides</span> // <span id="ride-distance">0 miles</span></p>
+                <p><span id="ride-count">0 rides</span> // <span id="ride-distance">63.7 miles</span></p>
                 <p id="trace-location" class="debug">x,y</p>
                 <p id="ride-msg"></p>
             </section>
@@ -247,6 +246,7 @@
                 </fieldset>
                 
                 <button class="save">Save</button>
+                <button class="clear">Clear</button>
 			</form>
         </section>
         

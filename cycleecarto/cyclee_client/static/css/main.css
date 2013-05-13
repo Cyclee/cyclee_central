@@ -499,14 +499,18 @@ form#commute-locations select {
  
 #modal.msg a.close {  
     display:block; position:absolute;
-    top:5px; right:5px;
-    line-height:.25em;
-    padding:0; margin:0;
+    top:50%;
+    right:8px;
+    line-height:1em;
+    margin:-.5em 0 0;
+    padding:0; 
+    font-size:2em;
     color:white; 
     text-decoration:none;
-    font-size:50px;
     background:none !important;
+    cursor:arrow;
 }
+#modal.msg a.close:hover { text-decoration:underline;  }
 
 
 /***********
@@ -1425,6 +1429,19 @@ div.cartodb-popup {
 #people article.template { display:block; }
 
 
+
+/***********
+* =responsive layout
+*
+**/
+
+@media only screen and (min-width: 800px) {
+
+
+}
+
+
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
@@ -1570,6 +1587,7 @@ textarea[contenteditable] {
 
 #prevRidesList {
 	position: absolute;
+	display:none;
 	top:10px;
 	left:20px;
 }

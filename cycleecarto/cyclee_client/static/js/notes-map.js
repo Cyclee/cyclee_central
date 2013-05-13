@@ -114,7 +114,7 @@ function mapInit() {
         center: [40.72,-73.97],
         cartodb_logo: false,
         zoom: 12,
-        maxZoom: 15
+        maxZoom: 16
       })
 
       var basemap = 'https://dnv9my2eseobd.cloudfront.net/v3/cartodb.map-pp0tkn8d/{z}/{x}/{y}.png'; // mapbox light

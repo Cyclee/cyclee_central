@@ -69,7 +69,7 @@ $('#nav-addnote').on('click',function(){
     if (!localStorage.addfirstnote){
         console.log('first note');   
         var msg = 'Drag Map to Change Location';
-        var t = setTimeout( function(){feedback_msg(msg)},1000);  
+        var t = setTimeout( function(){feedback_msg(msg,'sticky')},1000);  
         }
     else {
         // should set on first pan

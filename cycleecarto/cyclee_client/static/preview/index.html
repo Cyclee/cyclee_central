@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="cleartype" content="on">
+
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/main.css">
+    
+<style>
+
+body { padding:0; background:#eee; }
+#preview { 
+    width:400px; height:778px;
+    margin:0 auto;
+    padding-top:107px;
+    background-color:#eee;
+    background-image:url('galaxy-400x778.png');
+    background-repeat:no-repeat;
+    background-position:top center;
+    /*background-size:420px 817px;*/
+    border-radius:20px;
+    text-align:center;
+    
+    }
+
+div.iframe { 
+    display:block; position:relative;
+    height:554px; 
+    width:343px; 
+    margin:0 auto 0;
+    padding:0;
+/*    -webkit-overflow-scrolling:touch;
+    overflow: auto;*/  
+    overflow:hidden;              
+    }
+iframe { 
+    height:554px; 
+    width:343px; 
+    margin:0;
+    border:0;
+    padding:0;
+}
+p {
+    position:absolute;
+    top:150px; left:-65px;
+    -webkit-transform: rotate(90deg); 
+    font-size:2.5em;
+    color:#bbb;
+    font-weight:600;
+    letter-spacing:.05em;
+}
+</style>
+
+
+</head>
+<body>
+
+  
+        <section id="preview">
+            
+            <div class="iframe" >
+                <iframe style="-webkit-overflow-scrolling:touch;" src="http://app.cyclee.org/mobile/" ></iframe>
+            </div>
+            
+            <p>cyclee.org</p>
+            
+        </section>
+
+        <script src="../js/vendor/jquery-1.8.3.min.js"></script>
+        <script src="../js/vendor/moment.js"></script>
+        <script src="../js/main.js"></script>
+    </body>
+</html>

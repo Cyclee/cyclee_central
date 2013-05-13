@@ -177,6 +177,7 @@ var DropDown = (function(){
 
 var a = DropDown.create($("#filter-type"));
 a.addItem("All",{query:allNotes});
+a.addItem("Near",{query:nearNotes});
 
 $(app).one("position", function(){
 	loadDestinations();
@@ -195,6 +196,7 @@ $(app).one("position", function(){
 //var c = DropDown.create($("#filter-location2"));
 $(a).on("change",function(e,params){ 
 	console.log("change:" + params);
+	console.log("change:" + e);
 	params.data.query();
 });
 /*
@@ -268,7 +270,7 @@ var filterAction = {
       }
       else {
           console.log('near here');
-          notes_nearlocation();
+          nearNotes();
       }
   },
   Home: function(){

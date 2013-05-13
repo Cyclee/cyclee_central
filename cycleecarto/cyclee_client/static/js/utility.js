@@ -70,6 +70,7 @@ function feedback_msg(msg,sticky){
     var modal = $('#modal');
     modal.hide().removeClass().addClass('msg').html(theHTML).fadeIn();
     if  ( !sticky ) { modal.delay('2500').fadeOut('slow'); }
+    else { modal.append('<a class="close">&times;</a>'); }
 }
 
 /******************************* 
@@ -122,6 +123,15 @@ function error_geo(error) {
 
 window.scrollTo(0,1);
 
+
+/***********
+ * =prevent link focus
+ *
+**/
+
+$('body').on('click','a',function(){
+    this.blur();
+})
 
 /***********
  * =utilities

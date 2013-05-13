@@ -5,6 +5,11 @@
  *
 **/
 
+$('#nav-destinations').on('click',function(){ 
+    
+    a.close();
+});
+       
 $('#nav-destinations').one('click',function(){    
     $('#destinations fieldset').each(function(i){
         var name = localStorage.getItem('destination'+i+'name') || null;
@@ -18,22 +23,31 @@ $('#nav-destinations').one('click',function(){
 });
 
 var loadDestinations = function(){
+    app.locations = [];
+    
 	console.log("destinations load count:" + app.locations.length);
 	var count = 3, i, location, address;
 	
 	for(i = 0; i < count; i++){
 		//location = localStorage.getItem('destination'+i+'location'); //mk - swap location for address once geocoded
 		//if(location){
+        var fakegeo = '-73.96970272 40.67484475';
+
 		address = localStorage.getItem('destination'+i+'address');
 		if(address){
 			app.locations.push({
-				location : location,
+				location : fakegeo,
 				name : localStorage.getItem('destination'+i+'name'),
 				address : localStorage.getItem('destination'+i+'address')
 			});
 		}
 	}
 	console.log("destinations loaded count:" + app.locations.length);
+	
+	app.locations.push({ name : "The Met", location: "-73.96158099 40.7794528"});
+    app.locations.push({ name : "Grand Army Plaza", location: "-73.96970272 40.67484475"});
+    
+	
 };
 
 /***********
@@ -53,7 +67,47 @@ $('#destinations').on('click','button.save',function(event){
         if (location) { localStorage.setItem('destination'+i+'location', location); }
     });
     
+    a.removeAllItems();
+    a.addItem("All",{query:allNotes});    
+    console.log(app.locations);
+    loadDestinations();
+    app.locations.forEach(function(item,i){
+        a.addItem("To " + item.name,{type:"location",location:item.location,query:function(){ getNotes(app.getPosition().coords.longitude + " " + app.getPosition().coords.latitude,item.location) }});
+    });
+        
+    $('#nav-notes').click();
     var msg = 'Destinations Saved';
     feedback_msg(msg);
     
 });
+
+
+/***********
+ * =clear user destinations
+ *
+**/
+
+$('#destinations').on('click','button.clear',function(event){
+    event.preventDefault();
+
+    $('#destinations fieldset').each(function(i){
+        $(this).find('input').val('');
+        localStorage.setItem('destination'+i+'name', '');
+        localStorage.setItem('destination'+i+'address', '');
+        localStorage.setItem('destination'+i+'location', '');
+    });
+    
+    a.removeAllItems();
+    a.addItem("All",{query:allNotes});    
+    a.addItem("Near",{query:nearNotes});
+
+    // add back example locations
+    app.locations.forEach(function(item,i){
+        a.addItem("To " + item.name,{type:"location",location:item.location,query:function(){ getNotes(app.getPosition().coords.longitude + " " + app.getPosition().coords.latitude,item.location) }});
+    });
+
+    var msg = 'Destinations Cleared';
+    feedback_msg(msg);
+    
+});
+
