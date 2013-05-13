@@ -36,7 +36,9 @@ $('.page').on("click", 'a.link_location_choose', function(){
 **/
 $('#flag-link').click( function(){
     inputfield = $('#newflag_location');
-    geo_locate2(flag_carto)
+    // geo_locate2(flag_carto); // temporarily disabled
+    // can't locate while watching position. save those positions.
+    flag_carto();
 });
 
 
@@ -50,11 +52,16 @@ $('#flag-link').click( function(){
 function flag_carto(location){
     console.log('flag: ' + location);
     var msg = 'Location Flagged. Add a Note Later.';
-    
+    feedback_msg(msg);
+
 
     // this should not trigger return to home screen
     // also should be sending to cyclee_central
-    addnote(username,'pending','',location,pending_table,msg); // no callback
+    
+    // temporarily disabled
+    // addnote(username,'pending','',location,pending_table,msg); // no callback
+    
+    
 }
 
 
@@ -191,7 +198,7 @@ function Maps(id){
           center: [map_lat, map_lng],
           cartodb_logo: false,
           zoom: mapzoom,
-          maxZoom: 15
+          maxZoom: 16
         })
 
         var basemap = 'https://dnv9my2eseobd.cloudfront.net/v3/cartodb.map-pp0tkn8d/{z}/{x}/{y}.png'; // mapbox light
