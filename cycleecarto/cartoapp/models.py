@@ -16,6 +16,40 @@ from cartoapp.tasks import cartodb_add_note, cartodb_add_note_task, note_save
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
+'''
+NYC Bike Share stations
+'''
+
+class Station(models.Model):
+    name = models.CharField(unique=True, max_length=128, blank=True, null=True, default='')
+    status = models.CharField(max_length=64)
+    location = models.PointField()
+    altitude = models.FloatField(default=0)
+    total_docks = models.IntegerField(default=0)
+    available_docks = models.IntegerField(default=0)
+    available_bikes = models.IntegerField(default=0)
+
+    objects = models.GeoManager()
+
+    class Meta:
+        ordering = ['name', ]
+
+    def  __unicode__(self):
+        return self.name
+
+class TimestampedStationData(models.Model):
+    timestamp = models.DateTimeField(db_index=True)
+    station = models.ForeignKey('Station')
+    status = models.IntegerField(default=0)
+    available_docks = models.IntegerField(default=0)
+    available_bikes = models.IntegerField(default=0)
+
+    class Meta:
+        unique_together = (('timestamp', 'station'),)
+
+    def  __unicode__(self):
+        return "%s: %s [%s, %s]" % (self.timestamp, self.station.name, self.available_docks, self.available_bikes)
+
 
 '''
 carto: notes // currently called route_flags
@@ -30,6 +64,7 @@ carto: notes // currently called route_flags
 #. time_end: Datetime
 #. created_at: Datetime
 '''
+
 
 class Note(models.Model):
     description = models.TextField(blank=True, null=True, default='Note')

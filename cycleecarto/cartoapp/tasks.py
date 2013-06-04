@@ -1,6 +1,9 @@
+
 import logging
+import json
 from urllib2 import urlopen
 from urllib import urlencode
+from datetime import datetime
 
 from django.contrib.gis.db import models
 import celery
@@ -14,6 +17,45 @@ logger = logging.getLogger(__name__)
 @celery.task
 def add(x, y):
     return x + y
+
+station_json_url = 'https://citibikenyc.com/stations/json/'
+
+@celery.task(ignore_result=True)
+def bikeshare_stations():
+    from cartoapp.models import Station, TimestampedStationData
+
+    fp = urlopen(station_json_url)
+    buf = fp.read()
+    buf_load = json.loads(buf)
+    timestamp = buf_load['executionTime']
+    datetime_stamp = datetime.strptime(timestamp, '%Y-%m-%d %I:%M:%S %p')
+    logger.info('Processing: %s' % datetime_stamp)
+
+    stations = buf_load['stationBeanList']
+    for station in stations:
+        name = station['stationName']
+        status = station['statusValue']
+        location = 'POINT(%s %s)' % (station['longitude'], station['latitude'])
+        station_ins, created = Station.objects.get_or_create(name=name, location=location)
+        if created:
+            try:
+                altitude = station['altitude']
+                station_ins.altitude = 0 if altitude == '' else float(altitude)
+            except:
+                station_ins.altitude = 0
+        station_ins.status = status
+        station_ins.total_docks = int(station['totalDocks'])
+        station_ins.available_docks = int(station['availableDocks'])
+        station_ins.available_bikes = int(station['availableBikes'])
+        station_ins.save()
+
+        TimestampedStationData.objects.create(timestamp=datetime_stamp,
+                                              station=station_ins,
+                                              status=station['statusKey'],
+                                              available_docks=station_ins.available_docks,
+                                              available_bikes=station_ins.available_bikes)
+
+    logger.info('Timestamped stations complete')
 
 @celery.task(ignore_result=True)
 def note_save(note, **kwargs):
