@@ -15,5 +15,5 @@ admin.site.register(Station, StationAdmin)
 
 class TimestampedDataAdmin(admin.OSMGeoAdmin):
     search_fields = ['station__name']
-
+    list_display = ('timestamp', 'station', 'available_docks', 'available_bikes', 'status')
 admin.site.register(TimestampedStationData, TimestampedDataAdmin)
